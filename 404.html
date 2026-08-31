@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Calyzzo Events & Pool</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400&display=swap">
+  <style>
+    :root {
+      --bg:     #0E0B09;
+      --cream:  #F2EBDA;
+      --cream-3:#8B7E68;
+      --accent: #C49A5B;
+      --gold:   #D4AF6E;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Inter', system-ui, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    .logo { width: 80px; height: 80px; margin-bottom: 2rem; }
+    .code {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 12vw, 10rem);
+      font-weight: 300;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      margin: 1rem 0;
+      color: var(--cream);
+    }
+    p {
+      font-size: .9rem;
+      color: var(--cream-3);
+      max-width: 42ch;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      color: var(--bg);
+      font-weight: 600;
+      font-size: .85rem;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s;
+    }
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 32px rgba(196,154,91,.25);
+    }
+    .btn svg { width: 16px; height: 16px; }
+  </style>
+</head>
+<body>
+  <img class="logo" src="assets/img/logo-calyzzo.webp" alt="Calyzzo" width="80" height="80">
+  <div class="code">404</div>
+  <h1>Esta página no existe</h1>
+  <p>Lo sentimos, la página que buscas no se encuentra disponible. Puede que haya sido movida o que el enlace esté incorrecto.</p>
+  <a class="btn" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Volver al inicio
+  </a>
+</body>
+</html>
