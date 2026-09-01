@@ -31,11 +31,30 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20260901">
+  <link rel="stylesheet" href="styles.css?v=20260902">
 </head>
 <body>
   <!-- Skip link -->
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress-bar></span></div>
+
+  <!-- ============================================================
+       SECTION NAV — categorías que abren/cierran al navegar
+       ============================================================ -->
+  <nav class="section-nav" aria-label="Progreso de sección" data-section-nav>
+    <ul>
+      <li><a href="#hero" data-section-nav-link="hero"><span class="dot"></span><span class="label">Inicio</span></a></li>
+      <li><a href="#concepto" data-section-nav-link="concepto"><span class="dot"></span><span class="label">Nosotros</span></a></li>
+      <li><a href="#servicios" data-section-nav-link="servicios"><span class="dot"></span><span class="label">Servicios</span></a></li>
+      <li><a href="#eventos" data-section-nav-link="eventos"><span class="dot"></span><span class="label">Eventos</span></a></li>
+      <li><a href="#amenidades" data-section-nav-link="amenidades"><span class="dot"></span><span class="label">Instalaciones</span></a></li>
+      <li><a href="#horarios" data-section-nav-link="horarios"><span class="dot"></span><span class="label">Horarios</span></a></li>
+      <li><a href="#reservas" data-section-nav-link="reservas"><span class="dot"></span><span class="label">Reservas</span></a></li>
+      <li><a href="#galeria" data-section-nav-link="galeria"><span class="dot"></span><span class="label">Galería</span></a></li>
+    </ul>
+  </nav>
 
   <!-- ============================================================
        SPLASH LOADER
@@ -292,32 +311,22 @@
   </section>
 
   <!-- ============================================================
-       RESTAURANTE
+       RESTAURANTE — servicio plus integrado (no protagonista)
        ============================================================ -->
-  <section class="section restaurante" id="restaurante">
-    <div class="container">
-      <div class="restaurante-grid">
-        <div class="restaurante-img reveal">
-          <div class="pending-photo" role="img" aria-label="Foto de La Terraza de Lupita próximamente">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><circle cx="12" cy="13.5" r="3.2"/></svg>
-            <span>Foto próximamente</span>
-          </div>
-        </div>
-        <div>
-          <div class="restaurante-badge reveal">Gastronomía en el recinto</div>
-          <h2 class="restaurante-name reveal">La Terraza de Lupita</h2>
-          <p class="restaurante-by reveal">by Mister Mechada</p>
-          <hr class="gold-line reveal">
-          <p class="body-text reveal">Nuestro restaurante dentro del recinto ofrece una experiencia gastronómica única. Desde la parrilla hasta platos preparados en vivo, cada evento tiene su sabor. Mechaditas, completos italianos, empanadas, ceviches y más.</p>
-          <p class="body-text reveal" style="margin-top:.75rem">El servicio de food en vivo se adapta a tu evento: cotiza tu menú personalizado y sorprende a tus invitados con comida preparada al instante.</p>
-          <div style="margin-top:1.5rem" class="reveal">
-            <a class="btn btn-whatsapp" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20la%20carta%20de%20La%20Terraza%20de%20Lupita" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.244 0-4.344-.647-6.117-1.764l-.427-.267-2.856.957.957-2.856-.267-.427A9.953 9.953 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
-              Ver carta por WhatsApp
-            </a>
-          </div>
-        </div>
+  <section class="restaurante-strip" id="restaurante">
+    <div class="container restaurante-strip-inner">
+      <div class="restaurante-strip-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2v8a2 2 0 002 2v10M5 2v6M9 2v6M5 6h4M17 2c-1.4 1.4-2 3-2 5s.8 3 .8 5-1 3.6-1 7"/></svg>
       </div>
+      <div class="restaurante-strip-text reveal">
+        <p class="restaurante-strip-badge">Servicio plus del recinto</p>
+        <h2 class="restaurante-strip-name">La Terraza de Lupita <span>by Mister Mechada</span></h2>
+        <p class="restaurante-strip-desc">Gastronomía en vivo dentro de Calyzzo: parrilla, mechaditas, completos italianos, empanadas y ceviches preparados al instante para tu evento.</p>
+      </div>
+      <a class="btn btn-whatsapp restaurante-strip-cta" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20la%20carta%20de%20La%20Terraza%20de%20Lupita" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.244 0-4.344-.647-6.117-1.764l-.427-.267-2.856.957.957-2.856-.267-.427A9.953 9.953 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+        Ver carta
+      </a>
     </div>
   </section>
 
@@ -660,6 +669,6 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/manifest.js"></script>
-  <script defer src="main.js?v=20260901"></script>
+  <script defer src="main.js?v=20260903"></script>
 </body>
 </html>

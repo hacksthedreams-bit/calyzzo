@@ -26,6 +26,12 @@
   --gold-glow: rgba(196,154,91,.18);
   --line:     rgba(242,235,218,.12);
 
+  --teal:      #3FA6AE;
+  --teal-2:    #2C8089;
+  --teal-glow: rgba(63,166,174,.18);
+  --rust:      #C06A3B;
+  --rust-glow: rgba(192,106,59,.14);
+
   --sans:  'Inter', system-ui, -apple-system, sans-serif;
   --serif: 'Cormorant Garamond', 'Georgia', serif;
   --mono:  'JetBrains Mono', monospace;
@@ -376,6 +382,7 @@ ul, ol { list-style: none; padding: 0; }
   background:
     radial-gradient(ellipse 60% 50% at 20% 60%, rgba(196,154,91,.15), transparent 70%),
     radial-gradient(ellipse 50% 60% at 80% 30%, rgba(212,175,110,.1), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(63,166,174,.10), transparent 65%),
     radial-gradient(ellipse 70% 50% at 50% 80%, rgba(166,124,61,.08), transparent 60%);
   animation: meshRotate 12s linear infinite;
 }
@@ -537,6 +544,10 @@ ul, ol { list-style: none; padding: 0; }
   margin-bottom: .75rem;
   font-size: 1rem;
 }
+.showcase-card:nth-child(even) .card-icon {
+  background: var(--teal-glow);
+  color: var(--teal);
+}
 
 /* --- Eventos (Strip 3D panels) --- */
 .eventos {
@@ -592,48 +603,76 @@ ul, ol { list-style: none; padding: 0; }
   z-index: 2;
 }
 
-/* --- Restaurante --- */
-.restaurante {
-  background: var(--bg-2);
+/* --- Restaurante (servicio plus integrado) --- */
+.restaurante-strip {
+  position: relative;
+  background: linear-gradient(90deg, var(--rust-glow), transparent 70%), var(--bg-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: clamp(1.75rem, 4vh, 2.5rem) 0;
 }
-.restaurante-grid {
-  display: grid; gap: 3rem;
+.restaurante-strip-inner {
+  display: flex;
   align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
-.restaurante-badge {
+.restaurante-strip-icon {
+  width: 52px; height: 52px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--rust-glow);
+  color: var(--rust);
+}
+.restaurante-strip-icon svg { width: 24px; height: 24px; }
+.restaurante-strip-text {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.restaurante-strip-badge {
   display: inline-flex; align-items: center; gap: .5rem;
-  font-size: .75rem; color: var(--accent);
+  font-family: var(--mono);
+  font-size: .68rem;
+  color: var(--rust);
   letter-spacing: .15em;
   text-transform: uppercase;
-  margin-bottom: .75rem;
+  margin-bottom: .35rem;
 }
-.restaurante-badge::before {
+.restaurante-strip-badge::before {
   content: '';
-  width: 8px; height: 8px;
-  background: var(--accent);
+  width: 6px; height: 6px;
+  background: var(--rust);
   border-radius: 50%;
 }
-.restaurante-name {
+.restaurante-strip-name {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  font-weight: 300;
+  font-weight: 400;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   color: var(--cream);
-  margin-bottom: .25rem;
+  line-height: 1.3;
 }
-.restaurante-by {
-  font-size: .9rem;
-  color: var(--cream-3);
+.restaurante-strip-name span {
+  font-family: var(--sans);
+  font-size: .78rem;
   font-style: italic;
-  margin-bottom: 1.25rem;
+  color: var(--cream-3);
+  margin-left: .5rem;
 }
-.restaurante-img {
-  border-radius: 12px;
-  overflow: hidden;
+.restaurante-strip-desc {
+  font-size: .82rem;
+  color: var(--cream-2);
+  line-height: 1.6;
+  margin-top: .35rem;
+  max-width: 62ch;
 }
-.restaurante-img img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
+.restaurante-strip-cta {
+  flex-shrink: 0;
+  padding: .7rem 1.5rem;
+  font-size: .78rem;
+}
+@media (max-width: 720px) {
+  .restaurante-strip-inner { flex-direction: column; align-items: flex-start; text-align: left; }
+  .restaurante-strip-cta { width: 100%; justify-content: center; }
 }
 
 /* --- Amenidades --- */
@@ -664,6 +703,11 @@ ul, ol { list-style: none; padding: 0; }
   border-radius: 8px;
   color: var(--accent);
   font-size: 1.1rem;
+  transition: background .35s var(--ease-out), color .35s var(--ease-out);
+}
+.amenidad:nth-child(3n+2) .amenidad-icon {
+  background: var(--teal-glow);
+  color: var(--teal);
 }
 .amenidad-name {
   font-size: .85rem;
@@ -697,6 +741,10 @@ ul, ol { list-style: none; padding: 0; }
   background: var(--gold-glow);
   color: var(--accent);
   font-size: 1.4rem;
+}
+.horario-card:nth-child(2) .horario-icon {
+  background: var(--teal-glow);
+  color: var(--teal);
 }
 .horario-nombre {
   font-family: var(--serif);
@@ -1225,6 +1273,91 @@ ul, ol { list-style: none; padding: 0; }
   background: linear-gradient(90deg, var(--accent), var(--gold));
   margin: 1.5rem 0;
   border-radius: 2px;
+}
+
+/* =============================================================
+   17. Scroll progress bar
+   ============================================================= */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 200;
+  background: transparent;
+  pointer-events: none;
+}
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  box-shadow: 0 0 12px var(--gold-glow);
+  transition: width .1s linear;
+}
+
+/* =============================================================
+   18. Section nav — categorías abren/cierran al navegar
+   ============================================================= */
+.section-nav {
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 2.25rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 80;
+  display: none;
+}
+.section-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.section-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .6rem;
+  padding: .3rem .3rem;
+  border-radius: 100px;
+}
+.section-nav .dot {
+  width: 8px; height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--line);
+  border: 1px solid transparent;
+  transition: background .35s var(--ease-out), transform .35s var(--ease-out), border-color .35s var(--ease-out);
+}
+.section-nav .label {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--cream-2);
+  white-space: nowrap;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width .45s var(--ease-out), opacity .3s var(--ease-out) .05s;
+}
+.section-nav a:hover .label {
+  max-width: 140px;
+  opacity: 1;
+}
+.section-nav a:hover .dot {
+  background: var(--cream-2);
+}
+.section-nav li.is-active .dot {
+  background: var(--accent);
+  border-color: var(--gold);
+  transform: scale(1.3);
+}
+.section-nav li.is-active .label {
+  max-width: 140px;
+  opacity: 1;
+  color: var(--accent);
+}
+@media (min-width: 1280px) {
+  .section-nav { display: block; }
 }
 
 /* =============================================================

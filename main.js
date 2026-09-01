@@ -558,6 +558,80 @@
   });
 
   /* ============================================================
+     14a. HERO PARALLAX
+     ============================================================ */
+  safe("hero-parallax", function () {
+    if ("ontouchstart" in window) return;
+    var bg = $(".hero-bg");
+    var hero = $(".hero");
+    if (!bg || !hero) return;
+
+    function onScroll() {
+      var y = window.scrollY;
+      if (y > hero.offsetHeight) return;
+      bg.style.transform = "translateY(" + (y * 0.25) + "px) scale(1.08)";
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  });
+
+  /* ============================================================
+     14. SCROLL PROGRESS BAR
+     ============================================================ */
+  safe("scroll-progress", function () {
+    var bar = $("[data-scroll-progress-bar]");
+    if (!bar) return;
+
+    function update() {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      bar.style.width = pct + "%";
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  });
+
+  /* ============================================================
+     15. SECTION NAV — abre/cierra categorías al navegar
+     ============================================================ */
+  safe("section-nav", function () {
+    var nav = $("[data-section-nav]");
+    if (!nav) return;
+
+    var links = $$("[data-section-nav-link]", nav);
+    if (!links.length) return;
+
+    var map = {};
+    links.forEach(function (a) {
+      var id = a.getAttribute("data-section-nav-link");
+      var section = document.getElementById(id);
+      if (section) map[id] = { link: a, li: a.closest("li") };
+    });
+
+    function setActive(id) {
+      links.forEach(function (a) {
+        var entry = map[a.getAttribute("data-section-nav-link")];
+        if (!entry) return;
+        entry.li.classList.toggle("is-active", a.getAttribute("data-section-nav-link") === id);
+      });
+    }
+
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+
+      Object.keys(map).forEach(function (id) {
+        obs.observe(document.getElementById(id));
+      });
+    }
+  });
+
+  /* ============================================================
      13. GALERIA LIGHTBOX (simple)
      ============================================================ */
   safe("lightbox", function () {
