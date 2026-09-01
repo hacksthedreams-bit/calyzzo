@@ -1228,6 +1228,33 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 /* =============================================================
+   16. Pending photo placeholder
+   ============================================================= */
+.pending-photo {
+  width: 100%;
+  aspect-ratio: 4/3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  background: linear-gradient(135deg, var(--bg-3), var(--bg-2));
+  border: 1px dashed var(--line);
+  color: var(--cream-3);
+  border-radius: inherit;
+}
+.pending-photo svg {
+  width: 32px; height: 32px;
+  opacity: .5;
+}
+.pending-photo span {
+  font-family: var(--mono);
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+/* =============================================================
    15. Image loaded transition
    ============================================================= */
 img[loading="lazy"] {
