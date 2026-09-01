@@ -69,6 +69,7 @@
       toggle.addEventListener("click", function () {
         var open = toggle.getAttribute("aria-expanded") === "true";
         toggle.setAttribute("aria-expanded", !open);
+        toggle.classList.toggle("is-open", !open);
         mobile.classList.toggle("is-open");
         mobile.setAttribute("aria-hidden", open);
         document.body.style.overflow = open ? "" : "hidden";
@@ -78,6 +79,7 @@
       $$("a", mobile).forEach(function (a) {
         a.addEventListener("click", function () {
           toggle.setAttribute("aria-expanded", "false");
+          toggle.classList.remove("is-open");
           mobile.classList.remove("is-open");
           mobile.setAttribute("aria-hidden", "true");
           document.body.style.overflow = "";
