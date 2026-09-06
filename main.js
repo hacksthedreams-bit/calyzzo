@@ -144,6 +144,7 @@
 
     /* --- 4a. Hero entrance --- */
     safe("hero-anim", function () {
+      var targets = ".hero-logo,.hero-kicker,.hero-title,.hero-subtitle,.hero-rating,.hero-ctas";
       var tl = gsap.timeline({ delay: 1.2 });
       tl.from(".hero-logo", { scale: 0.8, opacity: 0, duration: 1, ease: "power3.out" })
         .from(".hero-kicker", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
@@ -151,6 +152,19 @@
         .from(".hero-subtitle", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
         .from(".hero-rating", { y: 15, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.2")
         .from(".hero-ctas", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.2");
+
+      // Safety net: these elements also carry .reveal, but this tween's inline
+      // opacity wins over .reveal.is-visible. If the ticker stalls (backgrounded
+      // tab, throttled low-power mode, a blocked script) before the timeline
+      // finishes, force the final state so the hero is never stuck invisible.
+      setTimeout(function () {
+        $$(targets).forEach(function (el) {
+          var tweens = gsap.getTweensOf(el);
+          if (!tweens.length || tweens.some(function (t) { return t.progress() < 1; })) {
+            gsap.set(el, { clearProps: "all" });
+          }
+        });
+      }, 5000);
     });
 
     /* --- 4b. Showcase pinned horizontal scroll --- */
