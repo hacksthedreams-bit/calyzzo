@@ -343,9 +343,11 @@
       // Empty cells for days before the 1st
       for (var e = 1; e < startDay; e++) {
         var empty = document.createElement("span");
-        empty.className = "calendar-day empty";
+        empty.className = "calendar-day is-empty";
         daysEl.appendChild(empty);
       }
+
+      var todayStr = today.getFullYear() + "-" + pad(today.getMonth() + 1) + "-" + pad(today.getDate());
 
       for (var d = 1; d <= daysInMonth; d++) {
         var dateStr = currentYear + "-" + pad(currentMonth + 1) + "-" + pad(d);
@@ -357,13 +359,14 @@
         var isOccupied = occupied[dateStr];
         var isPast = new Date(currentYear, currentMonth, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
         var isSelected = selectedDate === dateStr;
+        var isToday = dateStr === todayStr;
 
         if (isOccupied) {
-          btn.classList.add("occupied");
+          btn.classList.add("is-occupied");
           btn.disabled = true;
           btn.setAttribute("aria-label", d + " — Ocupado");
         } else if (isPast) {
-          btn.classList.add("past");
+          btn.classList.add("is-past");
           btn.disabled = true;
         } else {
           btn.classList.add("available");
@@ -372,7 +375,10 @@
         }
 
         if (isSelected) {
-          btn.classList.add("selected");
+          btn.classList.add("is-selected");
+        }
+        if (isToday) {
+          btn.classList.add("is-today");
         }
 
         daysEl.appendChild(btn);
