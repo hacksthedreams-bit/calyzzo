@@ -57,8 +57,8 @@
     var lastY = 0;
     function onScroll() {
       var y = window.scrollY;
-      if (y > 60) nav.classList.add("scrolled");
-      else nav.classList.remove("scrolled");
+      if (y > 60) nav.classList.add("is-scrolled");
+      else nav.classList.remove("is-scrolled");
       lastY = y;
     }
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -643,6 +643,66 @@
         obs.observe(document.getElementById(id));
       });
     }
+  });
+
+  /* ============================================================
+     16. STAT COUNTERS — count-up on scroll into view
+     ============================================================ */
+  safe("stat-counters", function () {
+    var nums = $$("[data-count-to]");
+    if (!nums.length) return;
+
+    function animate(el) {
+      var to = parseFloat(el.getAttribute("data-count-to"));
+      var decimals = parseInt(el.getAttribute("data-count-decimals") || "0", 10);
+      var suffix = el.getAttribute("data-count-suffix") || "";
+      var start = null;
+      var duration = 1400;
+
+      function step(ts) {
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = to * eased;
+        el.textContent = current.toFixed(decimals) + suffix;
+        if (progress < 1) raf(step);
+      }
+      raf(step);
+    }
+
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animate(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      nums.forEach(function (el) { obs.observe(el); });
+    } else {
+      nums.forEach(animate);
+    }
+  });
+
+  /* ============================================================
+     17. MAGNETIC BUTTONS — subtle cursor-follow on primary CTAs
+     ============================================================ */
+  safe("magnetic-buttons", function () {
+    if ("ontouchstart" in window) return;
+    var MAX_PULL = 8;
+
+    $$("[data-magnetic]").forEach(function (btn) {
+      btn.addEventListener("mousemove", function (e) {
+        var rect = btn.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        btn.style.transform = "translate(" + (x * MAX_PULL) + "px, " + (y * MAX_PULL) + "px)";
+      });
+      btn.addEventListener("mouseleave", function () {
+        btn.style.transform = "";
+      });
+    });
   });
 
   /* ============================================================
