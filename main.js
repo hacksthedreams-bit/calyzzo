@@ -19,6 +19,14 @@
   function $$(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
   function raf(fn) { requestAnimationFrame(fn); }
 
+  var MONTHS_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  var DAYS_ES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  function longDate(iso) {
+    var p = iso.split("-");
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return DAYS_ES[d.getDay()] + " " + d.getDate() + " de " + MONTHS_ES[d.getMonth()] + " de " + d.getFullYear();
+  }
+
   /* ============================================================
      1. SPLASH LOADER — double safety net
      ============================================================ */
@@ -97,26 +105,29 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
-    // Mobile menu
+    // Mobile menu — one setOpen() drives button, panel, inert and scroll lock
+    // together so they can never drift apart (gotcha A.16).
     if (toggle && mobile) {
-      toggle.addEventListener("click", function () {
-        var open = toggle.getAttribute("aria-expanded") === "true";
-        toggle.setAttribute("aria-expanded", !open);
-        toggle.classList.toggle("is-open", !open);
-        mobile.classList.toggle("is-open");
-        mobile.setAttribute("aria-hidden", open);
-        document.body.style.overflow = open ? "" : "hidden";
-      });
+      var setOpen = function (open) {
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.classList.toggle("is-open", open);
+        mobile.classList.toggle("is-open", open);
+        mobile.setAttribute("aria-hidden", open ? "false" : "true");
+        mobile.inert = !open;
+        document.body.style.overflow = open ? "hidden" : "";
+      };
 
-      // Close on link click
+      toggle.addEventListener("click", function () {
+        setOpen(toggle.getAttribute("aria-expanded") !== "true");
+      });
       $$("a", mobile).forEach(function (a) {
-        a.addEventListener("click", function () {
-          toggle.setAttribute("aria-expanded", "false");
-          toggle.classList.remove("is-open");
-          mobile.classList.remove("is-open");
-          mobile.setAttribute("aria-hidden", "true");
-          document.body.style.overflow = "";
-        });
+        a.addEventListener("click", function () { setOpen(false); });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+          setOpen(false);
+          toggle.focus();
+        }
       });
     }
 
@@ -488,7 +499,8 @@
       render();
 
       if (dateInput) {
-        dateInput.value = selectedDate;
+        dateInput.value = longDate(selectedDate);
+        dateInput.dataset.iso = selectedDate;
       }
     });
 
@@ -512,65 +524,116 @@
   });
 
   /* ============================================================
-     7. FORM — WhatsApp redirect with cinematographic success
+     7. FORM — inline validation, then hand-off to WhatsApp
+     The WhatsApp window is opened inside the submit gesture (popup
+     blockers reject window.open from a later timeout) and the success
+     state also carries an explicit button as a guaranteed fallback.
      ============================================================ */
   safe("form", function () {
     var form = $("[data-form]");
     var success = $("[data-form-success]");
     if (!form) return;
 
+    var waNumber = ((BRAND.contact && BRAND.contact.whatsapp) || "56921944986").replace(/\D/g, "");
+    var waLink = success ? $("[data-wa-link]", success) : null;
+    var editBtn = success ? $("[data-form-edit]", success) : null;
+
+    var rules = {
+      "nombre": function (v) { return v.trim().length >= 2 ? "" : "Escribe tu nombre."; },
+      "telefono": function (v) {
+        var d = v.replace(/\D/g, "");
+        return d.length >= 8 && d.length <= 13 ? "" : "Ingresa un teléfono válido (ej: +56 9 1234 5678).";
+      },
+      "email": function (v) {
+        return !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? "" : "Revisa el formato del email.";
+      },
+      "tipo-evento": function (v) { return v ? "" : "Elige el tipo de evento."; },
+      "jornada": function (v) { return v ? "" : "Elige una jornada."; },
+      "invitados": function (v) {
+        if (!v) return "";
+        var n = Number(v);
+        return n >= 1 && n <= 100 ? "" : "La capacidad máxima es de 100 invitados.";
+      }
+    };
+
+    var fields = {};
+    Object.keys(rules).forEach(function (id) {
+      var el = form.querySelector("#" + id);
+      if (!el) return;
+      var group = el.closest(".form-group");
+      var err = document.createElement("p");
+      err.className = "form-error";
+      err.id = "err-" + id;
+      group.appendChild(err);
+      el.setAttribute("aria-describedby", err.id);
+      fields[id] = { el: el, group: group, err: err };
+
+      el.addEventListener("blur", function () { check(id); });
+      el.addEventListener(el.tagName === "SELECT" ? "change" : "input", function () {
+        if (group.classList.contains("has-error")) check(id);
+      });
+    });
+
+    function check(id) {
+      var f = fields[id];
+      var msg = rules[id](f.el.value);
+      f.group.classList.toggle("has-error", !!msg);
+      f.err.textContent = msg;
+      f.el.setAttribute("aria-invalid", msg ? "true" : "false");
+      return !msg;
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      var nombre = form.querySelector("#nombre");
-      var telefono = form.querySelector("#telefono");
-      var tipoEvento = form.querySelector("#tipo-evento");
-      var jornada = form.querySelector("#jornada");
+      var firstBad = null;
+      Object.keys(fields).forEach(function (id) {
+        if (!check(id) && !firstBad) firstBad = fields[id].el;
+      });
+      if (firstBad) { firstBad.focus(); return; }
+
+      var val = function (id) { return fields[id].el.value.trim(); };
+      var tipo = fields["tipo-evento"].el;
+      var jornada = fields["jornada"].el;
       var fecha = form.querySelector("#fecha");
-      var invitados = form.querySelector("#invitados");
       var mensaje = form.querySelector("#mensaje");
 
-      // Basic validation
-      if (!nombre || !nombre.value.trim()) { nombre && nombre.focus(); return; }
-      if (!telefono || !telefono.value.trim()) { telefono && telefono.focus(); return; }
-      if (!tipoEvento || !tipoEvento.value) { tipoEvento && tipoEvento.focus(); return; }
-      if (!jornada || !jornada.value) { jornada && jornada.focus(); return; }
-
-      // Build WhatsApp message
       var lines = [
         "Hola, me interesa cotizar un evento en Calyzzo.",
         "",
-        "Nombre: " + nombre.value.trim(),
-        "Teléfono: " + telefono.value.trim(),
-        "Tipo de evento: " + tipoEvento.options[tipoEvento.selectedIndex].text,
+        "Nombre: " + val("nombre"),
+        "Teléfono: " + val("telefono"),
+        "Tipo de evento: " + tipo.options[tipo.selectedIndex].text,
         "Jornada: " + jornada.options[jornada.selectedIndex].text
       ];
-
+      if (val("email")) lines.push("Email: " + val("email"));
       if (fecha && fecha.value) lines.push("Fecha: " + fecha.value);
-      if (invitados && invitados.value) lines.push("Invitados: " + invitados.value);
+      if (val("invitados")) lines.push("Invitados: " + val("invitados"));
       if (mensaje && mensaje.value.trim()) lines.push("Mensaje: " + mensaje.value.trim());
 
-      var text = encodeURIComponent(lines.join("\n"));
-      var waNumber = (BRAND.contact && BRAND.contact.whatsapp) || "56921944986";
-      var waUrl = "https://wa.me/" + waNumber + "?text=" + text;
+      var waUrl = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(lines.join("\n"));
+      if (waLink) waLink.href = waUrl;
 
-      // Show success animation
+      var w = window.open(waUrl, "_blank");
+      if (w) w.opener = null;
+
       if (success) {
         form.style.display = "none";
-        success.style.display = "block";
-
-        // Animate the SVG check path
+        success.classList.add("is-visible");
         var path = success.querySelector("path");
-        if (path) {
-          path.style.animation = "drawCheck .5s var(--ease-out) .4s forwards";
-        }
+        if (path) path.style.animation = "drawCheck .5s var(--ease-out) .4s forwards";
+        success.scrollIntoView({ block: "nearest", behavior: "smooth" });
       }
-
-      // Redirect to WhatsApp after brief animation
-      setTimeout(function () {
-        window.open(waUrl, "_blank", "noopener");
-      }, 1200);
     });
+
+    if (editBtn) {
+      editBtn.addEventListener("click", function () {
+        success.classList.remove("is-visible");
+        form.style.display = "";
+        var n = fields["nombre"];
+        if (n) n.el.focus();
+      });
+    }
   });
 
   /* ============================================================
@@ -611,29 +674,21 @@
   safe("active-nav", function () {
     var sections = $$("section[id]");
     var navLinks = $$(".nav-link");
-    if (!sections.length || !navLinks.length) return;
+    if (!sections.length || !navLinks.length || !("IntersectionObserver" in window)) return;
 
-    function highlight() {
-      var scrollY = window.scrollY + 120;
-
-      sections.forEach(function (section) {
-        var top = section.offsetTop;
-        var height = section.offsetHeight;
-        var id = section.getAttribute("id");
-
-        if (scrollY >= top && scrollY < top + height) {
-          navLinks.forEach(function (link) {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === "#" + id) {
-              link.classList.add("active");
-            }
-          });
-        }
+    // Geometry-based (offsetTop) breaks once GSAP wraps a pinned section in a
+    // .pin-spacer; an observer on the viewport's middle band is immune to that.
+    function setActive(id) {
+      navLinks.forEach(function (link) {
+        link.classList.toggle("active", link.getAttribute("href") === "#" + id);
       });
     }
-
-    window.addEventListener("scroll", highlight, { passive: true });
-    highlight();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    sections.forEach(function (sec) { io.observe(sec); });
   });
 
   /* ============================================================
@@ -857,6 +912,51 @@
   });
 
   /* ============================================================
+     20. EDITORIAL KICKER NUMBERS — "01 ——— Nosotros"
+     ============================================================ */
+  safe("kicker-numbers", function () {
+    var order = ["concepto", "servicios", "eventos", "amenidades", "horarios", "reservas", "galeria"];
+    order.forEach(function (id, i) {
+      var section = document.getElementById(id);
+      var kicker = section && $(".kicker", section);
+      if (!kicker) return;
+      var n = document.createElement("span");
+      n.className = "kicker-num";
+      n.setAttribute("aria-hidden", "true");
+      n.textContent = (i + 1 < 10 ? "0" : "") + (i + 1);
+      kicker.insertBefore(n, kicker.firstChild);
+    });
+  });
+
+  /* ============================================================
+     21. BACK TO TOP — with scroll-progress ring
+     ============================================================ */
+  safe("to-top", function () {
+    var btn = $("[data-to-top]");
+    var bar = $("[data-to-top-bar]");
+    if (!btn) return;
+    var C = 138.23;
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      if (bar) bar.style.strokeDashoffset = (C * (1 - p)).toFixed(2);
+      btn.classList.toggle("is-visible", window.scrollY > 900);
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; raf(update); }
+    }, { passive: true });
+    update();
+
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  /* ============================================================
      13. GALERIA LIGHTBOX — prev/next, counter, keyboard, crossfade
      ============================================================ */
   safe("lightbox", function () {
@@ -874,7 +974,7 @@
       '<div class="lightbox-backdrop"></div>' +
       '<button class="lightbox-nav lightbox-prev" aria-label="Imagen anterior">&#8249;</button>' +
       '<button class="lightbox-nav lightbox-next" aria-label="Imagen siguiente">&#8250;</button>' +
-      '<div class="lightbox-content"><img class="lightbox-img" src="" alt=""><button class="lightbox-close" aria-label="Cerrar">&times;</button></div>' +
+      '<div class="lightbox-content"><img class="lightbox-img" alt=""><button class="lightbox-close" aria-label="Cerrar">&times;</button></div>' +
       '<p class="lightbox-count" aria-live="polite"></p>';
     document.body.appendChild(lightbox);
 
