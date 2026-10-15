@@ -58,8 +58,14 @@
   }
   </script>
 
+  <!-- JS flag + hard fallback so entrance states can never stay hidden -->
+  <script>
+    document.documentElement.classList.add("js");
+    setTimeout(function () { document.documentElement.classList.add("is-ready"); }, 4800);
+  </script>
+
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20260906">
+  <link rel="stylesheet" href="styles.css?v=20261014">
 </head>
 <body>
   <!-- Skip link -->
@@ -91,8 +97,13 @@
        SPLASH LOADER
        ============================================================ -->
   <div class="splash" data-splash aria-hidden="true">
-    <img class="splash-logo" src="assets/img/logo-calyzzo.webp?v=20260901" alt="" width="200" height="200">
-    <div class="splash-bar"></div>
+    <div class="splash-curtain splash-curtain--top"></div>
+    <div class="splash-curtain splash-curtain--bottom"></div>
+    <div class="splash-center">
+      <img class="splash-logo" src="assets/img/logo-calyzzo.webp?v=20260901" alt="" width="200" height="200">
+      <div class="splash-bar"><span data-splash-bar></span></div>
+      <p class="splash-count"><span data-splash-count>0</span><em>%</em></p>
+    </div>
   </div>
 
   <!-- ============================================================
@@ -111,7 +122,7 @@
         <a class="nav-link" href="#horarios">Horarios</a>
         <a class="nav-link" href="#galeria">Galería</a>
       </div>
-      <a class="nav-cta" href="#reservas">Cotizar</a>
+      <a class="nav-cta" href="#reservas" data-magnetic>Cotizar</a>
       <button class="nav-toggle" aria-label="Menú" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -135,11 +146,12 @@
   <section class="hero" id="hero">
     <div class="hero-mesh" aria-hidden="true"></div>
     <img class="hero-bg" src="assets/img/upload-pool-sunset.webp" alt="" fetchpriority="high" loading="eager">
+    <canvas class="hero-bokeh" data-bokeh aria-hidden="true"></canvas>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content" id="contenido">
       <img class="hero-logo" src="assets/img/logo-calyzzo.webp?v=20260901" alt="Calyzzo Events & Pool" width="260" height="260">
       <p class="hero-kicker">Centro de Eventos Privado</p>
-      <h1 class="hero-title">Tu celebración<br><em>perfecta</em></h1>
+      <h1 class="hero-title" aria-label="Tu celebración perfecta"><span class="hero-line" aria-hidden="true"><span class="hero-line-inner">Tu celebración</span></span><br><span class="hero-line" aria-hidden="true"><span class="hero-line-inner"><em>perfecta</em></span></span></h1>
       <p class="hero-subtitle">Piscina, jacuzzi, quincho y servicio completo en un entorno exclusivo en Batuco, Región Metropolitana.</p>
       <div class="hero-rating">
         <span class="hero-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -188,13 +200,13 @@
       <div class="concepto-grid">
         <div class="concepto-text">
           <p class="kicker reveal">La experiencia Calyzzo</p>
-          <h2 class="section-title reveal">Donde cada<br>detalle <em>importa</em></h2>
+          <h2 class="section-title" data-split-title>Donde cada<br>detalle <em>importa</em></h2>
           <hr class="gold-line reveal">
-          <p class="body-text reveal">Calyzzo nace para ofrecer un espacio privado donde cada evento se vive con la calidad y la atención que merece. Ubicados en Batuco, Región Metropolitana, combinamos la tranquilidad del entorno con instalaciones premium pensadas para celebraciones de hasta 100 personas.</p>
-          <p class="body-text reveal">Desde bodas íntimas hasta paseos escolares de fin de curso, nuestro equipo se encarga de cada detalle: decoración, gastronomía en vivo, música, animación y un espacio seguro con cámaras 24/7, guardia y cerco eléctrico perimetral.</p>
+          <p class="body-text" data-scrub-words>Calyzzo nace para ofrecer un espacio privado donde cada evento se vive con la calidad y la atención que merece. Ubicados en Batuco, Región Metropolitana, combinamos la tranquilidad del entorno con instalaciones premium pensadas para celebraciones de hasta 100 personas.</p>
+          <p class="body-text" data-scrub-words>Desde bodas íntimas hasta paseos escolares de fin de curso, nuestro equipo se encarga de cada detalle: decoración, gastronomía en vivo, música, animación y un espacio seguro con cámaras 24/7, guardia y cerco eléctrico perimetral.</p>
         </div>
-        <div class="concepto-img reveal">
-          <img src="assets/img/upload-pool-dusk.webp" alt="Piscina y terraza de Calyzzo al atardecer" loading="lazy" decoding="async">
+        <div class="concepto-img" data-clip data-parallax-wrap>
+          <img src="assets/img/upload-pool-dusk.webp" alt="Piscina y terraza de Calyzzo al atardecer" loading="lazy" decoding="async" data-parallax>
         </div>
       </div>
     </div>
@@ -207,7 +219,7 @@
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Lo que ofrecemos</p>
-        <h2 class="section-title reveal">Servicios <em>completos</em></h2>
+        <h2 class="section-title" data-split-title>Servicios <em>completos</em></h2>
       </div>
     </div>
     <div class="showcase-wrapper" data-showcase>
@@ -309,6 +321,10 @@
         </article>
       </div>
     </div>
+    <div class="container showcase-meta" aria-hidden="true">
+      <div class="showcase-progress"><span data-showcase-progress></span></div>
+      <p class="showcase-hint"><span data-showcase-index>01</span> / 08 <em>Desliza para explorar</em></p>
+    </div>
   </section>
 
   <!-- ============================================================
@@ -318,11 +334,11 @@
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Tipos de eventos</p>
-        <h2 class="section-title reveal">Celebramos <em>todo</em></h2>
+        <h2 class="section-title" data-split-title>Celebramos <em>todo</em></h2>
       </div>
       <div class="eventos-grid">
         <!-- Bodas -->
-        <article class="evento-panel reveal">
+        <article class="evento-panel" data-clip data-tilt-soft style="--d:0">
           <img class="evento-panel-img" src="assets/img/hero-atardecer-2.webp" alt="Evento de boda al atardecer en Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
@@ -332,7 +348,7 @@
           <div class="evento-panel-border" aria-hidden="true"></div>
         </article>
         <!-- Baby Showers -->
-        <article class="evento-panel reveal reveal-delay-1">
+        <article class="evento-panel" data-clip data-tilt-soft style="--d:.12">
           <img class="evento-panel-img" src="assets/img/evento-baby-shower.webp" alt="Baby shower con decoración dorada y blanca en Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
@@ -342,7 +358,7 @@
           <div class="evento-panel-border" aria-hidden="true"></div>
         </article>
         <!-- Cumpleaños -->
-        <article class="evento-panel reveal reveal-delay-2">
+        <article class="evento-panel" data-clip data-tilt-soft style="--d:.24">
           <img class="evento-panel-img" src="assets/img/upload-pool-aerial.webp" alt="Fiesta de cumpleaños en la piscina de Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
@@ -352,7 +368,7 @@
           <div class="evento-panel-border" aria-hidden="true"></div>
         </article>
         <!-- Paseos de fin de curso -->
-        <article class="evento-panel reveal reveal-delay-3">
+        <article class="evento-panel" data-clip data-tilt-soft style="--d:.36">
           <img class="evento-panel-img" src="assets/img/piscina-diurna.webp" alt="Paseo escolar de fin de curso en Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
@@ -392,46 +408,46 @@
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Instalaciones</p>
-        <h2 class="section-title reveal">Todo lo que <em>necesitas</em></h2>
+        <h2 class="section-title" data-split-title>Todo lo que <em>necesitas</em></h2>
       </div>
       <div class="amenidades-grid">
-        <div class="amenidad reveal">
+        <div data-spot class="amenidad reveal">
           <div class="amenidad-icon" aria-hidden="true">&#127946;</div>
           <span class="amenidad-name">Piscina Temperada</span>
         </div>
-        <div class="amenidad reveal reveal-delay-1">
+        <div data-spot class="amenidad reveal reveal-delay-1">
           <div class="amenidad-icon" aria-hidden="true">&#9832;</div>
           <span class="amenidad-name">Jacuzzi</span>
         </div>
-        <div class="amenidad reveal">
+        <div data-spot class="amenidad reveal">
           <div class="amenidad-icon" aria-hidden="true">&#127795;</div>
           <span class="amenidad-name">Áreas Verdes</span>
         </div>
-        <div class="amenidad reveal reveal-delay-1">
+        <div data-spot class="amenidad reveal reveal-delay-1">
           <div class="amenidad-icon" aria-hidden="true">&#127968;</div>
           <span class="amenidad-name">Gran Quincho</span>
         </div>
-        <div class="amenidad reveal reveal-delay-2">
+        <div data-spot class="amenidad reveal reveal-delay-2">
           <div class="amenidad-icon" aria-hidden="true">&#127747;</div>
           <span class="amenidad-name">Terraza 2° Piso</span>
         </div>
-        <div class="amenidad reveal">
+        <div data-spot class="amenidad reveal">
           <div class="amenidad-icon" aria-hidden="true">&#128703;</div>
           <span class="amenidad-name">Baños con Ducha Caliente</span>
         </div>
-        <div class="amenidad reveal reveal-delay-1">
+        <div data-spot class="amenidad reveal reveal-delay-1">
           <div class="amenidad-icon" aria-hidden="true">&#128247;</div>
           <span class="amenidad-name">Cámaras de Seguridad</span>
         </div>
-        <div class="amenidad reveal">
+        <div data-spot class="amenidad reveal">
           <div class="amenidad-icon" aria-hidden="true">&#128737;</div>
           <span class="amenidad-name">Guardia de Seguridad</span>
         </div>
-        <div class="amenidad reveal reveal-delay-1">
+        <div data-spot class="amenidad reveal reveal-delay-1">
           <div class="amenidad-icon" aria-hidden="true">&#9889;</div>
           <span class="amenidad-name">Cerco Eléctrico</span>
         </div>
-        <div class="amenidad reveal reveal-delay-2">
+        <div data-spot class="amenidad reveal reveal-delay-2">
           <div class="amenidad-icon" aria-hidden="true">&#128663;</div>
           <span class="amenidad-name">Estacionamiento Privado</span>
         </div>
@@ -446,24 +462,24 @@
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Jornadas disponibles</p>
-        <h2 class="section-title reveal">Elige tu <em>horario</em></h2>
+        <h2 class="section-title" data-split-title>Elige tu <em>horario</em></h2>
       </div>
       <div class="horarios-grid">
-        <div class="horario-card reveal">
+        <div data-spot class="horario-card reveal">
           <div class="horario-icon" aria-hidden="true">&#9728;&#65039;</div>
           <div>
             <h3 class="horario-nombre">Jornada Diurna</h3>
             <p class="horario-rango">10:00 — 19:00 hrs</p>
           </div>
         </div>
-        <div class="horario-card reveal reveal-delay-1">
+        <div data-spot class="horario-card reveal reveal-delay-1">
           <div class="horario-icon" aria-hidden="true">&#127769;</div>
           <div>
             <h3 class="horario-nombre">Jornada Nocturna</h3>
             <p class="horario-rango">22:00 — 07:00 hrs</p>
           </div>
         </div>
-        <div class="horario-card reveal reveal-delay-2">
+        <div data-spot class="horario-card reveal reveal-delay-2">
           <div class="horario-icon" aria-hidden="true">&#11088;</div>
           <div>
             <h3 class="horario-nombre">Jornada Extraordinaria</h3>
@@ -476,13 +492,23 @@
   </section>
 
   <!-- ============================================================
+       MARQUEE — puente de marca hacia reservas
+       ============================================================ -->
+  <div class="marquee" data-marquee aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-group"><span>Calyzzo</span><i>&#10022;</i><span class="is-outline">Events &amp; Pool</span><i>&#10022;</i><span>Batuco</span><i>&#10022;</i><span class="is-outline">Tu evento privado</span><i>&#10022;</i></div>
+      <div class="marquee-group"><span>Calyzzo</span><i>&#10022;</i><span class="is-outline">Events &amp; Pool</span><i>&#10022;</i><span>Batuco</span><i>&#10022;</i><span class="is-outline">Tu evento privado</span><i>&#10022;</i></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
        RESERVAS
        ============================================================ -->
   <section class="section reservas" id="reservas">
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Reserva tu fecha</p>
-        <h2 class="section-title reveal">Cotiza tu <em>evento</em></h2>
+        <h2 class="section-title" data-split-title>Cotiza tu <em>evento</em></h2>
         <p class="section-subtitle reveal" style="margin:1rem auto 0">Selecciona una fecha disponible en el calendario y completa el formulario. Te contactaremos por WhatsApp con tu cotización personalizada.</p>
       </div>
       <div class="reservas-grid">
@@ -587,32 +613,32 @@
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Nuestro espacio</p>
-        <h2 class="section-title reveal">Galería <em>Calyzzo</em></h2>
+        <h2 class="section-title" data-split-title>Galería <em>Calyzzo</em></h2>
       </div>
       <div class="galeria-grid">
-        <div class="galeria-item reveal">
-          <img src="assets/img/hero-atardecer.webp" alt="Piscina de Calyzzo al atardecer con cielo rosado" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+          <img src="assets/img/hero-atardecer.webp" alt="Piscina de Calyzzo al atardecer con cielo rosado" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal reveal-delay-1">
-          <img src="assets/img/frontal-recinto.webp" alt="Vista frontal del recinto con piscina y jacuzzi" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.1">
+          <img src="assets/img/frontal-recinto.webp" alt="Vista frontal del recinto con piscina y jacuzzi" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal reveal-delay-2">
-          <img src="assets/img/evento-baby-shower.webp" alt="Baby shower con letras luminosas OH BABY" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.2">
+          <img src="assets/img/evento-baby-shower.webp" alt="Baby shower con letras luminosas OH BABY" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal">
-          <img src="assets/img/upload-pool-aerial.webp" alt="Vista aérea de la piscina con flotadores y sombrilla" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+          <img src="assets/img/upload-pool-aerial.webp" alt="Vista aérea de la piscina con flotadores y sombrilla" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal reveal-delay-1">
-          <img src="assets/img/vista-montana.webp" alt="Vista de la piscina con montañas de fondo" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.1">
+          <img src="assets/img/vista-montana.webp" alt="Vista de la piscina con montañas de fondo" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal reveal-delay-2">
-          <img src="assets/img/hero-atardecer-3.webp" alt="Piscina de Calyzzo al anochecer con luces" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.2">
+          <img src="assets/img/hero-atardecer-3.webp" alt="Piscina de Calyzzo al anochecer con luces" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal">
-          <img src="assets/img/galeria-01.webp" alt="Instalaciones de Calyzzo" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+          <img src="assets/img/galeria-01.webp" alt="Instalaciones de Calyzzo" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item reveal reveal-delay-1">
-          <img src="assets/img/upload-pool-dusk.webp" alt="Piscina al anochecer con terraza iluminada" loading="lazy" decoding="async">
+        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.1">
+          <img src="assets/img/upload-pool-dusk.webp" alt="Piscina al anochecer con terraza iluminada" loading="lazy" decoding="async" data-parallax>
         </div>
       </div>
     </div>
@@ -625,7 +651,7 @@
     <div class="container">
       <div class="section-header">
         <p class="kicker reveal">Legal</p>
-        <h2 class="section-title reveal">Política de <em>Privacidad</em></h2>
+        <h2 class="section-title" data-split-title>Política de <em>Privacidad</em></h2>
       </div>
       <div class="privacidad-content reveal">
         <h3>1. Responsable del tratamiento</h3>
@@ -704,6 +730,7 @@
           </div>
         </div>
       </div>
+      <div class="footer-wordmark" data-wordmark aria-hidden="true">CALYZZO</div>
       <!-- Bottom -->
       <div class="footer-bottom">
         <p class="footer-copy">&copy; 2026 Calyzzo Events & Pool — Todos los derechos reservados.</p>
@@ -714,7 +741,7 @@
   </footer>
 
   <!-- WhatsApp Float -->
-  <a class="whatsapp-float" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20cotizar%20un%20evento%20en%20Calyzzo" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-float>
+  <a class="whatsapp-float" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20cotizar%20un%20evento%20en%20Calyzzo" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-float data-magnetic>
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
   </a>
 
@@ -724,6 +751,6 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/manifest.js"></script>
-  <script defer src="main.js?v=20260907"></script>
+  <script defer src="main.js?v=20261014"></script>
 </body>
 </html>
