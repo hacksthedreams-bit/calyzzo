@@ -354,7 +354,7 @@
       $$("[data-scrub-words]").forEach(function (p) {
         var words = $$(".sw", p);
         if (!words.length) return;
-        gsap.fromTo(words, { opacity: 0.26 }, {
+        gsap.fromTo(words, { opacity: 0.6 }, {
           opacity: 1, ease: "none", stagger: 0.12,
           scrollTrigger: { trigger: p, start: "top 82%", end: "bottom 48%", scrub: true }
         });
@@ -666,16 +666,6 @@
   });
 
   /* ============================================================
-     9. MESH GRADIENT — animated hero background
-     ============================================================ */
-  safe("mesh", function () {
-    // The mesh animation is handled by CSS @property --mesh-angle
-    // with keyframes. JS just ensures the class is present.
-    var mesh = $(".hero-mesh");
-    if (mesh) mesh.classList.add("active");
-  });
-
-  /* ============================================================
      10. ACTIVE NAV HIGHLIGHTING
      ============================================================ */
   safe("active-nav", function () {
@@ -828,9 +818,10 @@
       if (p && p.catch) p.catch(function () {});
     }
     function load() {
-      var src = video.getAttribute(tall.matches ? "data-src-v" : "data-src-h");
+      var src = video.getAttribute(tall.matches ? "data-src-v" : (window.innerWidth < 1600 ? "data-src-m" : "data-src-h"));
       if (!src || video.getAttribute("src") === src) return;
       video.classList.remove("is-playing");
+      if (hero) hero.classList.remove("video-on");
       video.setAttribute("src", src);
       video.load();
       play();
@@ -844,9 +835,12 @@
     video.addEventListener("playing", function () {
       video.classList.add("is-playing");
       if (toggle) toggle.hidden = false;
+      // after the fade-in, hide the still photo and stop its slow zoom
+      setTimeout(function () { if (hero && video.classList.contains("is-playing")) hero.classList.add("video-on"); }, 1800);
     });
     video.addEventListener("error", function () {
       video.classList.remove("is-playing");
+      if (hero) hero.classList.remove("video-on");
       if (toggle) toggle.hidden = true;
     });
 
@@ -1097,7 +1091,7 @@
     function show(i, instant) {
       current = (i + items.length) % items.length;
       var img = items[current];
-      var src = img.currentSrc || img.src;
+      var src = img.src;
       lbCount.textContent = pad2(current + 1) + " / " + pad2(items.length);
       if (instant) { lbImg.src = src; lbImg.alt = img.alt || ""; return; }
       lbImg.classList.add("is-swapping");
@@ -1204,110 +1198,6 @@
     document.addEventListener("mouseup", function () { el.classList.remove("is-down"); });
     document.documentElement.addEventListener("mouseleave", function () { el.classList.remove("is-active"); });
     document.documentElement.addEventListener("mouseenter", function () { if (seen) el.classList.add("is-active"); });
-  });
-
-  /* ============================================================
-     19. HERO BOKEH — drifting golden light motes on a canvas
-     Pauses off-screen / in background tabs; skipped for
-     reduced-motion visitors.
-     ============================================================ */
-  safe("hero-bokeh", function () {
-    var canvas = $("[data-bokeh]");
-    var hero = $(".hero");
-    if (!canvas || !hero || !canvas.getContext) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    var ctx = canvas.getContext("2d");
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var small = window.innerWidth < 720;
-    var COUNT = small ? 20 : 44;
-    var W = 0, H = 0, parts = [], onScreen = true, running = false;
-    var px = 0, py = 0, tx = 0, ty = 0;
-
-    function size() {
-      var r = hero.getBoundingClientRect();
-      W = Math.max(1, r.width); H = Math.max(1, r.height);
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function make(initial) {
-      return {
-        x: Math.random() * W,
-        y: initial ? Math.random() * H : H + 40,
-        r: 3 + Math.random() * (small ? 12 : 20),
-        vy: 0.1 + Math.random() * 0.34,
-        vx: (Math.random() - 0.5) * 0.12,
-        a: 0.1 + Math.random() * 0.24,
-        ph: Math.random() * 6.28,
-        z: 0.4 + Math.random() * 1.0,
-        teal: Math.random() < 0.22
-      };
-    }
-
-    function init() {
-      size();
-      parts = [];
-      for (var i = 0; i < COUNT; i++) parts.push(make(true));
-    }
-
-    function frame(now) {
-      if (!onScreen || document.hidden) { running = false; return; }
-      ctx.clearRect(0, 0, W, H);
-      px += (tx - px) * 0.05;
-      py += (ty - py) * 0.05;
-
-      for (var i = 0; i < parts.length; i++) {
-        var p = parts[i];
-        p.y -= p.vy;
-        p.x += p.vx + Math.sin(now * 0.0006 + p.ph) * 0.14;
-        if (p.y < -40) { parts[i] = make(false); p = parts[i]; p.y = H + 40; }
-
-        var tw = 0.62 + 0.38 * Math.sin(now * 0.0011 + p.ph);
-        var alpha = p.a * tw;
-        var cx = p.x + px * p.z * 26;
-        var cy = p.y + py * p.z * 18;
-        var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, p.r);
-        if (p.teal) {
-          g.addColorStop(0, "rgba(130,222,228," + alpha * 0.85 + ")");
-          g.addColorStop(1, "rgba(130,222,228,0)");
-        } else {
-          g.addColorStop(0, "rgba(248,218,150," + alpha + ")");
-          g.addColorStop(1, "rgba(248,218,150,0)");
-        }
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(cx, cy, p.r, 0, 6.2832);
-        ctx.fill();
-      }
-      raf(frame);
-    }
-
-    function start() { if (!running && onScreen && !document.hidden) { running = true; raf(frame); } }
-
-    init();
-    hero.addEventListener("mousemove", function (e) {
-      var r = hero.getBoundingClientRect();
-      tx = (e.clientX - r.left) / r.width - 0.5;
-      ty = (e.clientY - r.top) / r.height - 0.5;
-    }, { passive: true });
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        onScreen = entries[0].isIntersecting;
-        if (onScreen) start();
-      }, { threshold: 0 }).observe(hero);
-    }
-    document.addEventListener("visibilitychange", start);
-
-    var rt;
-    window.addEventListener("resize", function () {
-      clearTimeout(rt);
-      rt = setTimeout(init, 200);
-    });
-
-    start();
   });
 
 })();

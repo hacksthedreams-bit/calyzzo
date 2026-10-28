@@ -153,7 +153,7 @@
   </script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20261029a">
+  <link rel="stylesheet" href="styles.css?v=20261029d">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -261,43 +261,24 @@
     <p class="nav-mobile-foot" style="--i:10">Batuco, Región Metropolitana<br><a href="https://wa.me/56921944986" target="_blank" rel="noopener">+56 9 2194 4986</a></p>
   </div>
 
+  <main id="contenido" tabindex="-1">
   <!-- ============================================================
        HERO
        ============================================================ -->
   <section class="hero" id="hero">
-    <div class="hero-mesh" aria-hidden="true"></div>
     <picture class="hero-bg-pic">
       <source media="(orientation: portrait)" srcset="assets/img/hero-poster-v.webp">
       <img class="hero-bg" src="assets/img/hero-poster-h.webp" alt="" width="1920" height="1080" fetchpriority="high" loading="eager">
     </picture>
-    <video class="hero-video" data-hero-video data-src-h="assets/video/hero-calyzzo-h.mp4" data-src-v="assets/video/hero-calyzzo-v.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video>
-    <canvas class="hero-bokeh" data-bokeh aria-hidden="true"></canvas>
+    <video class="hero-video" data-hero-video data-src-h="assets/video/hero-calyzzo-h.mp4" data-src-m="assets/video/hero-calyzzo-m.mp4" data-src-v="assets/video/hero-calyzzo-v.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video>
     <div class="hero-overlay" aria-hidden="true"></div>
-    <div class="hero-content" id="contenido">
-      <img class="hero-logo" src="assets/img/logo-calyzzo.webp?v=20261015" alt="Calyzzo Events & Pool" width="260" height="260">
-      <p class="hero-kicker">Centro de Eventos Privado</p>
-      <h1 class="hero-title" aria-label="Tu celebración perfecta"><span class="hero-line" aria-hidden="true"><span class="hero-line-inner">Tu celebración</span></span><br><span class="hero-line" aria-hidden="true"><span class="hero-line-inner"><em>perfecta</em></span></span></h1>
-      <p class="hero-subtitle">Piscina, jacuzzi, quincho y servicio completo en un entorno exclusivo en Batuco, Región Metropolitana.</p>
-      <div class="hero-rating">
-        <span class="hero-rating-line" aria-hidden="true"></span>
-        <span>Eventos privados desde 2024</span>
-        <span class="hero-rating-line" aria-hidden="true"></span>
-      </div>
-      <div class="hero-ctas">
-        <a class="btn btn-primary btn-magnetic" href="#reservas" data-magnetic>
-          Cotizar evento
-        </a>
-        <a class="btn btn-outline btn-magnetic" href="#servicios" data-magnetic>
-          Explorar servicios
-        </a>
-      </div>
+    <div class="hero-content">
+      <h1 class="hero-logo-h1"><img class="hero-logo" src="assets/img/logo-calyzzo.webp?v=20261015" alt="Calyzzo Events & Pool" width="260" height="260"><span class="sr-only"> Centro de eventos privado en Batuco, Región Metropolitana</span></h1>
     </div>
-    <p class="hero-corner" aria-hidden="true">Batuco &middot; Chile</p>
     <button class="hero-video-toggle" type="button" data-hero-video-toggle aria-pressed="false" aria-label="Pausar video de fondo" hidden>
       <svg class="ico ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
       <svg class="ico ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
     </button>
-    <a class="hero-scroll" href="#concepto" aria-label="Bajar a la siguiente sección"><span>Desliza</span><i aria-hidden="true"></i></a>
   </section>
 
   <!-- ============================================================
@@ -339,7 +320,7 @@
         </div>
         <div class="concepto-media">
           <div class="concepto-img" data-clip data-parallax-wrap>
-            <img src="assets/img/upload-pool-dusk.webp" alt="Piscina y terraza de Calyzzo al atardecer" width="1024" height="1536" loading="lazy" decoding="async" data-parallax>
+            <img src="assets/img/upload-pool-dusk.webp" srcset="assets/img/upload-pool-dusk-640.webp 640w, assets/img/upload-pool-dusk-960.webp 960w, assets/img/upload-pool-dusk.webp 1024w" sizes="(min-width: 960px) 640px, 100vw" alt="Piscina y terraza de Calyzzo al atardecer" width="1024" height="1536" loading="lazy" decoding="async" data-parallax>
           </div>
           <div class="concepto-badge" aria-hidden="true">
             <svg viewBox="0 0 120 120"><defs><path id="badge-ring" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs><text><textPath href="#badge-ring" textLength="292" lengthAdjust="spacing">CALYZZO · EVENTS &amp; POOL · BATUCO · CHILE ·</textPath></text></svg>
@@ -365,7 +346,7 @@
         <!-- Card 1: Piscina & Jacuzzi -->
         <article class="showcase-card" data-tilt>
           <div class="tilt-glow" aria-hidden="true"></div>
-          <img class="showcase-card-img" src="assets/img/piscina-jacuzzi.webp" width="1152" height="1536" alt="Piscina y jacuzzi de Calyzzo" loading="lazy" decoding="async">
+          <img class="showcase-card-img" src="assets/img/piscina-jacuzzi.webp" srcset="assets/img/piscina-jacuzzi-640.webp 640w, assets/img/piscina-jacuzzi-960.webp 960w, assets/img/piscina-jacuzzi.webp 1152w" sizes="(min-width: 960px) 420px, 100vw" width="1152" height="1536" alt="Piscina y jacuzzi de Calyzzo" loading="lazy" decoding="async">
           <div class="showcase-card-body">
             <div class="card-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-pool"/></svg></div>
             <h3 class="showcase-card-title">Piscina & Jacuzzi</h3>
@@ -388,7 +369,7 @@
         <!-- Card 3: Terraza -->
         <article class="showcase-card" data-tilt>
           <div class="tilt-glow" aria-hidden="true"></div>
-          <img class="showcase-card-img" src="assets/img/vista-montana.webp" width="1152" height="1536" alt="Vista panorámica desde la terraza de Calyzzo" loading="lazy" decoding="async">
+          <img class="showcase-card-img" src="assets/img/vista-montana.webp" srcset="assets/img/vista-montana-640.webp 640w, assets/img/vista-montana-960.webp 960w, assets/img/vista-montana.webp 1152w" sizes="(min-width: 960px) 420px, 100vw" width="1152" height="1536" alt="Vista panorámica desde la terraza de Calyzzo" loading="lazy" decoding="async">
           <div class="showcase-card-body">
             <div class="card-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-terrace"/></svg></div>
             <h3 class="showcase-card-title">Terraza 2° Piso</h3>
@@ -398,7 +379,7 @@
         <!-- Card 4: Decoración -->
         <article class="showcase-card" data-tilt>
           <div class="tilt-glow" aria-hidden="true"></div>
-          <img class="showcase-card-img" src="assets/img/evento-baby-shower.webp" width="896" height="1195" alt="Decoración profesional para eventos en Calyzzo" loading="lazy" decoding="async">
+          <img class="showcase-card-img" src="assets/img/evento-baby-shower.webp" srcset="assets/img/evento-baby-shower-640.webp 640w, assets/img/evento-baby-shower.webp 896w" sizes="(min-width: 960px) 420px, 100vw" width="896" height="1195" alt="Decoración profesional para eventos en Calyzzo" loading="lazy" decoding="async">
           <div class="showcase-card-body">
             <div class="card-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-sparkles"/></svg></div>
             <h3 class="showcase-card-title">Decoración Profesional</h3>
@@ -477,7 +458,7 @@
       <div class="eventos-grid">
         <!-- Bodas -->
         <article class="evento-panel" data-clip data-tilt-soft style="--d:0">
-          <img class="evento-panel-img" src="assets/img/hero-atardecer-2.webp" width="1152" height="1536" alt="Evento de boda al atardecer en Calyzzo" loading="lazy" decoding="async">
+          <img class="evento-panel-img" src="assets/img/hero-atardecer-2.webp" srcset="assets/img/hero-atardecer-2-640.webp 640w, assets/img/hero-atardecer-2-960.webp 960w, assets/img/hero-atardecer-2.webp 1152w" sizes="(min-width: 720px) 400px, 100vw" width="1152" height="1536" alt="Evento de boda al atardecer en Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
             <h3 class="evento-panel-tipo">Bodas & Matrimonios</h3>
@@ -487,7 +468,7 @@
         </article>
         <!-- Baby Showers -->
         <article class="evento-panel" data-clip data-tilt-soft style="--d:.12">
-          <img class="evento-panel-img" src="assets/img/evento-baby-shower.webp" width="896" height="1195" alt="Baby shower con decoración dorada y blanca en Calyzzo" loading="lazy" decoding="async">
+          <img class="evento-panel-img" src="assets/img/evento-baby-shower.webp" srcset="assets/img/evento-baby-shower-640.webp 640w, assets/img/evento-baby-shower.webp 896w" sizes="(min-width: 720px) 400px, 100vw" width="896" height="1195" alt="Baby shower con decoración dorada y blanca en Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
             <h3 class="evento-panel-tipo">Baby Showers</h3>
@@ -497,7 +478,7 @@
         </article>
         <!-- Cumpleaños -->
         <article class="evento-panel" data-clip data-tilt-soft style="--d:.24">
-          <img class="evento-panel-img" src="assets/img/upload-pool-aerial.webp" width="1024" height="1536" alt="Fiesta de cumpleaños en la piscina de Calyzzo" loading="lazy" decoding="async">
+          <img class="evento-panel-img" src="assets/img/upload-pool-aerial.webp" srcset="assets/img/upload-pool-aerial-640.webp 640w, assets/img/upload-pool-aerial-960.webp 960w, assets/img/upload-pool-aerial.webp 1024w" sizes="(min-width: 720px) 400px, 100vw" width="1024" height="1536" alt="Fiesta de cumpleaños en la piscina de Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
             <h3 class="evento-panel-tipo">Cumpleaños</h3>
@@ -507,7 +488,7 @@
         </article>
         <!-- Paseos de fin de curso -->
         <article class="evento-panel" data-clip data-tilt-soft style="--d:.36">
-          <img class="evento-panel-img" src="assets/img/piscina-diurna.webp" width="1152" height="1536" alt="Paseo escolar de fin de curso en Calyzzo" loading="lazy" decoding="async">
+          <img class="evento-panel-img" src="assets/img/piscina-diurna.webp" srcset="assets/img/piscina-diurna-640.webp 640w, assets/img/piscina-diurna-960.webp 960w, assets/img/piscina-diurna.webp 1152w" sizes="(min-width: 720px) 400px, 100vw" width="1152" height="1536" alt="Paseo escolar de fin de curso en Calyzzo" loading="lazy" decoding="async">
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
             <h3 class="evento-panel-tipo">Paseos de Fin de Curso</h3>
@@ -796,34 +777,34 @@
       </div>
       <div class="galeria-grid">
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
-          <img src="assets/img/hero-atardecer.webp" alt="Piscina de Calyzzo al atardecer con cielo rosado" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/hero-atardecer.webp" srcset="assets/img/hero-atardecer-640.webp 640w, assets/img/hero-atardecer-960.webp 960w, assets/img/hero-atardecer.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina de Calyzzo al atardecer con cielo rosado" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
-          <img src="assets/img/galeria-01.webp" alt="Piscina y jacuzzi de día, con la casa y la terraza al fondo" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/galeria-01.webp" srcset="assets/img/galeria-01-640.webp 640w, assets/img/galeria-01-960.webp 960w, assets/img/galeria-01.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina y jacuzzi de día, con la casa y la terraza al fondo" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
-          <img src="assets/img/galeria-03.webp" alt="Jacuzzi circular y piscina con sombrilla roja, de día" width="1536" height="1152" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/galeria-03.webp" srcset="assets/img/galeria-03-640.webp 640w, assets/img/galeria-03-960.webp 960w, assets/img/galeria-03.webp 1536w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Jacuzzi circular y piscina con sombrilla roja, de día" width="1536" height="1152" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
-          <img src="assets/img/frontal-recinto.webp" alt="Vista frontal del recinto con piscina y jacuzzi" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/frontal-recinto.webp" srcset="assets/img/frontal-recinto-640.webp 640w, assets/img/frontal-recinto-960.webp 960w, assets/img/frontal-recinto.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Vista frontal del recinto con piscina y jacuzzi" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
-          <img src="assets/img/galeria-04.webp" alt="Sombrilla roja y deck de madera junto a la piscina" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/galeria-04.webp" srcset="assets/img/galeria-04-640.webp 640w, assets/img/galeria-04-960.webp 960w, assets/img/galeria-04.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Sombrilla roja y deck de madera junto a la piscina" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
-          <img src="assets/img/evento-baby-shower.webp" alt="Baby shower con letras luminosas OH BABY" width="896" height="1195" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/evento-baby-shower.webp" srcset="assets/img/evento-baby-shower-640.webp 640w, assets/img/evento-baby-shower.webp 896w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Baby shower con letras luminosas OH BABY" width="896" height="1195" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
-          <img src="assets/img/galeria-02.webp" alt="Piscina y jacuzzi vistos desde el quincho" width="1536" height="1152" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/galeria-02.webp" srcset="assets/img/galeria-02-640.webp 640w, assets/img/galeria-02-960.webp 960w, assets/img/galeria-02.webp 1536w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina y jacuzzi vistos desde el quincho" width="1536" height="1152" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
-          <img src="assets/img/hero-atardecer-3.webp" alt="Piscina de Calyzzo al anochecer con luces" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/hero-atardecer-3.webp" srcset="assets/img/hero-atardecer-3-640.webp 640w, assets/img/hero-atardecer-3-960.webp 960w, assets/img/hero-atardecer-3.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina de Calyzzo al anochecer con luces" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
-          <img src="assets/img/galeria-06.webp" alt="Jacuzzi y piscina bajo el cielo azul" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/galeria-06.webp" srcset="assets/img/galeria-06-640.webp 640w, assets/img/galeria-06-960.webp 960w, assets/img/galeria-06.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Jacuzzi y piscina bajo el cielo azul" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
         <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
-          <img src="assets/img/galeria-05.webp" alt="Piscina y jacuzzi al atardecer con cielo rosado y naranja" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
+          <img src="assets/img/galeria-05.webp" srcset="assets/img/galeria-05-640.webp 640w, assets/img/galeria-05-960.webp 960w, assets/img/galeria-05.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina y jacuzzi al atardecer con cielo rosado y naranja" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
       </div>
     </div>
@@ -987,6 +968,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- ============================================================
        FOOTER
        ============================================================ -->
@@ -1056,10 +1039,12 @@
   </button>
 
   <!-- WhatsApp Float -->
-  <a class="whatsapp-float" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20cotizar%20un%20evento%20en%20Calyzzo" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-float data-magnetic>
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-    <span class="whatsapp-float-label">Cotiza por WhatsApp</span>
-  </a>
+  <aside aria-label="Contacto rápido">
+    <a class="whatsapp-float" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20cotizar%20un%20evento%20en%20Calyzzo" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-float data-magnetic>
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      <span class="whatsapp-float-label">Cotiza por WhatsApp</span>
+    </a>
+  </aside>
 
   <!-- ============================================================
        SCRIPTS
@@ -1067,6 +1052,6 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="main.js?v=20261028c"></script>
+  <script defer src="main.js?v=20261029c"></script>
 </body>
 </html>
