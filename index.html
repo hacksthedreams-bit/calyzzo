@@ -65,7 +65,7 @@
   </script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20261028c">
+  <link rel="stylesheet" href="styles.css?v=20261028d">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -179,6 +179,7 @@
   <section class="hero" id="hero">
     <div class="hero-mesh" aria-hidden="true"></div>
     <img class="hero-bg" src="assets/img/upload-pool-sunset.webp" alt="" fetchpriority="high" loading="eager">
+    <video class="hero-video" data-hero-video data-src-h="assets/video/hero-recinto-h.mp4" data-src-v="assets/video/hero-recinto-v.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video>
     <canvas class="hero-bokeh" data-bokeh aria-hidden="true"></canvas>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content" id="contenido">
@@ -201,6 +202,10 @@
       </div>
     </div>
     <p class="hero-corner" aria-hidden="true">Batuco &middot; Chile</p>
+    <button class="hero-video-toggle" type="button" data-hero-video-toggle aria-pressed="false" aria-label="Pausar video de fondo" hidden>
+      <svg class="ico ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+      <svg class="ico ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+    </button>
     <a class="hero-scroll" href="#concepto" aria-label="Bajar a la siguiente sección"><span>Desliza</span><i aria-hidden="true"></i></a>
   </section>
 
@@ -971,6 +976,6 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="main.js?v=20261028b"></script>
+  <script defer src="main.js?v=20261028c"></script>
 </body>
 </html>

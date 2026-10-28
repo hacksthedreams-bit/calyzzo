@@ -783,6 +783,7 @@
   safe("hero-parallax", function () {
     if ("ontouchstart" in window) return;
     var bg = $(".hero-bg");
+    var vid = $(".hero-video");
     var hero = $(".hero");
     var content = $(".hero-content");
     if (!bg || !hero) return;
@@ -793,6 +794,7 @@
       var h = hero.offsetHeight;
       if (y > h) return;
       bg.style.transform = "translateY(" + (y * 0.25) + "px)";
+      if (vid) vid.style.transform = bg.style.transform;
       if (content) {
         content.style.transform = "translateY(" + (y * -0.12) + "px)";
         content.style.opacity = Math.max(0, 1 - (y / h) * 1.15).toFixed(3);
@@ -800,6 +802,74 @@
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+  });
+
+  /* ============================================================
+     14b. HERO VIDEO — venue loop. Loaded only after the page is ready,
+     skipped for reduced motion / data saver, paused off-screen, user can stop it.
+     ============================================================ */
+  safe("hero-video", function () {
+    var video = $("[data-hero-video]");
+    if (!video) return;
+    var toggle = $("[data-hero-video-toggle]");
+    var hero = $(".hero");
+
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var conn = navigator.connection || {};
+    if (reduce || conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "")) return;
+
+    var tall = window.matchMedia("(max-aspect-ratio: 1/1)");
+    var userPaused = false;
+    var inView = true;
+
+    function play() {
+      if (userPaused || !inView || !video.getAttribute("src")) return;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    function load() {
+      var src = video.getAttribute(tall.matches ? "data-src-v" : "data-src-h");
+      if (!src || video.getAttribute("src") === src) return;
+      video.classList.remove("is-playing");
+      video.setAttribute("src", src);
+      video.load();
+      play();
+    }
+    function setToggle(paused) {
+      if (!toggle) return;
+      toggle.setAttribute("aria-pressed", paused ? "true" : "false");
+      toggle.setAttribute("aria-label", paused ? "Reproducir video de fondo" : "Pausar video de fondo");
+    }
+
+    video.addEventListener("playing", function () {
+      video.classList.add("is-playing");
+      if (toggle) toggle.hidden = false;
+    });
+    video.addEventListener("error", function () {
+      video.classList.remove("is-playing");
+      if (toggle) toggle.hidden = true;
+    });
+
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        userPaused = !video.paused;
+        if (userPaused) video.pause(); else play();
+        setToggle(userPaused);
+      });
+    }
+
+    if ("IntersectionObserver" in window && hero) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView) play(); else video.pause();
+      }, { threshold: 0.05 }).observe(hero);
+    }
+
+    if (tall.addEventListener) tall.addEventListener("change", load);
+
+    function start() { setTimeout(load, 300); }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
   });
 
   /* ============================================================
