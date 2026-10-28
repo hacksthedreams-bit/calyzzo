@@ -2211,6 +2211,8 @@ html.js .whatsapp-float.is-shown:hover { scale: 1.05; }
   .faq-item[open] .faq-a { animation: none; }
 }
 
+picture.hero-bg-pic { display: contents; }
+
 /* =============================================================
    25. Hero video: venue loop over the still photo
    ============================================================= */
