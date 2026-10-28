@@ -65,7 +65,7 @@
   </script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20261016">
+  <link rel="stylesheet" href="styles.css?v=20261028c">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -90,6 +90,10 @@
     <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16l1.4-5.2A2 2 0 0 1 8.3 9h7.4a2 2 0 0 1 1.9 1.8L19 16"/><rect x="3" y="16" width="18" height="3.5" rx="1"/><path d="M7 19.5V21M17 19.5V21"/></symbol>
     <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
     <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.6A8 8 0 1 1 21 12z"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
   </svg>
   <!-- Skip link -->
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -111,8 +115,11 @@
       <li><a href="#eventos" data-section-nav-link="eventos"><span class="dot"></span><span class="label">Eventos</span></a></li>
       <li><a href="#amenidades" data-section-nav-link="amenidades"><span class="dot"></span><span class="label">Instalaciones</span></a></li>
       <li><a href="#horarios" data-section-nav-link="horarios"><span class="dot"></span><span class="label">Horarios</span></a></li>
+      <li><a href="#proceso" data-section-nav-link="proceso"><span class="dot"></span><span class="label">Cómo funciona</span></a></li>
       <li><a href="#reservas" data-section-nav-link="reservas"><span class="dot"></span><span class="label">Reservas</span></a></li>
       <li><a href="#galeria" data-section-nav-link="galeria"><span class="dot"></span><span class="label">Galería</span></a></li>
+      <li><a href="#ubicacion" data-section-nav-link="ubicacion"><span class="dot"></span><span class="label">Cómo llegar</span></a></li>
+      <li><a href="#faq" data-section-nav-link="faq"><span class="dot"></span><span class="label">Preguntas</span></a></li>
     </ul>
   </nav>
 
@@ -160,8 +167,10 @@
     <a style="--i:4" href="#restaurante">Restaurante</a>
     <a style="--i:5" href="#horarios">Horarios</a>
     <a style="--i:6" href="#galeria">Galería</a>
-    <a style="--i:7" href="#reservas">Cotizar evento</a>
-    <p class="nav-mobile-foot" style="--i:8">Batuco, Región Metropolitana<br><a href="https://wa.me/56921944986" target="_blank" rel="noopener">+56 9 2194 4986</a></p>
+    <a style="--i:7" href="#ubicacion">Cómo llegar</a>
+    <a style="--i:8" href="#faq">Preguntas</a>
+    <a style="--i:9" href="#reservas">Cotizar evento</a>
+    <p class="nav-mobile-foot" style="--i:10">Batuco, Región Metropolitana<br><a href="https://wa.me/56921944986" target="_blank" rel="noopener">+56 9 2194 4986</a></p>
   </div>
 
   <!-- ============================================================
@@ -525,6 +534,42 @@
   </section>
 
   <!-- ============================================================
+       CÓMO FUNCIONA — 3 pasos
+       ============================================================ -->
+  <section class="section proceso" id="proceso">
+    <div class="container">
+      <div class="section-header">
+        <p class="kicker reveal">Así de simple</p>
+        <h2 class="section-title" data-split-title>Cómo <em>funciona</em></h2>
+        <p class="section-subtitle reveal" style="margin:1rem auto 0">Del primer mensaje al día de tu celebración, en tres pasos.</p>
+      </div>
+      <ol class="proceso-steps">
+        <li data-spot class="paso reveal">
+          <span class="paso-num" aria-hidden="true">01</span>
+          <div class="paso-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg></div>
+          <h3 class="paso-title">Elige tu fecha</h3>
+          <p class="paso-text">Revisa el calendario y cuéntanos qué quieres celebrar, desde el formulario o directo por WhatsApp.</p>
+        </li>
+        <li data-spot class="paso reveal reveal-delay-1">
+          <span class="paso-num" aria-hidden="true">02</span>
+          <div class="paso-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></div>
+          <h3 class="paso-title">Recibe tu propuesta</h3>
+          <p class="paso-text">Te respondemos por WhatsApp con la disponibilidad y una cotización a tu medida: jornada, invitados y servicios.</p>
+        </li>
+        <li data-spot class="paso reveal reveal-delay-2">
+          <span class="paso-num" aria-hidden="true">03</span>
+          <div class="paso-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-sparkles"/></svg></div>
+          <h3 class="paso-title">Celebra sin preocuparte</h3>
+          <p class="paso-text">Coordinamos los detalles (decoración, música, comida) para que tú solo te dediques a disfrutar.</p>
+        </li>
+      </ol>
+      <div class="proceso-cta reveal">
+        <a class="btn btn-primary btn-magnetic" href="#reservas" data-magnetic>Empezar mi cotización</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        MARQUEE — puente de marca hacia reservas
        ============================================================ -->
   <div class="marquee" data-marquee aria-hidden="true">
@@ -689,6 +734,110 @@
   </section>
 
   <!-- ============================================================
+       UBICACIÓN — cómo llegar
+       ============================================================ -->
+  <section class="section ubicacion" id="ubicacion">
+    <div class="container">
+      <div class="section-header">
+        <p class="kicker reveal">Cómo llegar</p>
+        <h2 class="section-title" data-split-title>Encuéntranos en <em>Batuco</em></h2>
+      </div>
+      <div class="ubicacion-grid">
+        <div class="ubicacion-info reveal">
+          <ul class="ubicacion-facts">
+            <li>
+              <span class="ubicacion-ico" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></span>
+              <div><strong>Batuco, comuna de Lampa</strong><span>Región Metropolitana, al norte de Santiago.</span></div>
+            </li>
+            <li>
+              <span class="ubicacion-ico" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-car"/></svg></span>
+              <div><strong>Estacionamiento privado</strong><span>Espacio para ti y tus invitados.</span></div>
+            </li>
+            <li>
+              <span class="ubicacion-ico" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg></span>
+              <div><strong>Recinto resguardado</strong><span>Guardia de seguridad, cámaras y cerco eléctrico.</span></div>
+            </li>
+          </ul>
+          <p class="ubicacion-note">¿Necesitas la ubicación exacta o indicaciones para tus invitados? Escríbenos y te las enviamos.</p>
+          <div class="ubicacion-actions">
+            <a class="btn btn-primary btn-magnetic" href="https://share.google/nbxHfFL4rvPrQ4CDM" target="_blank" rel="noopener" data-magnetic>
+              Abrir en Google Maps <svg class="ico" aria-hidden="true"><use href="#i-external"/></svg>
+            </a>
+            <a class="btn btn-whatsapp btn-magnetic" href="https://wa.me/56921944986?text=Hola%2C%20me%20podr%C3%ADan%20enviar%20la%20ubicaci%C3%B3n%20exacta%20de%20Calyzzo%3F" target="_blank" rel="noopener" data-magnetic>
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.244 0-4.344-.647-6.117-1.764l-.427-.267-2.856.957.957-2.856-.267-.427A9.953 9.953 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+              Pedir indicaciones
+            </a>
+          </div>
+        </div>
+
+        <div class="map-card reveal" data-map data-map-src="https://www.google.com/maps?q=Batuco%2C+Chile&amp;z=14&amp;output=embed">
+          <svg class="map-art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M-10 70 L410 40M-10 150 L410 120M-10 235 L410 215" opacity=".35"/>
+              <path d="M70 -10 L95 310M180 -10 L170 310M290 -10 L320 310" opacity=".35"/>
+              <path d="M-10 280 C90 190 160 200 230 140 S350 60 410 70" stroke-width="2.4" opacity=".6"/>
+              <circle cx="200" cy="150" r="46" opacity=".25"/><circle cx="200" cy="150" r="88" opacity=".14"/>
+            </g>
+          </svg>
+          <div class="map-pin" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></div>
+          <div class="map-cta">
+            <p class="map-title">Batuco, Región Metropolitana</p>
+            <button class="btn btn-outline" type="button" data-map-load>Ver mapa interactivo</button>
+            <p class="map-hint">Al cargar el mapa, Google puede tratar datos según su propia política.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PREGUNTAS FRECUENTES
+       ============================================================ -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <p class="kicker reveal">Resolvemos tus dudas</p>
+        <h2 class="section-title" data-split-title>Preguntas <em>frecuentes</em></h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item reveal" name="faq" open>
+          <summary><span class="faq-q">¿Para cuántas personas es el recinto?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>Calyzzo está pensado para celebraciones de hasta 100 invitados.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Qué jornadas y horarios tienen?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>Tenemos jornada diurna (10:00 a 19:00 hrs) y nocturna (22:00 a 07:00 hrs). También existe la jornada extraordinaria, que cubre día y noche completa, sujeta a disponibilidad y con cotización personalizada.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Qué tipos de evento se pueden hacer?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>Bodas y matrimonios, baby showers, cumpleaños (infantiles y adultos) y paseos de fin de curso. Si tu celebración es otra, cuéntanos y vemos cómo adaptarla.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Qué servicios adicionales puedo contratar?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>Decoración profesional, food service en vivo con La Terraza de Lupita, DJ con sonido e iluminación, animador de eventos y garzones. Los armamos a tu medida según lo que necesites.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Hay estacionamiento y seguridad?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>Sí. Contamos con estacionamiento privado, guardia de seguridad, cámaras de seguridad y cerco eléctrico.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Cómo cotizo y reservo mi fecha?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>Elige una fecha en el calendario y completa el formulario de cotización, o escríbenos directo por WhatsApp. Te respondemos con la disponibilidad y una propuesta a tu medida; la disponibilidad final siempre se confirma por WhatsApp.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Dónde están ubicados?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>En Batuco, comuna de Lampa, Región Metropolitana, al norte de Santiago. Pídenos la ubicación exacta por WhatsApp y te la enviamos junto con indicaciones para tus invitados.</p></div>
+        </details>
+        <details class="faq-item reveal" name="faq">
+          <summary><span class="faq-q">¿Cuánto cuesta y cuáles son las condiciones de pago y cancelación?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>El valor depende de la jornada, la cantidad de invitados y los servicios que elijas, por eso cotizamos cada evento a medida. Consúltanos por WhatsApp y te detallamos las condiciones junto con tu cotización.</p></div>
+        </details>
+      </div>
+      <p class="faq-foot reveal">¿Tienes otra duda? <a href="https://wa.me/56921944986?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Calyzzo" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
+    </div>
+  </section>
+
+  <!-- ============================================================
        CTA BAND — cierre de conversión
        ============================================================ -->
   <section class="cta-band" aria-labelledby="cta-title">
@@ -720,7 +869,7 @@
         <p>Calyzzo Events & Pool, ubicado en Batuco, Región Metropolitana, Chile, es responsable del tratamiento de los datos personales recopilados a través de este sitio web, en conformidad con la Ley N° 19.628 sobre Protección de la Vida Privada y la Ley N° 21.719 sobre Protección de Datos Personales.</p>
 
         <h3>2. Datos recopilados</h3>
-        <p>Recopilamos exclusivamente los datos que el usuario proporciona voluntariamente a través del formulario de cotización: nombre, teléfono, correo electrónico, tipo de evento, fecha y mensaje. No recopilamos datos de navegación ni utilizamos cookies de seguimiento.</p>
+        <p>Recopilamos exclusivamente los datos que el usuario proporciona voluntariamente a través del formulario de cotización: nombre, teléfono, correo electrónico, tipo de evento, fecha y mensaje. No recopilamos datos de navegación ni utilizamos cookies de seguimiento. El mapa de Google Maps de la sección «Cómo llegar» solo se carga si el usuario pulsa «Ver mapa interactivo»; en ese caso, Google puede tratar datos conforme a su propia política.</p>
 
         <h3>3. Finalidad</h3>
         <p>Los datos se utilizan únicamente para responder solicitudes de cotización y coordinar los servicios del centro de eventos. No compartimos, vendemos ni cedemos datos personales a terceros.</p>
@@ -737,7 +886,7 @@
         <h3>7. Modificaciones</h3>
         <p>Nos reservamos el derecho de actualizar esta política. Cualquier cambio será publicado en esta página con la fecha de última actualización.</p>
 
-        <p style="margin-top:2rem;font-size:.75rem;color:var(--cream-3)">Última actualización: agosto 2026</p>
+        <p style="margin-top:2rem;font-size:.75rem;color:var(--cream-3)">Última actualización: octubre 2026</p>
       </div>
     </div>
   </section>
@@ -762,6 +911,8 @@
             <a class="footer-link" href="#eventos">Eventos</a>
             <a class="footer-link" href="#restaurante">Restaurante</a>
             <a class="footer-link" href="#reservas">Cotizar</a>
+            <a class="footer-link" href="#ubicacion">Cómo llegar</a>
+            <a class="footer-link" href="#faq">Preguntas frecuentes</a>
           </div>
         </div>
         <!-- Contacto -->
@@ -811,6 +962,7 @@
   <!-- WhatsApp Float -->
   <a class="whatsapp-float" href="https://wa.me/56921944986?text=Hola%2C%20me%20interesa%20cotizar%20un%20evento%20en%20Calyzzo" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" data-whatsapp-float data-magnetic>
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.458-1.495A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+    <span class="whatsapp-float-label">Cotiza por WhatsApp</span>
   </a>
 
   <!-- ============================================================
@@ -819,6 +971,6 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="main.js?v=20261016"></script>
+  <script defer src="main.js?v=20261028b"></script>
 </body>
 </html>

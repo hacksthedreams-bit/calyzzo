@@ -643,14 +643,21 @@
     var btn = $("[data-whatsapp-float]");
     if (!btn) return;
 
-    btn.style.opacity = "0";
-    btn.style.transform = "scale(0.8)";
-    btn.style.transition = "opacity .4s, transform .4s";
+    var peeked = false;
+    function peek() {
+      // Desktop only: unfold the label once per session so people notice it
+      var canHover = window.matchMedia && window.matchMedia("(hover: hover) and (min-width: 720px)").matches;
+      if (peeked || !canHover) return;
+      peeked = true;
+      try { if (sessionStorage.getItem("wa-peek")) return; sessionStorage.setItem("wa-peek", "1"); } catch (e) {}
+      setTimeout(function () { btn.classList.add("is-peek"); }, 900);
+      setTimeout(function () { btn.classList.remove("is-peek"); }, 6500);
+    }
 
     function check() {
       if (window.scrollY > 400) {
-        btn.style.opacity = "1";
-        btn.style.transform = "scale(1)";
+        btn.classList.add("is-shown");
+        peek();
         window.removeEventListener("scroll", check);
       }
     }
@@ -912,10 +919,38 @@
   });
 
   /* ============================================================
+     19b. MAP — Google Maps loads only after the visitor asks for it
+     (no third-party request or cookies until then)
+     ============================================================ */
+  safe("map-embed", function () {
+    var card = $("[data-map]");
+    var btn = card && $("[data-map-load]", card);
+    if (!card || !btn) return;
+    btn.addEventListener("click", function () {
+      if (card.classList.contains("is-loading")) return;
+      card.classList.add("is-loading");
+      btn.textContent = "Cargando mapa…";
+      var frame = document.createElement("iframe");
+      frame.src = card.getAttribute("data-map-src");
+      frame.title = "Mapa de Calyzzo en Batuco";
+      frame.loading = "lazy";
+      frame.referrerPolicy = "no-referrer-when-downgrade";
+      frame.setAttribute("allowfullscreen", "");
+      frame.addEventListener("load", function () {
+        // Let the tiles paint before the placeholder steps aside
+        setTimeout(function () { card.classList.add("is-loaded"); }, 900);
+      });
+      card.appendChild(frame);
+      // If the load event never arrives, show whatever the frame has anyway
+      setTimeout(function () { card.classList.add("is-loaded"); }, 8000);
+    });
+  });
+
+  /* ============================================================
      20. EDITORIAL KICKER NUMBERS — "01 ——— Nosotros"
      ============================================================ */
   safe("kicker-numbers", function () {
-    var order = ["concepto", "servicios", "eventos", "amenidades", "horarios", "reservas", "galeria"];
+    var order = ["concepto", "servicios", "eventos", "amenidades", "horarios", "proceso", "reservas", "galeria", "ubicacion", "faq"];
     order.forEach(function (id, i) {
       var section = document.getElementById(id);
       var kicker = section && $(".kicker", section);
