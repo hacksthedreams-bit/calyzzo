@@ -45,12 +45,6 @@
 /* =============================================================
    1. Tokens
    ============================================================= */
-@property --mesh-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
 :root {
   --bg:       #0E0B09;
   --bg-2:     #15110E;
@@ -444,10 +438,6 @@ ul, ol { list-style: none; padding: 0; }
     radial-gradient(ellipse 50% 60% at 80% 30%, rgba(212,175,110,.1), transparent 70%),
     radial-gradient(ellipse 55% 45% at 85% 85%, rgba(63,166,174,.10), transparent 65%),
     radial-gradient(ellipse 70% 50% at 50% 80%, rgba(166,124,61,.08), transparent 60%);
-  animation: meshRotate 12s linear infinite;
-}
-@keyframes meshRotate {
-  to { --mesh-angle: 360deg; }
 }
 .hero-overlay {
   position: absolute; inset: 0; z-index: 1;
@@ -1239,7 +1229,6 @@ ul, ol { list-style: none; padding: 0; }
    ============================================================= */
 @media (prefers-reduced-motion: reduce) {
   .splash-logo { animation: none; opacity: 1; }
-  .hero-mesh { animation: none; }
   /* micro-interactions (tilt, hover, fades, mesh, count-up) NOT disabled */
 }
 
