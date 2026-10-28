@@ -31,7 +31,7 @@
   <meta property="og:locale" content="es_CL">
 
   <!-- Preloads -->
-  <link rel="preload" as="image" href="assets/img/piscina-diurna.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/upload-pool-sunset.webp" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/logo-calyzzo.webp?v=20261015">
 
   <!-- Fonts: self-hosted (no request to Google), critical files preloaded -->
@@ -152,8 +152,7 @@
   </script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20261028h">
-  <link rel="stylesheet" href="hero.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=20261028e">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -262,77 +261,39 @@
   </div>
 
   <!-- ============================================================
-       HERO — Un día en Calyzzo: día → atardecer → noche
-       Las tres fotos son las tres jornadas reales del recinto.
+       HERO
        ============================================================ -->
-  <section class="h2-hero" id="hero" data-h2 aria-label="Calyzzo, centro de eventos en Batuco">
-    <div class="h2-photo" aria-hidden="true">
-      <img data-h2-img src="assets/img/piscina-diurna.webp" width="1152" height="1536" alt="" fetchpriority="high" decoding="async">
-      <img data-h2-img src="assets/img/upload-pool-sunset.webp" width="1024" height="1536" alt="" decoding="async">
-      <img data-h2-img src="assets/img/hero-noche.webp" width="960" height="1440" alt="" decoding="async">
-    </div>
-
-    <div class="h2-inner" id="contenido">
-      <div class="h2-copy">
-        <h1 class="hero-title" aria-label="Celebra a tu hora"><span class="hero-line" aria-hidden="true"><span class="hero-line-inner">Celebra</span></span><br><span class="hero-line" aria-hidden="true"><span class="hero-line-inner">a tu hora.</span></span></h1>
-        <p class="h2-sub">Centro de eventos privado en Batuco, con piscina, jacuzzi y quincho para hasta 100 invitados.</p>
-
-        <div class="h2-phases">
-          <div class="h2-phase" data-h2-phase id="h2-p0" role="tabpanel" aria-labelledby="h2-t0">
-            <p class="h2-phase-label"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Jornada diurna, de 10:00 a 19:00</p>
-            <p>Sol, piscina temperada y jacuzzi. Ideal para cumpleaños, baby showers y paseos de fin de curso.</p>
-          </div>
-          <div class="h2-phase" data-h2-phase id="h2-p1" role="tabpanel" aria-labelledby="h2-t1" aria-hidden="true">
-            <p class="h2-phase-label"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Jornada extraordinaria, día y noche</p>
-            <p>Empiezas con sol y terminas con luces, sin cortar la fiesta. Sujeta a disponibilidad.</p>
-          </div>
-          <div class="h2-phase" data-h2-phase id="h2-p2" role="tabpanel" aria-labelledby="h2-t2" aria-hidden="true">
-            <p class="h2-phase-label"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg>Jornada nocturna, de 22:00 a 07:00</p>
-            <p>Piscina iluminada y quincho para celebrar hasta la madrugada.</p>
-          </div>
-        </div>
-
-        <form class="h2-form" data-h2-form novalidate>
-          <div class="h2-field">
-            <label for="h2-fecha">Fecha</label>
-            <input id="h2-fecha" type="date" data-h2-fecha>
-          </div>
-          <div class="h2-field">
-            <label for="h2-jornada">Jornada</label>
-            <select id="h2-jornada" data-h2-jornada>
-              <option value="diurna">Diurna</option>
-              <option value="extraordinaria">Extraordinaria</option>
-              <option value="nocturna">Nocturna</option>
-            </select>
-          </div>
-          <div class="h2-field">
-            <label for="h2-invitados">Invitados</label>
-            <input id="h2-invitados" type="number" min="1" max="100" inputmode="numeric" placeholder="Ej: 50" data-h2-invitados>
-          </div>
-          <button class="btn btn-primary" type="submit">Ver disponibilidad</button>
-          <p class="h2-msg" role="status" aria-live="polite" data-h2-msg></p>
-        </form>
-
-        <div class="h2-time">
-          <p class="h2-hint" data-h2-hint>Desliza para ver cómo cambia el día</p>
-          <div class="h2-track" aria-hidden="true"><span data-h2-fill></span></div>
-          <div class="h2-stops" role="tablist" aria-label="Momento del día">
-            <button class="h2-stop" type="button" role="tab" id="h2-t0" aria-controls="h2-p0" aria-selected="true" data-h2-stop style="--pos:0;--ai:flex-start">
-              <span class="h2-dot"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span>
-              <span class="h2-stop-name">Día</span>
-            </button>
-            <button class="h2-stop" type="button" role="tab" id="h2-t1" aria-controls="h2-p1" aria-selected="false" tabindex="-1" data-h2-stop style="--pos:.5;--ai:center">
-              <span class="h2-dot"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg></span>
-              <span class="h2-stop-name">Atardecer</span>
-            </button>
-            <button class="h2-stop" type="button" role="tab" id="h2-t2" aria-controls="h2-p2" aria-selected="false" tabindex="-1" data-h2-stop style="--pos:1;--ai:flex-end">
-              <span class="h2-dot"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></span>
-              <span class="h2-stop-name">Noche</span>
-            </button>
-          </div>
-        </div>
+  <section class="hero" id="hero">
+    <div class="hero-mesh" aria-hidden="true"></div>
+    <img class="hero-bg" src="assets/img/upload-pool-sunset.webp" width="1024" height="1536" alt="" fetchpriority="high" loading="eager">
+    <video class="hero-video" data-hero-video data-src-h="assets/video/hero-recinto-h.mp4" data-src-v="assets/video/hero-recinto-v.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video>
+    <canvas class="hero-bokeh" data-bokeh aria-hidden="true"></canvas>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content" id="contenido">
+      <img class="hero-logo" src="assets/img/logo-calyzzo.webp?v=20261015" alt="Calyzzo Events & Pool" width="260" height="260">
+      <p class="hero-kicker">Centro de Eventos Privado</p>
+      <h1 class="hero-title" aria-label="Tu celebración perfecta"><span class="hero-line" aria-hidden="true"><span class="hero-line-inner">Tu celebración</span></span><br><span class="hero-line" aria-hidden="true"><span class="hero-line-inner"><em>perfecta</em></span></span></h1>
+      <p class="hero-subtitle">Piscina, jacuzzi, quincho y servicio completo en un entorno exclusivo en Batuco, Región Metropolitana.</p>
+      <div class="hero-rating">
+        <span class="hero-rating-line" aria-hidden="true"></span>
+        <span>Eventos privados desde 2024</span>
+        <span class="hero-rating-line" aria-hidden="true"></span>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-magnetic" href="#reservas" data-magnetic>
+          Cotizar evento
+        </a>
+        <a class="btn btn-outline btn-magnetic" href="#servicios" data-magnetic>
+          Explorar servicios
+        </a>
       </div>
     </div>
+    <p class="hero-corner" aria-hidden="true">Batuco &middot; Chile</p>
+    <button class="hero-video-toggle" type="button" data-hero-video-toggle aria-pressed="false" aria-label="Pausar video de fondo" hidden>
+      <svg class="ico ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+      <svg class="ico ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+    </button>
+    <a class="hero-scroll" href="#concepto" aria-label="Bajar a la siguiente sección"><span>Desliza</span><i aria-hidden="true"></i></a>
   </section>
 
   <!-- ============================================================
@@ -1102,7 +1063,6 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="hero.js?v=1"></script>
   <script defer src="main.js?v=20261028c"></script>
 </body>
 </html>
