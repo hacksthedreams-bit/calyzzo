@@ -4,13 +4,14 @@
 <IfModule mod_mime.c>
   AddType video/mp4 .mp4
   AddType video/webm .webm
+  AddType application/manifest+json .webmanifest
 </IfModule>
 
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|css|js|mjs|json)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
-  <FilesMatch "\.(webp|jpg|jpeg|png|svg|woff|woff2|ico|mp4|webm)$">
+  <FilesMatch "\.(webp|jpg|jpeg|png|svg|woff|woff2|ico|mp4|webm|webmanifest)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   Header always set X-Content-Type-Options "nosniff"

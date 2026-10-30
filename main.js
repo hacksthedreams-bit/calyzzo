@@ -1,7 +1,7 @@
 /* ============================================================
    Calyzzo — main.js
    Archetype 02 · Editorial Dark Warm · Gold Palette
-   v=20260831
+   v=20261030
    ============================================================ */
 (function () {
   "use strict";
@@ -19,6 +19,15 @@
   function $$(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
   function raf(fn) { requestAnimationFrame(fn); }
 
+  // Visitors who asked the OS for less motion get none of the JS-driven effects.
+  var REDUCE = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function scrollBehavior() { return REDUCE ? "auto" : "smooth"; }
+  function focusTarget(el) {
+    if (!el) return;
+    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+  }
+
   var MONTHS_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
   var DAYS_ES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
   function longDate(iso) {
@@ -35,10 +44,19 @@
     var root = document.documentElement;
     if (!splash) { root.classList.add("is-ready"); return; }
 
+    var seen = false;
+    try { seen = sessionStorage.getItem("calyzzo-splash") === "1"; } catch (e) {}
+    if (seen || REDUCE) {
+      splash.style.display = "none";
+      root.classList.add("is-ready");
+      document.body.classList.add("loaded");
+      return;
+    }
+
     var bar = $("[data-splash-bar]", splash);
     var count = $("[data-splash-count]", splash);
     var started = performance.now();
-    var MIN_MS = 1700;
+    var MIN_MS = 1100;
     var loaded = false;
     var done = false;
     var shown = 0;
@@ -51,6 +69,7 @@
     function leave() {
       if (done) return;
       done = true;
+      try { sessionStorage.setItem("calyzzo-splash", "1"); } catch (e) {}
       paint(100);
       splash.classList.add("is-out");
       // Curtains start opening; hero entrance starts with them.
@@ -115,6 +134,10 @@
         mobile.setAttribute("aria-hidden", open ? "false" : "true");
         mobile.inert = !open;
         document.body.style.overflow = open ? "hidden" : "";
+        if (open) {
+          var firstLink = $("a", mobile);
+          if (firstLink) setTimeout(function () { firstLink.focus(); }, 120);
+        }
       };
 
       toggle.addEventListener("click", function () {
@@ -140,7 +163,8 @@
         if (target) {
           e.preventDefault();
           var top = target.getBoundingClientRect().top + window.scrollY - 80;
-          window.scrollTo({ top: top, behavior: "smooth" });
+          window.scrollTo({ top: top, behavior: scrollBehavior() });
+          focusTarget(target);
         }
       });
     });
@@ -291,7 +315,7 @@
       var mm = gsap.matchMedia();
 
       // Mobile / tablet: native swipe, progress follows scrollLeft.
-      mm.add("(max-width: 959px)", function () {
+      mm.add("(max-width: 959px), (prefers-reduced-motion: reduce)", function () {
         function onScroll() {
           var max = wrapper.scrollWidth - wrapper.clientWidth;
           setProgress(max > 0 ? wrapper.scrollLeft / max : 0);
@@ -302,7 +326,7 @@
       });
 
       // Desktop: pinned horizontal journey with inner-image parallax.
-      mm.add("(min-width: 960px)", function () {
+      mm.add("(min-width: 960px) and (prefers-reduced-motion: no-preference)", function () {
         function distance() { return Math.max(0, track.scrollWidth - wrapper.offsetWidth); }
 
         var hTween = gsap.to(track, {
@@ -340,7 +364,8 @@
 
     /* --- 4b. Scroll-scrubbed image parallax (drives --py on [data-parallax]) --- */
     safe("parallax", function () {
-      $$("[data-parallax]").forEach(function (img) {
+      if (REDUCE) return;
+      $("[data-parallax]").forEach(function (img) {
         var wrap = img.closest("[data-parallax-wrap]") || img.parentElement;
         gsap.fromTo(img, { "--py": "-7%" }, {
           "--py": "7%", ease: "none",
@@ -351,7 +376,8 @@
 
     /* --- 4c. Paragraph words light up as you read --- */
     safe("scrub-words", function () {
-      $$("[data-scrub-words]").forEach(function (p) {
+      if (REDUCE) return;
+      $("[data-scrub-words]").forEach(function (p) {
         var words = $$(".sw", p);
         if (!words.length) return;
         gsap.fromTo(words, { opacity: 0.6 }, {
@@ -372,8 +398,8 @@
     var cards = $$("[data-tilt]");
     if (!cards.length) return;
 
-    // Skip on touch devices
-    if ("ontouchstart" in window) return;
+    // Skip on touch devices and for reduced motion
+    if ("ontouchstart" in window || REDUCE) return;
 
     var MAX_DEG = 7;
 
@@ -426,13 +452,22 @@
     ];
 
     var today = new Date();
+    var todayIndex = today.getFullYear() * 12 + today.getMonth();
+    var MAX_AHEAD = 18; // how many months ahead people can browse
     var currentMonth = today.getMonth();
     var currentYear = today.getFullYear();
     var selectedDate = null;
 
-    function pad(n) { return n < 10 ? "0" + n : "" + n; }
+    monthEl.setAttribute("aria-live", "polite");
 
-    function render(animate) {
+    function pad(n) { return n < 10 ? "0" + n : "" + n; }
+    function monthIndex() { return currentYear * 12 + currentMonth; }
+    function updateNav() {
+      if (prevBtn) prevBtn.disabled = monthIndex() <= todayIndex;
+      if (nextBtn) nextBtn.disabled = monthIndex() >= todayIndex + MAX_AHEAD;
+    }
+
+    function render(animate, focusDate) {
       monthEl.textContent = months[currentMonth] + " " + currentYear;
       daysEl.innerHTML = "";
 
@@ -455,6 +490,7 @@
         btn.type = "button";
         btn.className = "calendar-day";
         btn.textContent = d;
+        var fullLabel = d + " de " + months[currentMonth].toLowerCase() + " de " + currentYear;
 
         var isOccupied = occupied[dateStr];
         var isPast = new Date(currentYear, currentMonth, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -469,13 +505,15 @@
         if (isOccupied) {
           btn.classList.add("is-occupied");
           btn.disabled = true;
-          btn.setAttribute("aria-label", d + " — Ocupado");
+          btn.setAttribute("aria-label", fullLabel + " — Ocupado");
         } else if (isPast) {
           btn.classList.add("is-past");
           btn.disabled = true;
+          btn.setAttribute("aria-label", fullLabel + " — Fecha pasada");
         } else {
           btn.classList.add("available");
-          btn.setAttribute("aria-label", d + " — Disponible");
+          btn.setAttribute("aria-label", fullLabel + " — Disponible");
+          btn.setAttribute("aria-pressed", isSelected ? "true" : "false");
           btn.dataset.date = dateStr;
         }
 
@@ -488,15 +526,21 @@
 
         daysEl.appendChild(btn);
       }
+
+      updateNav();
+      if (focusDate) {
+        var again = daysEl.querySelector('[data-date="' + focusDate + '"]');
+        if (again) again.focus({ preventScroll: true });
+      }
     }
 
-    // Day selection
+    // Day selection (the grid is rebuilt, so focus is handed back to the chosen day)
     daysEl.addEventListener("click", function (e) {
       var btn = e.target.closest(".calendar-day.available");
       if (!btn || btn.disabled) return;
 
       selectedDate = btn.dataset.date;
-      render();
+      render(false, selectedDate);
 
       if (dateInput) {
         dateInput.value = longDate(selectedDate);
@@ -504,19 +548,23 @@
       }
     });
 
-    // Navigation
+    // Navigation (bounded: current month up to MAX_AHEAD months ahead)
     if (prevBtn) {
       prevBtn.addEventListener("click", function () {
+        if (monthIndex() <= todayIndex) return;
         currentMonth--;
         if (currentMonth < 0) { currentMonth = 11; currentYear--; }
         render(true);
+        if (prevBtn.disabled && nextBtn) nextBtn.focus();
       });
     }
     if (nextBtn) {
       nextBtn.addEventListener("click", function () {
+        if (monthIndex() >= todayIndex + MAX_AHEAD) return;
         currentMonth++;
         if (currentMonth > 11) { currentMonth = 0; currentYear++; }
         render(true);
+        if (nextBtn.disabled && prevBtn) prevBtn.focus();
       });
     }
 
@@ -542,7 +590,8 @@
       "nombre": function (v) { return v.trim().length >= 2 ? "" : "Escribe tu nombre."; },
       "telefono": function (v) {
         var d = v.replace(/\D/g, "");
-        return d.length >= 8 && d.length <= 13 ? "" : "Ingresa un teléfono válido (ej: +56 9 1234 5678).";
+        if (d.length < 8 || d.length > 13 || /^(\d)\1+$/.test(d)) return "Ingresa un teléfono válido (ej: +56 9 1234 5678).";
+        return "";
       },
       "email": function (v) {
         return !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? "" : "Revisa el formato del email.";
@@ -552,7 +601,8 @@
       "invitados": function (v) {
         if (!v) return "";
         var n = Number(v);
-        return n >= 1 && n <= 100 ? "" : "La capacidad máxima es de 100 invitados.";
+        if (!isFinite(n) || n < 1 || Math.floor(n) !== n) return "Ingresa un número entero de invitados (mínimo 1).";
+        return n <= 100 ? "" : "La capacidad máxima es de 100 invitados.";
       }
     };
 
@@ -609,7 +659,7 @@
       if (val("email")) lines.push("Email: " + val("email"));
       if (fecha && fecha.value) lines.push("Fecha: " + fecha.value);
       if (val("invitados")) lines.push("Invitados: " + val("invitados"));
-      if (mensaje && mensaje.value.trim()) lines.push("Mensaje: " + mensaje.value.trim());
+      if (mensaje && mensaje.value.trim()) lines.push("Mensaje: " + mensaje.value.trim().slice(0, 600));
 
       var waUrl = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(lines.join("\n"));
       if (waLink) waLink.href = waUrl;
@@ -622,7 +672,8 @@
         success.classList.add("is-visible");
         var path = success.querySelector("path");
         if (path) path.style.animation = "drawCheck .5s var(--ease-out) .4s forwards";
-        success.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        focusTarget(success);
+        success.scrollIntoView({ block: "nearest", behavior: scrollBehavior() });
       }
     });
 
@@ -680,11 +731,14 @@
         link.classList.toggle("active", link.getAttribute("href") === "#" + id);
       });
     }
+    // When two sections touch the band at once, the one with more of itself inside wins
     var io = new IntersectionObserver(function (entries) {
+      var best = null;
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) setActive(entry.target.id);
+        if (entry.isIntersecting && (!best || entry.intersectionRatio > best.intersectionRatio)) best = entry;
       });
-    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+      if (best) setActive(best.target.id);
+    }, { rootMargin: "-40% 0px -45% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
     sections.forEach(function (sec) { io.observe(sec); });
   });
 
@@ -705,7 +759,7 @@
      12. EVENTO PANEL HOVER EFFECT
      ============================================================ */
   safe("panel-tilt", function () {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (REDUCE || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     var MAX = 5;
 
     $$("[data-tilt-soft]").forEach(function (panel) {
@@ -729,7 +783,7 @@
      12b. SPOTLIGHT — cursor-following glow on cards
      ============================================================ */
   safe("spotlight", function () {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (REDUCE || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     $$("[data-spot]").forEach(function (el) {
       el.addEventListener("mousemove", function (e) {
         var r = el.getBoundingClientRect();
@@ -744,7 +798,7 @@
      ============================================================ */
   safe("marquee", function () {
     var track = $("[data-marquee] .marquee-track");
-    if (!track || !track.getAnimations) return;
+    if (!track || !track.getAnimations || REDUCE) return;
     var anim = track.getAnimations()[0];
     if (!anim) return;
 
@@ -771,7 +825,7 @@
      14a. HERO PARALLAX
      ============================================================ */
   safe("hero-parallax", function () {
-    if ("ontouchstart" in window) return;
+    if ("ontouchstart" in window || REDUCE) return;
     var bg = $(".hero-bg");
     var vid = $(".hero-video");
     var hero = $(".hero");
@@ -806,7 +860,7 @@
 
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var conn = navigator.connection || {};
-    if (reduce || conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "")) return;
+    if (reduce || conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || "")) return;
 
     var tall = window.matchMedia("(max-aspect-ratio: 1/1)");
     var userPaused = false;
@@ -926,8 +980,12 @@
      16. STAT COUNTERS — count-up on scroll into view
      ============================================================ */
   safe("stat-counters", function () {
-    var nums = $$("[data-count-to]");
+    var nums = $("[data-count-to]");
     if (!nums.length) return;
+    if (REDUCE) return; // the final numbers are already in the HTML
+    nums.forEach(function (el) {
+      el.textContent = (0).toFixed(parseInt(el.getAttribute("data-count-decimals") || "0", 10)) + (el.getAttribute("data-count-suffix") || "");
+    });
 
     function animate(el) {
       var to = parseFloat(el.getAttribute("data-count-to"));
@@ -966,7 +1024,7 @@
      17. MAGNETIC BUTTONS — subtle cursor-follow on primary CTAs
      ============================================================ */
   safe("magnetic-buttons", function () {
-    if ("ontouchstart" in window) return;
+    if ("ontouchstart" in window || REDUCE) return;
     var MAX_PULL = 8;
 
     $$("[data-magnetic]").forEach(function (btn) {
@@ -1002,7 +1060,7 @@
       frame.setAttribute("allowfullscreen", "");
       frame.addEventListener("load", function () {
         // Let the tiles paint before the placeholder steps aside
-        setTimeout(function () { card.classList.add("is-loaded"); }, 900);
+        setTimeout(function () { card.classList.add("is-loaded"); }, 2800);
       });
       card.appendChild(frame);
       // If the load event never arrives, show whatever the frame has anyway
@@ -1051,7 +1109,7 @@
     update();
 
     btn.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: scrollBehavior() });
     });
   });
 
@@ -1059,8 +1117,9 @@
      13. GALERIA LIGHTBOX — prev/next, counter, keyboard, crossfade
      ============================================================ */
   safe("lightbox", function () {
-    var items = $$(".galeria-item img");
-    if (!items.length) return;
+    var imgs = $$(".galeria-item img");
+    if (!imgs.length) return;
+    var tiles = imgs.map(function (i) { return i.closest(".galeria-item") || i; });
 
     var lightbox = document.createElement("div");
     lightbox.className = "lightbox";
@@ -1071,9 +1130,9 @@
     lightbox.inert = true;
     lightbox.innerHTML =
       '<div class="lightbox-backdrop"></div>' +
-      '<button class="lightbox-nav lightbox-prev" aria-label="Imagen anterior">&#8249;</button>' +
-      '<button class="lightbox-nav lightbox-next" aria-label="Imagen siguiente">&#8250;</button>' +
-      '<div class="lightbox-content"><img class="lightbox-img" alt=""><button class="lightbox-close" aria-label="Cerrar">&times;</button></div>' +
+      '<button type="button" class="lightbox-nav lightbox-prev" aria-label="Imagen anterior">&#8249;</button>' +
+      '<button type="button" class="lightbox-nav lightbox-next" aria-label="Imagen siguiente">&#8250;</button>' +
+      '<div class="lightbox-content"><img class="lightbox-img" alt=""><button type="button" class="lightbox-close" aria-label="Cerrar">&times;</button></div>' +
       '<p class="lightbox-count" aria-live="polite"></p>';
     document.body.appendChild(lightbox);
 
@@ -1086,13 +1145,17 @@
     var current = 0;
     var opener = null;
 
+    // Everything behind the dialog is switched off while it is open.
+    var behind = [$("main"), $(".nav"), $(".footer"), $("[data-to-top]"), $("aside"), $("[data-section-nav]")];
+    function setBehindInert(on) { behind.forEach(function (el) { if (el) el.inert = on; }); }
+
     function pad2(n) { return n < 10 ? "0" + n : "" + n; }
 
     function show(i, instant) {
-      current = (i + items.length) % items.length;
-      var img = items[current];
+      current = (i + imgs.length) % imgs.length;
+      var img = imgs[current];
       var src = img.src;
-      lbCount.textContent = pad2(current + 1) + " / " + pad2(items.length);
+      lbCount.textContent = pad2(current + 1) + " / " + pad2(imgs.length);
       if (instant) { lbImg.src = src; lbImg.alt = img.alt || ""; return; }
       lbImg.classList.add("is-swapping");
       setTimeout(function () {
@@ -1103,8 +1166,9 @@
     }
 
     function open(i) {
-      opener = document.activeElement;
+      opener = tiles[i];
       show(i, true);
+      setBehindInert(true);
       lightbox.inert = false;
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
@@ -1116,12 +1180,20 @@
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
       lightbox.inert = true;
+      setBehindInert(false);
       document.body.style.overflow = "";
       if (opener && opener.focus) opener.focus({ preventScroll: true });
     }
 
-    items.forEach(function (img, i) {
-      img.addEventListener("click", function () { open(i); });
+    // Each tile is a real, keyboard-operable button
+    tiles.forEach(function (tile, i) {
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.setAttribute("aria-label", "Ampliar foto: " + (imgs[i].alt || "galería"));
+      tile.addEventListener("click", function () { open(i); });
+      tile.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); }
+      });
     });
 
     lbClose.addEventListener("click", close);
@@ -1133,6 +1205,13 @@
       if (e.key === "Escape") close();
       else if (e.key === "ArrowLeft") show(current - 1);
       else if (e.key === "ArrowRight") show(current + 1);
+    });
+
+    // Focus stays inside the dialog (prev -> next -> close -> prev ...)
+    lightbox.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab") return;
+      if (e.shiftKey && document.activeElement === lbPrev) { e.preventDefault(); lbClose.focus(); }
+      else if (!e.shiftKey && document.activeElement === lbClose) { e.preventDefault(); lbPrev.focus(); }
     });
 
     // Swipe on touch screens
@@ -1152,7 +1231,7 @@
      sit at (0,0) on load (gotcha A.3).
      ============================================================ */
   safe("cursor", function () {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (REDUCE || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     var el = document.createElement("div");
     el.className = "cursor";
