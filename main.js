@@ -321,8 +321,15 @@
           setProgress(max > 0 ? wrapper.scrollLeft / max : 0);
         }
         wrapper.addEventListener("scroll", onScroll, { passive: true });
+        // a swipeable strip must also be reachable (and scrollable) with the keyboard
+        wrapper.setAttribute("tabindex", "0");
+        wrapper.setAttribute("role", "region");
+        wrapper.setAttribute("aria-label", "Servicios: desliza para ver más");
         onScroll();
-        return function () { wrapper.removeEventListener("scroll", onScroll); };
+        return function () {
+          wrapper.removeEventListener("scroll", onScroll);
+          wrapper.removeAttribute("tabindex"); wrapper.removeAttribute("role"); wrapper.removeAttribute("aria-label");
+        };
       });
 
       // Desktop: pinned horizontal journey with inner-image parallax.
@@ -1072,7 +1079,7 @@
      20. EDITORIAL KICKER NUMBERS — "01 ——— Nosotros"
      ============================================================ */
   safe("kicker-numbers", function () {
-    var order = ["concepto", "servicios", "eventos", "amenidades", "horarios", "proceso", "reservas", "galeria", "ubicacion", "faq"];
+    var order = ["concepto", "servicios", "eventos", "amenidades", "quincho", "horarios", "proceso", "reservas", "galeria", "ubicacion", "faq"];
     order.forEach(function (id, i) {
       var section = document.getElementById(id);
       var kicker = section && $(".kicker", section);
@@ -1117,9 +1124,9 @@
      13. GALERIA LIGHTBOX — prev/next, counter, keyboard, crossfade
      ============================================================ */
   safe("lightbox", function () {
-    var imgs = $$(".galeria-item img");
-    if (!imgs.length) return;
-    var tiles = imgs.map(function (i) { return i.closest(".galeria-item") || i; });
+    var tiles = $$("[data-lb-group]");
+    if (!tiles.length) return;
+    var group = [];   // the tiles of the set that is currently open
 
     var lightbox = document.createElement("div");
     lightbox.className = "lightbox";
@@ -1150,12 +1157,19 @@
     function setBehindInert(on) { behind.forEach(function (el) { if (el) el.inert = on; }); }
 
     function pad2(n) { return n < 10 ? "0" + n : "" + n; }
+    function imgOf(tile) { return $("img", tile); }
 
     function show(i, instant) {
-      current = (i + imgs.length) % imgs.length;
-      var img = imgs[current];
+      current = (i + group.length) % group.length;
+      var tile = group[current];
+      var img = imgOf(tile);
       var src = img.src;
-      lbCount.textContent = pad2(current + 1) + " / " + pad2(imgs.length);
+      var cap = tile.getAttribute("data-caption");
+      lbCount.textContent = pad2(current + 1) + " / " + pad2(group.length) + (cap ? "  ·  " + cap : "");
+      // warm the neighbours so next/prev feel instant
+      [current + 1, current - 1].forEach(function (k) {
+        var n = imgOf(group[(k + group.length) % group.length]); if (n) { var p = new Image(); p.src = n.src; }
+      });
       if (instant) { lbImg.src = src; lbImg.alt = img.alt || ""; return; }
       lbImg.classList.add("is-swapping");
       setTimeout(function () {
@@ -1165,9 +1179,11 @@
       }, 260);
     }
 
-    function open(i) {
-      opener = tiles[i];
-      show(i, true);
+    function open(tile) {
+      var name = tile.getAttribute("data-lb-group");
+      group = tiles.filter(function (t) { return t.getAttribute("data-lb-group") === name && !t.hidden; });
+      opener = tile;
+      show(Math.max(0, group.indexOf(tile)), true);
       setBehindInert(true);
       lightbox.inert = false;
       lightbox.classList.add("is-open");
@@ -1186,13 +1202,14 @@
     }
 
     // Each tile is a real, keyboard-operable button
-    tiles.forEach(function (tile, i) {
+    tiles.forEach(function (tile) {
+      var img = imgOf(tile);
       tile.setAttribute("role", "button");
       tile.setAttribute("tabindex", "0");
-      tile.setAttribute("aria-label", "Ampliar foto: " + (imgs[i].alt || "galería"));
-      tile.addEventListener("click", function () { open(i); });
+      tile.setAttribute("aria-label", "Ampliar foto: " + ((img && img.alt) || "galería"));
+      tile.addEventListener("click", function () { open(tile); });
       tile.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(tile); }
       });
     });
 
@@ -1223,6 +1240,38 @@
       if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
       sx = null;
     }, { passive: true });
+  });
+
+  /* ============================================================
+     13b. QUINCHO — category filter for the photo grid
+     ============================================================ */
+  safe("quincho-filter", function () {
+    var box = $("[data-quincho]");
+    if (!box) return;
+    var chips = $$("[data-filter]", box);
+    var items = $$(".quincho-item", box);
+    var status = $("[data-quincho-status]", box);
+
+    function apply(cat) {
+      var shown = 0;
+      items.forEach(function (it) {
+        var on = cat === "todo" || it.getAttribute("data-cat") === cat;
+        it.hidden = !on;
+        if (!on) return;
+        it.style.setProperty("--k", shown);
+        it.classList.add("is-visible");
+        it.classList.remove("is-shuffle");
+        void it.offsetWidth;                       // restart the entrance animation
+        it.classList.add("is-shuffle");
+        shown++;
+      });
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c.getAttribute("data-filter") === cat ? "true" : "false"); });
+      if (status) status.textContent = shown + (shown === 1 ? " foto" : " fotos") + " en esta categoría";
+    }
+
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () { apply(c.getAttribute("data-filter")); });
+    });
   });
 
   /* ============================================================

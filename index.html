@@ -155,7 +155,7 @@
   </script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20261030b">
+  <link rel="stylesheet" href="styles.css?v=20261110b">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -204,6 +204,7 @@
       <li><a href="#servicios" data-section-nav-link="servicios"><span class="dot"></span><span class="label">Servicios</span></a></li>
       <li><a href="#eventos" data-section-nav-link="eventos"><span class="dot"></span><span class="label">Eventos</span></a></li>
       <li><a href="#amenidades" data-section-nav-link="amenidades"><span class="dot"></span><span class="label">Instalaciones</span></a></li>
+      <li><a href="#quincho" data-section-nav-link="quincho"><span class="dot"></span><span class="label">El quincho</span></a></li>
       <li><a href="#horarios" data-section-nav-link="horarios"><span class="dot"></span><span class="label">Horarios</span></a></li>
       <li><a href="#proceso" data-section-nav-link="proceso"><span class="dot"></span><span class="label">Cómo funciona</span></a></li>
       <li><a href="#reservas" data-section-nav-link="reservas"><span class="dot"></span><span class="label">Reservas</span></a></li>
@@ -358,10 +359,7 @@
         <!-- Card 2: Quincho Equipado -->
         <article class="showcase-card" data-tilt>
           <div class="tilt-glow" aria-hidden="true"></div>
-          <div class="showcase-card-img pending-photo" role="img" aria-label="Foto del quincho próximamente">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><circle cx="12" cy="13.5" r="3.2"/></svg>
-            <span>Foto próximamente</span>
-          </div>
+          <img class="showcase-card-img" src="assets/img/quincho/descanso-sillas-960.webp" srcset="assets/img/quincho/descanso-sillas-640.webp 640w, assets/img/quincho/descanso-sillas-960.webp 960w, assets/img/quincho/descanso-sillas-1200.webp 1200w, assets/img/quincho/descanso-sillas-1629.webp 1629w" sizes="(min-width: 960px) 420px, 100vw" width="1629" height="2172" alt="Quincho de Calyzzo con sillas, bancas y un sillón frente a la pared verde lima" loading="lazy" decoding="async" style="object-position:50% 56%">
           <div class="showcase-card-body">
             <div class="card-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-grill"/></svg></div>
             <h3 class="showcase-card-title">Quincho Equipado</h3>
@@ -391,10 +389,7 @@
         <!-- Card 5: Food Service -->
         <article class="showcase-card" data-tilt>
           <div class="tilt-glow" aria-hidden="true"></div>
-          <div class="showcase-card-img pending-photo" role="img" aria-label="Foto del food service próximamente">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><circle cx="12" cy="13.5" r="3.2"/></svg>
-            <span>Foto próximamente</span>
-          </div>
+          <img class="showcase-card-img" src="assets/img/quincho/parrilla-960.webp" srcset="assets/img/quincho/parrilla-640.webp 640w, assets/img/quincho/parrilla-960.webp 960w, assets/img/quincho/parrilla-1200.webp 1200w, assets/img/quincho/parrilla-1629.webp 1629w" sizes="(min-width: 960px) 420px, 100vw" width="1629" height="2172" alt="Parrilla profesional del quincho de Calyzzo" loading="lazy" decoding="async" style="object-position:50% 42%">
           <div class="showcase-card-body">
             <div class="card-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-food"/></svg></div>
             <h3 class="showcase-card-title">Food Service en Vivo</h3>
@@ -572,6 +567,80 @@
           <div class="amenidad-icon" aria-hidden="true"><svg class="ico" aria-hidden="true"><use href="#i-car"/></svg></div>
           <span class="amenidad-name">Estacionamiento Privado</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUINCHO — fotos del espacio, con filtros
+       ============================================================ -->
+  <section class="section quincho" id="quincho" data-quincho>
+    <div class="container">
+      <div class="section-header">
+        <p class="kicker reveal">Conoce el espacio</p>
+        <h2 class="section-title" data-split-title>El quincho <em>por dentro</em></h2>
+        <p class="section-subtitle reveal" style="margin:1rem auto 0">Un recinto techado de madera y acero, con ventanales al jardín, zona de descanso, parrilla y cocina de apoyo.</p>
+      </div>
+      <div class="quincho-filters reveal" role="group" aria-label="Filtrar fotos del quincho">
+        <button type="button" class="quincho-chip" data-filter="todo" aria-pressed="true">Todo <span>12</span></button>
+        <button type="button" class="quincho-chip" data-filter="espacio" aria-pressed="false">El espacio <span>5</span></button>
+        <button type="button" class="quincho-chip" data-filter="cocina" aria-pressed="false">Cocina <span>5</span></button>
+        <button type="button" class="quincho-chip" data-filter="piscina" aria-pressed="false">Piscina <span>2</span></button>
+      </div>
+      <p class="sr-only" role="status" aria-live="polite" data-quincho-status></p>
+      <div class="quincho-grid">
+        <figure class="quincho-item reveal" data-cat="espacio" data-lb-group="quincho" data-cursor="Ver" data-caption="Zona de descanso" style="--d:0.00">
+          <img src="assets/img/quincho/descanso-sillas-1629.webp" srcset="assets/img/quincho/descanso-sillas-640.webp 640w, assets/img/quincho/descanso-sillas-960.webp 960w, assets/img/quincho/descanso-sillas-1200.webp 1200w, assets/img/quincho/descanso-sillas-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Zona de descanso del quincho con sillas, bancas y un sillón frente a la pared verde lima" loading="lazy" decoding="async">
+          <figcaption>Zona de descanso</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="cocina" data-lb-group="quincho" data-cursor="Ver" data-caption="Parrilla profesional" style="--d:0.08">
+          <img src="assets/img/quincho/parrilla-1629.webp" srcset="assets/img/quincho/parrilla-640.webp 640w, assets/img/quincho/parrilla-960.webp 960w, assets/img/quincho/parrilla-1200.webp 1200w, assets/img/quincho/parrilla-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Parrilla profesional de barril con mesón de madera en el quincho" loading="lazy" decoding="async">
+          <figcaption>Parrilla profesional</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="piscina" data-lb-group="quincho" data-cursor="Ver" data-caption="Ventanal hacia el jacuzzi" style="--d:0.16">
+          <img src="assets/img/quincho/ventanal-jacuzzi-1629.webp" srcset="assets/img/quincho/ventanal-jacuzzi-640.webp 640w, assets/img/quincho/ventanal-jacuzzi-960.webp 960w, assets/img/quincho/ventanal-jacuzzi-1200.webp 1200w, assets/img/quincho/ventanal-jacuzzi-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Ventanal del quincho con vista al jacuzzi, la sombrilla roja y el patio" loading="lazy" decoding="async">
+          <figcaption>Ventanal hacia el jacuzzi</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="espacio" data-lb-group="quincho" data-cursor="Ver" data-caption="Sillones bajo la madera" style="--d:0.24">
+          <img src="assets/img/quincho/sillones-1629.webp" srcset="assets/img/quincho/sillones-640.webp 640w, assets/img/quincho/sillones-960.webp 960w, assets/img/quincho/sillones-1200.webp 1200w, assets/img/quincho/sillones-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Dos sillones azules y una banca blanca bajo el techo de madera y acero del quincho" loading="lazy" decoding="async">
+          <figcaption>Sillones bajo la madera</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="cocina" data-lb-group="quincho" data-cursor="Ver" data-caption="Lavaplatos de acero" style="--d:0.00">
+          <img src="assets/img/quincho/lavaplatos-1629.webp" srcset="assets/img/quincho/lavaplatos-640.webp 640w, assets/img/quincho/lavaplatos-960.webp 960w, assets/img/quincho/lavaplatos-1200.webp 1200w, assets/img/quincho/lavaplatos-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Lavaplatos de acero inoxidable junto a los ventanales del quincho" loading="lazy" decoding="async">
+          <figcaption>Lavaplatos de acero</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="piscina" data-lb-group="quincho" data-cursor="Ver" data-caption="El jacuzzi desde el quincho" style="--d:0.08">
+          <img src="assets/img/quincho/vista-jacuzzi-1629.webp" srcset="assets/img/quincho/vista-jacuzzi-640.webp 640w, assets/img/quincho/vista-jacuzzi-960.webp 960w, assets/img/quincho/vista-jacuzzi-1200.webp 1200w, assets/img/quincho/vista-jacuzzi-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Vista del jacuzzi y las sillas blancas desde el interior del quincho" loading="lazy" decoding="async">
+          <figcaption>El jacuzzi desde el quincho</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="espacio" data-lb-group="quincho" data-cursor="Ver" data-caption="Bancas con vista al jardín" style="--d:0.16">
+          <img src="assets/img/quincho/sillon-bancas-1629.webp" srcset="assets/img/quincho/sillon-bancas-640.webp 640w, assets/img/quincho/sillon-bancas-960.webp 960w, assets/img/quincho/sillon-bancas-1200.webp 1200w, assets/img/quincho/sillon-bancas-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Sillón y bancas blancas del quincho con vista al jardín y a la piscina" loading="lazy" decoding="async">
+          <figcaption>Bancas con vista al jardín</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="cocina" data-lb-group="quincho" data-cursor="Ver" data-caption="Vitrina refrigerada" style="--d:0.24">
+          <img src="assets/img/quincho/vitrina-1629.webp" srcset="assets/img/quincho/vitrina-640.webp 640w, assets/img/quincho/vitrina-960.webp 960w, assets/img/quincho/vitrina-1200.webp 1200w, assets/img/quincho/vitrina-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Vitrina refrigerada del quincho con la puerta al patio abierta" loading="lazy" decoding="async">
+          <figcaption>Vitrina refrigerada</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="espacio" data-lb-group="quincho" data-cursor="Ver" data-caption="Espacio techado y acceso" style="--d:0.00">
+          <img src="assets/img/quincho/acceso-1629.webp" srcset="assets/img/quincho/acceso-640.webp 640w, assets/img/quincho/acceso-960.webp 960w, assets/img/quincho/acceso-1200.webp 1200w, assets/img/quincho/acceso-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Amplio espacio techado del quincho con pilar central, congelador y acceso interior" loading="lazy" decoding="async">
+          <figcaption>Espacio techado y acceso</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="cocina" data-lb-group="quincho" data-cursor="Ver" data-caption="Apoyo de cocina" style="--d:0.08">
+          <img src="assets/img/quincho/refrigerador-1629.webp" srcset="assets/img/quincho/refrigerador-640.webp 640w, assets/img/quincho/refrigerador-960.webp 960w, assets/img/quincho/refrigerador-1200.webp 1200w, assets/img/quincho/refrigerador-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Zona de apoyo del quincho con refrigerador y lavaplatos" loading="lazy" decoding="async">
+          <figcaption>Apoyo de cocina</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="espacio" data-lb-group="quincho" data-cursor="Ver" data-caption="Vista general del quincho" style="--d:0.16">
+          <img src="assets/img/quincho/entrada-1629.webp" srcset="assets/img/quincho/entrada-640.webp 640w, assets/img/quincho/entrada-960.webp 960w, assets/img/quincho/entrada-1200.webp 1200w, assets/img/quincho/entrada-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Vista general del quincho con sillón, congelador y acceso al área interior" loading="lazy" decoding="async">
+          <figcaption>Vista general del quincho</figcaption>
+        </figure>
+        <figure class="quincho-item reveal" data-cat="cocina" data-lb-group="quincho" data-cursor="Ver" data-caption="Lavaplatos y congelador" style="--d:0.24">
+          <img src="assets/img/quincho/congelador-1629.webp" srcset="assets/img/quincho/congelador-640.webp 640w, assets/img/quincho/congelador-960.webp 960w, assets/img/quincho/congelador-1200.webp 1200w, assets/img/quincho/congelador-1629.webp 1629w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" width="1629" height="2172" alt="Lavaplatos y congelador horizontal en una esquina del quincho" loading="lazy" decoding="async">
+          <figcaption>Lavaplatos y congelador</figcaption>
+        </figure>
+      </div>
+      <div class="quincho-cta reveal">
+        <p>¿Te imaginas tu evento aquí?</p>
+        <a class="btn btn-primary btn-magnetic" href="#reservas" data-magnetic>Cotizar mi evento</a>
       </div>
     </div>
   </section>
@@ -779,34 +848,34 @@
         <h2 class="section-title" data-split-title>Galería <em>Calyzzo</em></h2>
       </div>
       <div class="galeria-grid">
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
           <img src="assets/img/hero-atardecer.webp" srcset="assets/img/hero-atardecer-640.webp 640w, assets/img/hero-atardecer-960.webp 960w, assets/img/hero-atardecer.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina de Calyzzo al atardecer con cielo rosado" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
           <img src="assets/img/galeria-01.webp" srcset="assets/img/galeria-01-640.webp 640w, assets/img/galeria-01-960.webp 960w, assets/img/galeria-01.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina y jacuzzi de día, con la casa y la terraza al fondo" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
           <img src="assets/img/galeria-03.webp" srcset="assets/img/galeria-03-640.webp 640w, assets/img/galeria-03-960.webp 960w, assets/img/galeria-03.webp 1536w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Jacuzzi circular y piscina con sombrilla roja, de día" width="1536" height="1152" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
           <img src="assets/img/frontal-recinto.webp" srcset="assets/img/frontal-recinto-640.webp 640w, assets/img/frontal-recinto-960.webp 960w, assets/img/frontal-recinto.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Vista frontal del recinto con piscina y jacuzzi" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
           <img src="assets/img/galeria-04.webp" srcset="assets/img/galeria-04-640.webp 640w, assets/img/galeria-04-960.webp 960w, assets/img/galeria-04.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Sombrilla roja y deck de madera junto a la piscina" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
           <img src="assets/img/evento-baby-shower.webp" srcset="assets/img/evento-baby-shower-640.webp 640w, assets/img/evento-baby-shower.webp 896w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Baby shower con letras luminosas OH BABY" width="896" height="1195" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
           <img src="assets/img/galeria-02.webp" srcset="assets/img/galeria-02-640.webp 640w, assets/img/galeria-02-960.webp 960w, assets/img/galeria-02.webp 1536w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina y jacuzzi vistos desde el quincho" width="1536" height="1152" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.08">
           <img src="assets/img/hero-atardecer-3.webp" srcset="assets/img/hero-atardecer-3-640.webp 640w, assets/img/hero-atardecer-3-960.webp 960w, assets/img/hero-atardecer-3.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina de Calyzzo al anochecer con luces" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0.16">
           <img src="assets/img/galeria-06.webp" srcset="assets/img/galeria-06-640.webp 640w, assets/img/galeria-06-960.webp 960w, assets/img/galeria-06.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Jacuzzi y piscina bajo el cielo azul" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
-        <div class="galeria-item" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
+        <div class="galeria-item" data-lb-group="galeria" data-clip data-parallax-wrap data-cursor="Ver" style="--d:0">
           <img src="assets/img/galeria-05.webp" srcset="assets/img/galeria-05-640.webp 640w, assets/img/galeria-05-960.webp 960w, assets/img/galeria-05.webp 1152w" sizes="(min-width: 1100px) 25vw, (min-width: 720px) 33vw, 50vw" alt="Piscina y jacuzzi al atardecer con cielo rosado y naranja" width="1152" height="1536" loading="lazy" decoding="async" data-parallax>
         </div>
       </div>
@@ -991,6 +1060,7 @@
             <a class="footer-link" href="#concepto">Nosotros</a>
             <a class="footer-link" href="#servicios">Servicios</a>
             <a class="footer-link" href="#eventos">Eventos</a>
+            <a class="footer-link" href="#quincho">El quincho</a>
             <a class="footer-link" href="#restaurante">Restaurante</a>
             <a class="footer-link" href="#reservas">Cotizar</a>
             <a class="footer-link" href="#ubicacion">Cómo llegar</a>
@@ -1055,6 +1125,6 @@
   <script defer src="lib/gsap.min.js?v=3.13.0"></script>
   <script defer src="lib/ScrollTrigger.min.js?v=3.13.0"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="main.js?v=20261030c"></script>
+  <script defer src="main.js?v=20261110b"></script>
 </body>
 </html>
