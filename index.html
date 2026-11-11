@@ -6,6 +6,8 @@
   <title>Calyzzo — Events & Pool | Batuco, Chile</title>
   <meta name="description" content="Centro de eventos privado en Batuco, Santiago. Piscina, jacuzzi, quincho, terraza, decoración y servicio completo para bodas, baby showers, cumpleaños y paseos de fin de curso.">
   <meta name="theme-color" content="#0E0B09">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-dq4p7HOmAsz26HJprMG0LY3TuTN+TbelHVoFUQgH7qc='; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; frame-src https://www.google.com https://maps.google.com; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://calyzzo.cl/">
 
@@ -38,9 +40,9 @@
   <link rel="preload" as="image" href="assets/img/logo-calyzzo.webp?v=20261015">
 
   <!-- Fonts: self-hosted (no request to Google), critical files preloaded -->
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/bodoni-moda-normal.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/bodoni-moda-italic.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-italic.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/outfit-latin.woff2" crossorigin>
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -149,14 +151,11 @@
   </script>
 
   <!-- JS flag + hard fallback so entrance states can never stay hidden -->
-  <script>
-    document.documentElement.classList.add("js");
-    setTimeout(function () { document.documentElement.classList.add("is-ready"); }, 4800);
-  </script>
+  <script>document.documentElement.classList.add("js");setTimeout(function(){document.documentElement.classList.add("is-ready")},4200);</script>
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css?v=20261111b">
-  <link rel="stylesheet" href="design.css?v=20261112b">
+  <link rel="stylesheet" href="design.css?v=20261113b">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -341,13 +340,30 @@
             <li class="reveal reveal-delay-2"><span class="icon-badge is-coral"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg></span><div><strong>Seguridad 24/7</strong><span>Cámaras, guardia y cerco eléctrico perimetral.</span></div></li>
           </ul>
         </div>
-        <div class="concepto-media">
-          <figure class="concepto-photo concepto-photo--main" data-clip data-parallax-wrap>
-            <img src="assets/img/upload-pool-dusk.webp" srcset="assets/img/upload-pool-dusk-640.webp 640w, assets/img/upload-pool-dusk-960.webp 960w, assets/img/upload-pool-dusk.webp 1024w" sizes="(min-width: 960px) 520px, 100vw" alt="Piscina y terraza de Calyzzo al atardecer" width="1024" height="1536" loading="lazy" decoding="async" data-parallax>
-          </figure>
-          <figure class="concepto-photo concepto-photo--second reveal">
-            <img src="assets/img/piscina-jacuzzi-640.webp" srcset="assets/img/piscina-jacuzzi-640.webp 640w, assets/img/piscina-jacuzzi-960.webp 960w" sizes="(min-width: 960px) 260px, 46vw" alt="Piscina y jacuzzi de Calyzzo de día" width="1152" height="1536" loading="lazy" decoding="async">
-          </figure>
+        <div class="concepto-media" data-slider data-sparkles="7">
+          <div class="slider-halo" aria-hidden="true"></div>
+          <div class="slider-frame reveal" data-tilt-slider>
+            <figure class="slide is-active" data-caption="Piscina y jacuzzi al atardecer">
+              <img src="assets/img/upload-pool-aerial-640.webp" srcset="assets/img/upload-pool-aerial-640.webp 640w, assets/img/upload-pool-aerial-960.webp 960w, assets/img/upload-pool-aerial.webp 1024w" sizes="(min-width: 960px) 520px, 92vw" alt="Piscina y jacuzzi de Calyzzo bajo un cielo rosado al atardecer" width="1024" height="1536" loading="lazy" decoding="async">
+            </figure>
+            <figure class="slide" data-caption="Atardecer con luces encendidas">
+              <img src="assets/img/upload-pool-dusk-640.webp" srcset="assets/img/upload-pool-dusk-640.webp 640w, assets/img/upload-pool-dusk-960.webp 960w, assets/img/upload-pool-dusk.webp 1024w" sizes="(min-width: 960px) 520px, 92vw" alt="Piscina y quincho iluminado de Calyzzo al atardecer" width="1024" height="1536" loading="lazy" decoding="async">
+            </figure>
+            <figure class="slide" data-caption="Vista frontal del recinto">
+              <img src="assets/img/frontal-recinto-640.webp" srcset="assets/img/frontal-recinto-640.webp 640w, assets/img/frontal-recinto-960.webp 960w, assets/img/frontal-recinto.webp 1152w" sizes="(min-width: 960px) 520px, 92vw" alt="Vista frontal del recinto de Calyzzo con piscina y jacuzzi" width="1152" height="1536" loading="lazy" decoding="async">
+            </figure>
+            <figure class="slide" data-caption="Decoración para baby shower">
+              <img src="assets/img/evento-baby-shower-640.webp" srcset="assets/img/evento-baby-shower-640.webp 640w, assets/img/evento-baby-shower.webp 896w" sizes="(min-width: 960px) 520px, 92vw" alt="Letras luminosas Oh Baby en un evento de Calyzzo" width="896" height="1195" loading="lazy" decoding="async">
+            </figure>
+            <div class="slider-sheen" aria-hidden="true"></div>
+            <div class="slider-caption" aria-live="polite"><span class="slider-count" data-slider-count>01</span><i aria-hidden="true"></i><b data-slider-caption>Piscina y jacuzzi al atardecer</b></div>
+          </div>
+          <div class="slider-dots" role="group" aria-label="Fotos del recinto">
+            <button type="button" class="slider-dot is-active" aria-label="Ver foto 1 de 4" aria-current="true"><i></i></button>
+            <button type="button" class="slider-dot" aria-label="Ver foto 2 de 4"><i></i></button>
+            <button type="button" class="slider-dot" aria-label="Ver foto 3 de 4"><i></i></button>
+            <button type="button" class="slider-dot" aria-label="Ver foto 4 de 4"><i></i></button>
+          </div>
           <div class="concepto-chip reveal"><b data-odo="100">100</b><span>invitados,<br>capacidad máxima</span></div>
         </div>
       </div>
@@ -1053,7 +1069,7 @@
   <!-- ============================================================
        CTA BAND — cierre de conversión
        ============================================================ -->
-  <section class="cta-band" aria-labelledby="cta-title">
+  <section class="cta-band" aria-labelledby="cta-title" data-sparkles="10">
     <div class="container cta-band-inner">
       <p class="kicker reveal">Tu fecha, tu historia</p>
       <h2 class="cta-title" id="cta-title" data-split-title>Hagamos tu evento <em>inolvidable</em></h2>
@@ -1192,7 +1208,7 @@
   <script defer src="lib/gsap.min.js?v=3.13.0"></script>
   <script defer src="lib/ScrollTrigger.min.js?v=3.13.0"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="main.js?v=20261112a"></script>
-  <script defer src="design.js?v=20261112b"></script>
+  <script defer src="main.js?v=20261113a"></script>
+  <script defer src="design.js?v=20261113b"></script>
 </body>
 </html>

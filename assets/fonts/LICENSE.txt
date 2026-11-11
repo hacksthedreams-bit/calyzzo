@@ -1,8 +1,7 @@
 Fonts self-hosted on this site (latin subset, WOFF2), all licensed under the
 SIL Open Font License, Version 1.1 (https://openfontlicense.org):
 
-- Cormorant Garamond - Copyright The Cormorant Project Authors
-- Inter              - Copyright The Inter Project Authors
-- JetBrains Mono     - Copyright The JetBrains Mono Project Authors
+- Fraunces - Copyright The Fraunces Project Authors
+- Outfit   - Copyright The Outfit Project Authors
 
 Obtained from Google Fonts (https://fonts.google.com).

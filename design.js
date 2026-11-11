@@ -218,4 +218,141 @@
       });
     });
   });
+
+  /* ---------- 7. Concepto photo slider (clip-wipe + slow zoom, swipe, keyboard-friendly dots) ---------- */
+  safe("slider", function () {
+    var host = $("[data-slider]");
+    if (!host) return;
+    var frame = $(".slider-frame", host);
+    var slides = $$(".slide", host);
+    var dots = $$(".slider-dot", host);
+    var cap = $("[data-slider-caption]", host);
+    var cnt = $("[data-slider-count]", host);
+    var capBox = $(".slider-caption", host);
+    if (!frame || slides.length < 2) return;
+    var MS = 5600, idx = 0, timer = 0, inView = false, hover = false, busy = false;
+    var auto = !REDUCE;
+    if (!auto) host.classList.add("is-static");
+
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function paused() { host.classList.toggle("is-paused", hover || !inView || document.hidden); }
+    function schedule() {
+      clearTimeout(timer);
+      if (!auto || !inView || hover || document.hidden) return;
+      timer = setTimeout(function () { go(idx + 1); }, MS);
+    }
+    function go(n, manual) {
+      clearTimeout(timer);
+      n = (n + slides.length) % slides.length;
+      if (n === idx || busy) { schedule(); return; }
+      var im = $("img", slides[n]);
+      if (im && !(im.complete && im.naturalWidth)) {
+        // never wipe to a photo that has not arrived: wait for it (max 2.5 s), then go
+        busy = true; im.loading = "eager";
+        var fired = false, run = function () { if (fired) return; fired = true; busy = false; go(n, manual); };
+        im.addEventListener("load", run, { once: true }); im.addEventListener("error", run, { once: true }); setTimeout(run, 2500);
+        return;
+      }
+      busy = true;
+      var prev = slides[idx];
+      var next = slides[n];
+      prev.classList.remove("is-active"); prev.classList.add("is-prev");
+      next.classList.remove("is-prev"); void next.offsetWidth; next.classList.add("is-active");
+      dots.forEach(function (d, i) {
+        d.classList.remove("is-active");
+        d.classList.toggle("is-done", i < n);
+        if (i === n) d.removeAttribute("aria-current"); else d.removeAttribute("aria-current");
+      });
+      void host.offsetWidth;
+      dots[n].classList.add("is-active");
+      dots[n].setAttribute("aria-current", "true");
+      if (capBox) capBox.classList.add("is-out");
+      frame.classList.remove("is-swap"); void frame.offsetWidth; frame.classList.add("is-swap");
+      setTimeout(function () {
+        if (cap) cap.textContent = next.getAttribute("data-caption") || "";
+        if (cnt) cnt.textContent = pad(n + 1);
+        if (capBox) capBox.classList.remove("is-out");
+      }, REDUCE ? 0 : 320);
+      setTimeout(function () { prev.classList.remove("is-prev"); busy = false; }, REDUCE ? 50 : 1200);
+      idx = n;
+      schedule();
+    }
+
+    dots.forEach(function (d, i) { d.addEventListener("click", function () { go(i, true); }); });
+    host.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { hover = true; paused(); schedule(); } });
+    host.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { hover = false; paused(); schedule(); } });
+    document.addEventListener("visibilitychange", function () { paused(); schedule(); });
+
+    // swipe left / right
+    var sx = 0, sy = 0, down = false;
+    frame.addEventListener("pointerdown", function (e) { down = true; sx = e.clientX; sy = e.clientY; });
+    window.addEventListener("pointerup", function (e) {
+      if (!down) return; down = false;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.4) go(idx + (dx < 0 ? 1 : -1), true);
+    });
+    // soft pointer parallax on the photo (mouse only)
+    if (!REDUCE && window.matchMedia && window.matchMedia("(hover: hover)").matches) {
+      frame.addEventListener("pointermove", function (e) {
+        var r = frame.getBoundingClientRect();
+        frame.style.setProperty("--px", (((e.clientX - r.left) / r.width - 0.5) * -14).toFixed(1) + "px");
+        frame.style.setProperty("--py", (((e.clientY - r.top) / r.height - 0.5) * -14).toFixed(1) + "px");
+      });
+      frame.addEventListener("pointerleave", function () { frame.style.setProperty("--px", "0px"); frame.style.setProperty("--py", "0px"); });
+    }
+    if (hasIO) {
+      // warm the other photos shortly before the section arrives so the wipe never meets an empty frame
+      new IntersectionObserver(function (es, o) {
+        if (es[0].isIntersecting) { slides.forEach(function (s) { var i = $("img", s); if (i) i.loading = "eager"; }); o.disconnect(); }
+      }, { rootMargin: "700px 0px" }).observe(host);
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { inView = e.isIntersecting; paused(); if (inView) schedule(); else clearTimeout(timer); });
+      }, { threshold: 0.35 }).observe(host);
+    } else { inView = true; schedule(); }
+    paused();
+  });
+
+  /* ---------- 8. Icon identity, glints and sparkles ---------- */
+  safe("icons", function () {
+    $$("svg.ico").forEach(function (svg) {
+      var u = svg.querySelector("use");
+      if (!u) return;
+      var h = u.getAttribute("href") || u.getAttribute("xlink:href") || "";
+      var name = h.replace("#i-", "");
+      if (name) svg.setAttribute("data-ico", name);
+    });
+  });
+  safe("glint", function () {
+    var sel = ".showcase-card, .amenidad, .paso, .jornada-card, .evento-panel, .galeria-item, .calendar-wrapper, .reserva-form, .map-card, .quincho-item";
+    $$(sel).forEach(function (el) {
+      if (el.querySelector(":scope > .glint")) return;
+      var g = document.createElement("i");
+      g.className = "glint"; g.setAttribute("aria-hidden", "true");
+      el.appendChild(g);
+    });
+  });
+  safe("sparkles", function () {
+    var hosts = $$("[data-sparkles]");
+    if (!hosts.length || REDUCE) return;
+    var seed = 7;
+    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    hosts.forEach(function (h) {
+      var n = Math.min(parseInt(h.getAttribute("data-sparkles"), 10) || 6, 14);
+      for (var i = 0; i < n; i++) {
+        var s = document.createElement("i");
+        s.className = "sp"; s.setAttribute("aria-hidden", "true");
+        s.style.left = (rnd() * 100).toFixed(1) + "%";
+        s.style.top = (rnd() * 100).toFixed(1) + "%";
+        var sz = 9 + Math.round(rnd() * 11);
+        s.style.width = sz + "px"; s.style.height = sz + "px";
+        s.style.setProperty("--sp-d", (2.8 + rnd() * 2.4).toFixed(1) + "s");
+        s.style.setProperty("--sp-w", (rnd() * 4).toFixed(1) + "s");
+        h.appendChild(s);
+      }
+      if (hasIO) {
+        new IntersectionObserver(function (es) { es.forEach(function (e) { h.classList.toggle("is-live", e.isIntersecting); }); }, { threshold: 0.1 }).observe(h);
+      } else { h.classList.add("is-live"); }
+    });
+  });
+
 })();

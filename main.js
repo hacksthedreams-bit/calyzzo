@@ -56,7 +56,7 @@
     var bar = $("[data-splash-bar]", splash);
     var count = $("[data-splash-count]", splash);
     var started = performance.now();
-    var MIN_MS = 1900;
+    var MIN_MS = 1500;
     var loaded = false;
     var done = false;
     var shown = 0;
@@ -185,7 +185,7 @@
             obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
+      }, { threshold: 0.01, rootMargin: "0px 0px -24px 0px" });
 
       reveals.forEach(function (el) { obs.observe(el); });
 
@@ -266,7 +266,7 @@
         entries.forEach(function (e) {
           if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
         });
-      }, { threshold: 0.01, rootMargin: "0px 0px -8% 0px" });
+      }, { threshold: 0.01, rootMargin: "0px 0px 4% 0px" });
       targets.forEach(function (el) { io.observe(el); });
     } else {
       targets.forEach(function (el) { el.classList.add("is-in"); });
