@@ -56,7 +56,7 @@
     var bar = $("[data-splash-bar]", splash);
     var count = $("[data-splash-count]", splash);
     var started = performance.now();
-    var MIN_MS = 1100;
+    var MIN_MS = 1900;
     var loaded = false;
     var done = false;
     var shown = 0;
@@ -476,6 +476,7 @@
 
     function render(animate, focusDate) {
       monthEl.textContent = months[currentMonth] + " " + currentYear;
+      monthEl.classList.remove("swap"); void monthEl.offsetWidth; monthEl.classList.add("swap");
       daysEl.innerHTML = "";
 
       var first = new Date(currentYear, currentMonth, 1);
@@ -620,6 +621,11 @@
     Object.keys(rules).forEach(function (id) {
       var el = form.querySelector("#" + id);
       if (!el) return;
+      if (el.tagName === "FIELDSET") {
+        // a group of radio cards behaves like a single field (value, focus, errors)
+        Object.defineProperty(el, "value", { get: function () { var c = el.querySelector("input:checked"); return c ? c.value : ""; } });
+        el.focus = function () { var t = el.querySelector("input:checked") || el.querySelector("input"); if (t) t.focus(); };
+      }
       var group = el.closest(".form-group");
       var err = document.createElement("p");
       err.className = "form-error";
@@ -664,7 +670,7 @@
         "Nombre: " + val("nombre"),
         "Teléfono: " + val("telefono"),
         "Tipo de evento: " + tipo.options[tipo.selectedIndex].text,
-        "Jornada: " + jornada.options[jornada.selectedIndex].text
+        "Jornada: " + (function () { var c = jornada.querySelector("input:checked"); return c ? c.getAttribute("data-label") : ""; })()
       ];
       if (val("email")) lines.push("Email: " + val("email"));
       if (fecha && fecha.value) lines.push("Fecha: " + fecha.value);
