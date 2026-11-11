@@ -155,7 +155,7 @@
   </script>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=20261110b">
+  <link rel="stylesheet" href="styles.css?v=20261111b">
 </head>
 <body>
   <!-- Icon sprite (line icons, inherit currentColor) -->
@@ -255,13 +255,14 @@
     <a style="--i:1" href="#concepto">Nosotros</a>
     <a style="--i:2" href="#servicios">Servicios</a>
     <a style="--i:3" href="#eventos">Eventos</a>
-    <a style="--i:4" href="#restaurante">Restaurante</a>
-    <a style="--i:5" href="#horarios">Horarios</a>
-    <a style="--i:6" href="#galeria">Galería</a>
-    <a style="--i:7" href="#ubicacion">Cómo llegar</a>
-    <a style="--i:8" href="#faq">Preguntas</a>
-    <a style="--i:9" href="#reservas">Cotizar evento</a>
-    <p class="nav-mobile-foot" style="--i:10">Batuco, Región Metropolitana<br><a href="https://wa.me/56921944986" target="_blank" rel="noopener">+56 9 2194 4986</a></p>
+    <a style="--i:4" href="#quincho">El quincho</a>
+    <a style="--i:5" href="#restaurante">Restaurante</a>
+    <a style="--i:6" href="#horarios">Horarios</a>
+    <a style="--i:7" href="#galeria">Galería</a>
+    <a style="--i:8" href="#ubicacion">Cómo llegar</a>
+    <a style="--i:9" href="#faq">Preguntas</a>
+    <a style="--i:10" href="#reservas">Cotizar evento</a>
+    <p class="nav-mobile-foot" style="--i:11">Batuco, Región Metropolitana<br><a href="https://wa.me/56921944986" target="_blank" rel="noopener">+56 9 2194 4986</a></p>
   </div>
 
   <main id="contenido" tabindex="-1">
@@ -760,6 +761,10 @@
             <span><span class="legend-dot occupied"></span> Ocupado</span>
           </div>
           <p class="calendar-note">La disponibilidad final se confirma por WhatsApp al cotizar.</p>
+          <div class="calendar-selected" data-calendar-selected hidden>
+            <p><span>Fecha elegida</span><strong data-calendar-selected-text></strong></p>
+            <a class="btn btn-primary" href="#nombre">Continuar con mis datos</a>
+          </div>
         </div>
 
         <!-- Form -->
@@ -1013,7 +1018,9 @@
         <p class="kicker reveal">Legal</p>
         <h2 class="section-title" data-split-title>Política de <em>Privacidad</em></h2>
       </div>
-      <div class="privacidad-content reveal">
+      <details class="privacidad-details reveal" data-privacy>
+        <summary><span>Leer la política completa</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+        <div class="privacidad-content">
         <h3>1. Responsable del tratamiento</h3>
         <p>Calyzzo Events & Pool, ubicado en Batuco, Región Metropolitana, Chile, es responsable del tratamiento de los datos personales recopilados a través de este sitio web, en conformidad con la Ley N° 19.628 sobre Protección de la Vida Privada y la Ley N° 21.719 sobre Protección de Datos Personales.</p>
 
@@ -1036,7 +1043,8 @@
         <p>Nos reservamos el derecho de actualizar esta política. Cualquier cambio será publicado en esta página con la fecha de última actualización.</p>
 
         <p style="margin-top:2rem;font-size:.75rem;color:var(--cream-3)">Última actualización: octubre 2026</p>
-      </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -1125,6 +1133,6 @@
   <script defer src="lib/gsap.min.js?v=3.13.0"></script>
   <script defer src="lib/ScrollTrigger.min.js?v=3.13.0"></script>
   <script defer src="lib/manifest.js?v=20261015"></script>
-  <script defer src="main.js?v=20261110b"></script>
+  <script defer src="main.js?v=20261111b"></script>
 </body>
 </html>

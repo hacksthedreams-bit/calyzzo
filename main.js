@@ -372,7 +372,7 @@
     /* --- 4b. Scroll-scrubbed image parallax (drives --py on [data-parallax]) --- */
     safe("parallax", function () {
       if (REDUCE) return;
-      $("[data-parallax]").forEach(function (img) {
+      $$("[data-parallax]").forEach(function (img) {
         var wrap = img.closest("[data-parallax-wrap]") || img.parentElement;
         gsap.fromTo(img, { "--py": "-7%" }, {
           "--py": "7%", ease: "none",
@@ -384,7 +384,7 @@
     /* --- 4c. Paragraph words light up as you read --- */
     safe("scrub-words", function () {
       if (REDUCE) return;
-      $("[data-scrub-words]").forEach(function (p) {
+      $$("[data-scrub-words]").forEach(function (p) {
         var words = $$(".sw", p);
         if (!words.length) return;
         gsap.fromTo(words, { opacity: 0.6 }, {
@@ -553,6 +553,9 @@
         dateInput.value = longDate(selectedDate);
         dateInput.dataset.iso = selectedDate;
       }
+      var chosen = $("[data-calendar-selected]", calEl);
+      var chosenText = $("[data-calendar-selected-text]", calEl);
+      if (chosen && chosenText) { chosenText.textContent = longDate(selectedDate); chosen.hidden = false; }
     });
 
     // Navigation (bounded: current month up to MAX_AHEAD months ahead)
@@ -721,6 +724,21 @@
     }
     window.addEventListener("scroll", check, { passive: true });
     check();
+
+    // On phones the button would sit on top of the quote form, the footer and other contact buttons
+    if ("IntersectionObserver" in window) {
+      var away = [];
+      var zones = $$("#reservas, .cta-band, .footer, .ubicacion-actions, .restaurante-strip-cta, .faq-foot");
+      var io2 = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var i = away.indexOf(e.target);
+          if (e.isIntersecting && i < 0) away.push(e.target);
+          else if (!e.isIntersecting && i > -1) away.splice(i, 1);
+        });
+        btn.classList.toggle("is-away", away.length > 0);
+      }, { rootMargin: "0px 0px -10% 0px" });
+      zones.forEach(function (z) { io2.observe(z); });
+    }
   });
 
   /* ============================================================
@@ -921,6 +939,7 @@
     }
 
     if (tall.addEventListener) tall.addEventListener("change", load);
+    document.addEventListener("visibilitychange", function () { if (document.hidden) video.pause(); else play(); });
 
     function start() { setTimeout(load, 300); }
     if (document.readyState === "complete") start();
@@ -987,7 +1006,7 @@
      16. STAT COUNTERS — count-up on scroll into view
      ============================================================ */
   safe("stat-counters", function () {
-    var nums = $("[data-count-to]");
+    var nums = $$("[data-count-to]");
     if (!nums.length) return;
     if (REDUCE) return; // the final numbers are already in the HTML
     nums.forEach(function (el) {
@@ -1240,6 +1259,17 @@
       if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
       sx = null;
     }, { passive: true });
+  });
+
+  /* ============================================================
+     13a. PRIVACY POLICY — collapsed, opens from any link that points to it
+     ============================================================ */
+  safe("privacy-open", function () {
+    var box = $("[data-privacy]");
+    if (!box) return;
+    function open() { box.open = true; }
+    $$('a[href="#privacidad"]').forEach(function (a) { a.addEventListener("click", open); });
+    if (location.hash === "#privacidad") open();
   });
 
   /* ============================================================
