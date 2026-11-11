@@ -864,9 +864,11 @@
     if (!bg || !hero) return;
 
     // Scale lives in CSS (Ken Burns drift); JS only owns vertical travel.
-    function onScroll() {
+    var h = hero.offsetHeight, queued = false;
+    function measure() { h = hero.offsetHeight; }
+    function paint() {
+      queued = false;
       var y = window.scrollY;
-      var h = hero.offsetHeight;
       if (y > h) return;
       bg.style.transform = "translateY(" + (y * 0.25) + "px)";
       if (vid) vid.style.transform = bg.style.transform;
@@ -875,8 +877,10 @@
         content.style.opacity = Math.max(0, 1 - (y / h) * 1.15).toFixed(3);
       }
     }
+    function onScroll() { if (!queued) { queued = true; raf(paint); } }
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    window.addEventListener("resize", function () { measure(); onScroll(); });
+    paint();
   });
 
   /* ============================================================
@@ -959,15 +963,17 @@
     var bar = $("[data-scroll-progress-bar]");
     if (!bar) return;
 
-    function update() {
-      var doc = document.documentElement;
-      var max = doc.scrollHeight - doc.clientHeight;
-      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-      bar.style.width = pct + "%";
-    }
+    var doc = document.documentElement;
+    var max = 1, queued = false;
+    function measure() { max = Math.max(1, doc.scrollHeight - doc.clientHeight); }
+    function paint() { queued = false; bar.style.transform = "scaleX(" + Math.min(1, window.scrollY / max).toFixed(4) + ")"; }
+    function update() { if (!queued) { queued = true; raf(paint); } }
+    function remeasure() { measure(); update(); }
     window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    update();
+    window.addEventListener("resize", remeasure);
+    window.addEventListener("load", remeasure);
+    if ("ResizeObserver" in window) { try { new ResizeObserver(remeasure).observe(document.body); } catch (e) {} }
+    remeasure();
   });
 
   /* ============================================================

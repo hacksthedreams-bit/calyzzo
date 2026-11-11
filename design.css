@@ -992,3 +992,90 @@ html.js .evento-panel[data-clip].is-in img { scale: 1; }
 /* arch outline takes its height from the same 4:5 ratio as the frame (independent of what sits below it) */
 .concepto-media::before { bottom: auto; height: auto; aspect-ratio: 4 / 5; top: -16px; }
 @media (max-width: 959px) { .concepto-media::before { bottom: auto; top: -10px; } }
+
+/* =============================================================
+   23. Audit pass — splash timeline, tablet layout, tap targets, legibility, brightness
+   ============================================================= */
+
+/* ---- 23.1 Splash: everything lands inside the 1.5 s the loader is guaranteed to stay; page cannot scroll behind it ---- */
+html { scrollbar-gutter: stable; }
+html.js:not(.is-ready) body { overflow: hidden; }
+.splash-center::before { content: ''; position: absolute; left: 50%; top: 50%; width: min(70vw, 520px); aspect-ratio: 1; transform: translate(-50%, -58%); pointer-events: none; background: radial-gradient(closest-side, rgba(227,191,124,.2), rgba(227,191,124,0) 70%); opacity: 0; animation: splashFade .7s var(--ease-out) .05s forwards; }
+.splash-logo { animation: splashMark 1s var(--ease-out) .05s forwards; }
+.splash-mark::after { animation-duration: 1.1s; animation-delay: .65s; }
+.splash-mark::before { animation: ringRot 2.4s linear infinite, splashFade .6s var(--ease-out) .15s forwards; }
+.splash-tag { animation-duration: .7s; animation-delay: .3s; }
+.splash-bar { animation-duration: .6s; animation-delay: .2s; }
+.splash-count { animation: splashFade .6s var(--ease-out) .1s backwards; }
+
+/* ---- 23.2 Tablet (720-1023 px): single comfortable column for the story and the booking form ---- */
+@media (min-width: 720px) and (max-width: 959px) { .concepto-grid { grid-template-columns: 1fr; } .concepto-media { margin-inline: auto; } }
+@media (max-width: 1023px) { .reservas-grid { grid-template-columns: 1fr; max-width: 680px; margin-inline: auto; } }
+@media (min-width: 1024px) { .reservas-grid > .calendar-wrapper { position: sticky; top: 92px; } }
+@media (max-width: 1023px) { .reservas-grid > .calendar-wrapper { position: relative; top: auto; } }
+
+/* ---- 23.3 Location buttons never clip their label ---- */
+.ubicacion-actions .btn { white-space: normal; text-align: center; line-height: 1.25; flex: 1 1 13rem; letter-spacing: .14em; }
+
+/* ---- 23.4 Legibility: nothing under ~11.5 px ---- */
+.dial-eyebrow, .mx-eyebrow, .jornada-time small, .jornada-opt-card small, .reserva-steps li b { font-size: max(.74rem, 11.5px); }
+.jornada-opt-card small { letter-spacing: .04em; }
+.reserva-steps li b { letter-spacing: .1em; }
+
+/* ---- 23.5 Touch targets (44 px) ---- */
+.slider-dot { height: 36px; }
+.slider-dot i { top: 16px; }
+.jornada-cta { min-height: 44px; padding-block: .8rem; }
+.footer-link { padding-block: .7rem; }
+.calendar-day { min-height: 40px; }
+.faq-item summary { min-height: 56px; }
+.btn:active { transform: scale(.97); transition-duration: .12s; }
+
+/* ---- 23.6 Side dots: the active section name no longer covers the photos (shows on hover/focus) ---- */
+@media (max-width: 1799px) {
+  .section-nav li.is-active a:not(:hover):not(:focus-visible) .label { max-width: 0; opacity: 0; }
+}
+
+/* ---- 23.7 More light: ambient colour a notch brighter, softer sheen ---- */
+.amb-warm { background: radial-gradient(55% 45% at 12% 8%, rgba(227,191,124,.25), transparent 62%), radial-gradient(48% 42% at 92% 88%, rgba(240,149,111,.18), transparent 62%); }
+.amb-aqua { background: radial-gradient(55% 48% at 88% 12%, rgba(95,216,210,.25), transparent 62%), radial-gradient(58% 52% at 8% 92%, rgba(43,169,185,.21), transparent 64%); }
+.amb-dusk { background: radial-gradient(58% 48% at 15% 15%, rgba(176,92,120,.27), transparent 62%), radial-gradient(55% 50% at 88% 85%, rgba(86,86,190,.28), transparent 64%); }
+.slider-sheen::before { background: linear-gradient(100deg, transparent, rgba(255,246,222,.2), transparent); }
+.section-title { text-shadow: 0 0 60px rgba(227,191,124,.14); }
+
+/* ---- 23.8 Small refinements from the audit ---- */
+.slider-halo { inset: -6% -6% 4% -6%; }
+.section-nav a { min-height: 40px; }
+.section-nav ul { gap: 0; }
+.nav-cta { min-height: 40px; display: inline-flex; align-items: center; }
+.dial-time small { font-size: max(.3em, 12px); }
+
+/* ---- 24. Performance pass: remove the costliest always-on paints ---- */
+/* progress bar scales instead of resizing (no layout per scroll event) */
+.scroll-progress span { width: 100%; transform: scaleX(0); transform-origin: 0 50%; transition: none; will-change: transform; }
+/* WhatsApp halo pulses with transform + opacity instead of an animated box-shadow (which repainted forever) */
+.whatsapp-float::before { inset: 0; background: rgba(37,211,102,.38); box-shadow: none; animation: waPulse2 2.8s ease-out infinite; will-change: transform, opacity; }
+@keyframes waPulse2 { 0% { transform: scale(1); opacity: .55; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
+/* full-screen blended grain was a constant compositing cost: plain, fainter, desktop only */
+.grain-overlay { mix-blend-mode: normal; opacity: .028; }
+@media (max-width: 1023px), (pointer: coarse) { .grain-overlay { display: none; } }
+/* cheaper header glass */
+.nav.is-scrolled { background: rgba(14,11,9,.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+@media (prefers-reduced-motion: reduce) { .whatsapp-float::before { animation: none; opacity: 0; } }
+
+/* ---- 25. Splash: the dimmed hero photo sits behind the curtains, so the reveal feels continuous; bigger mark ---- */
+.splash-curtain--top {
+  background-image: radial-gradient(70% 120% at 50% 100%, rgba(227,191,124,.2), transparent 64%), linear-gradient(180deg, rgba(8,6,5,.9), rgba(8,6,5,.8)), url(assets/img/hero-poster-h.webp);
+  background-size: 100% 100%, 100% 100%, max(100vw, 177.78vh) auto; background-position: 0 0, 0 0, center top; background-repeat: no-repeat;
+}
+.splash-curtain--bottom {
+  background-image: radial-gradient(70% 120% at 50% 0%, rgba(95,216,210,.14), transparent 64%), linear-gradient(0deg, rgba(8,6,5,.9), rgba(8,6,5,.8)), url(assets/img/hero-poster-h.webp);
+  background-size: 100% 100%, 100% 100%, max(100vw, 177.78vh) auto; background-position: 0 0, 0 0, center bottom; background-repeat: no-repeat;
+}
+@media (orientation: portrait) {
+  .splash-curtain--top, .splash-curtain--bottom { background-image: none; }
+  .splash-curtain--top { background-image: radial-gradient(70% 120% at 50% 100%, rgba(227,191,124,.2), transparent 64%), linear-gradient(180deg, rgba(8,6,5,.9), rgba(8,6,5,.8)), url(assets/img/hero-poster-v.webp); background-size: 100% 100%, 100% 100%, max(100vw, 56.25vh) auto; }
+  .splash-curtain--bottom { background-image: radial-gradient(70% 120% at 50% 0%, rgba(95,216,210,.14), transparent 64%), linear-gradient(0deg, rgba(8,6,5,.9), rgba(8,6,5,.8)), url(assets/img/hero-poster-v.webp); background-size: 100% 100%, 100% 100%, max(100vw, 56.25vh) auto; }
+}
+.splash-mark { width: clamp(150px, 22vw, 230px); }
+.splash-center::before { background: radial-gradient(closest-side, rgba(227,191,124,.3), rgba(227,191,124,0) 70%); }

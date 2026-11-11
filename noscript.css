@@ -1,0 +1,11 @@
+/* Loaded only when JavaScript is off: show every section instead of waiting for scripted reveals. */
+.splash, .cursor-dot, .cursor-ring { display: none !important; }
+.reveal, .evento-panel[data-clip], [data-clip] { opacity: 1 !important; transform: none !important; translate: none !important; scale: none !important; filter: none !important; clip-path: none !important; }
+[data-split-title] .wi { transform: none !important; }
+.slide { position: relative !important; visibility: visible !important; clip-path: none !important; aspect-ratio: 4 / 5; }
+.slide:not(.is-active) { display: none; }
+.slider-dots, .slider-sheen { display: none; }
+.dial-arc { stroke-dashoffset: 0 !important; opacity: 1 !important; }
+.dial-ico { opacity: 1 !important; }
+.marquee-track { animation: none !important; }
+body { overflow: auto !important; }

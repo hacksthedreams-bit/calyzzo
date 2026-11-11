@@ -357,4 +357,13 @@
     });
   });
 
+  /* ---------- 9. Warm lazy images well before they scroll in, so a card never shows an empty frame ---------- */
+  safe("warm-images", function () {
+    if (!hasIO) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.loading = "eager"; io.unobserve(e.target); } });
+    }, { rootMargin: "1600px 0px" });
+    $$('img[loading="lazy"]').forEach(function (i) { io.observe(i); });
+  });
+
 })();
