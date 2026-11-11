@@ -240,7 +240,7 @@ main > .marquee, .stats-strip { background: transparent; }
 .stat-label { font-family: var(--sans); font-weight: 500; font-size: .74rem; letter-spacing: .24em; text-transform: uppercase; color: var(--cream-3); }
 .odo { --oh: 1.16em; display: inline-flex; height: var(--oh); overflow: hidden; line-height: var(--oh); }
 .odo-col { display: inline-block; height: var(--oh); overflow: hidden; }
-.odo-strip { display: flex; flex-direction: column; transform: translateY(0); transition: transform 1.9s cubic-bezier(.16, 1, .3, 1) calc(var(--i, 0) * 130ms); }
+.odo-strip { display: flex; flex-direction: column; transform: translateY(0); transition: transform 1.4s cubic-bezier(.16, 1, .3, 1) calc(var(--i, 0) * 90ms); }
 .odo-strip span { display: block; height: var(--oh); line-height: var(--oh); text-align: center; }
 .odo-suf { display: inline-block; height: 1.16em; line-height: 1.16em; font-style: italic; opacity: .9; }
 .odo-ready .odo-strip { transform: translateY(calc(var(--d, 0) * var(--oh) * -1)); }
@@ -854,3 +854,30 @@ html.js .evento-panel[data-tilt-soft], .evento-panel[data-tilt-soft] { transitio
   ::-webkit-scrollbar-track { background: #0C0A09; }
   ::-webkit-scrollbar-thumb { background: linear-gradient(#E3BF7C, #8B6429); border-radius: 8px; border: 2px solid #0C0A09; }
 }
+
+/* ---- 21.11 Service-card badge: beat the legacy two-class rule so it matches the other jewel badges ---- */
+.showcase-card .card-icon, .showcase-card:nth-child(even) .card-icon {
+  width: 58px; height: 58px; border-radius: 19px; color: var(--ib); display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(var(--ib-a), .42); margin: -30px 0 1.1rem; position: relative;
+  background: radial-gradient(120% 120% at 22% 12%, rgba(255,255,255,.22), transparent 46%), linear-gradient(150deg, rgba(var(--ib-a), .34), rgba(var(--ib-a), .07));
+}
+.showcase-card .card-icon .ico { width: 32px; height: 32px; }
+
+/* ---- 21.12 Installations: long names ("Estacionamiento Privado") must never be clipped ---- */
+.amenidad { min-width: 0; }
+.amenidad > div, .amenidad-name { min-width: 0; }
+.amenidad-name { overflow-wrap: anywhere; hyphens: auto; }
+@media (min-width: 960px) and (max-width: 1499px) {
+  .amenidad { padding: 1.1rem 1rem; gap: .85rem; }
+  .amenidad-icon { width: 48px; height: 48px; border-radius: 16px; }
+  .amenidad-icon .ico { width: 27px; height: 27px; }
+  .amenidad-name { font-size: .9rem; }
+}
+
+/* ---- 21.13 Dial centre: stacked times with a tiny connector ---- */
+.dial-time { font-size: clamp(2.3rem, 5.4vw, 3.3rem); line-height: 1.02; }
+.dial-time small { display: block; margin: .25em 0 .2em; font-size: .3em; letter-spacing: .34em; text-transform: uppercase; font-weight: 500; opacity: .9; }
+
+/* ---- 21.14 Battery: no endless repaints inside SVG (dial ticks, map contours); keep the HTML-layer motion ---- */
+.dial-ticks { animation: none !important; }
+.mx-contours g { animation: none !important; }
