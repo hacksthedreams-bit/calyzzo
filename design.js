@@ -230,7 +230,7 @@
     var cnt = $("[data-slider-count]", host);
     var capBox = $(".slider-caption", host);
     if (!frame || slides.length < 2) return;
-    var MS = 5600, idx = 0, timer = 0, inView = false, hover = false, busy = false;
+    var MS = 3800, idx = 0, timer = 0, inView = false, hover = false, busy = false;
     var auto = !REDUCE;
     if (!auto) host.classList.add("is-static");
 
@@ -273,7 +273,7 @@
         if (cnt) cnt.textContent = pad(n + 1);
         if (capBox) capBox.classList.remove("is-out");
       }, REDUCE ? 0 : 320);
-      setTimeout(function () { prev.classList.remove("is-prev"); busy = false; }, REDUCE ? 50 : 1200);
+      setTimeout(function () { prev.classList.remove("is-prev"); busy = false; }, REDUCE ? 50 : 1000);
       idx = n;
       schedule();
     }
@@ -323,7 +323,9 @@
     });
   });
   safe("glint", function () {
-    var sel = ".showcase-card, .amenidad, .paso, .jornada-card, .evento-panel, .galeria-item, .calendar-wrapper, .reserva-form, .map-card, .quincho-item";
+    // glints answer a hover: skip them entirely on touch screens (fewer nodes, less work)
+    if (!window.matchMedia || !window.matchMedia("(hover: hover)").matches || REDUCE) return;
+    var sel = ".showcase-card, .amenidad, .paso, .jornada-card, .evento-panel, .galeria-item";
     $$(sel).forEach(function (el) {
       if (el.querySelector(":scope > .glint")) return;
       var g = document.createElement("i");

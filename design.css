@@ -609,7 +609,7 @@ main > .marquee, .stats-strip { background: transparent; }
 .galeria-item.g-big figcaption { font-size: 1rem; padding-bottom: 1.2rem; }
 .galeria-item.g-big figcaption span { font-size: 1.2rem; }
 
-.lightbox-backdrop { background: rgba(6,5,4,.92); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+.lightbox-backdrop { background: rgba(6,5,4,.96); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
 .lightbox-count { font-family: var(--sans); font-weight: 500; font-size: .8rem; letter-spacing: .22em; text-transform: uppercase; color: var(--cream-2); font-variant-numeric: lining-nums tabular-nums; max-width: 90vw; text-align: center; }
 .lightbox-img { border-radius: 14px; box-shadow: 0 50px 100px -30px rgba(0,0,0,.95), 0 0 0 1px rgba(227,191,124,.25); }
 .lightbox-nav, .lightbox-close { color: var(--gold-1); }
@@ -812,7 +812,6 @@ html.js .evento-panel[data-tilt-soft], .evento-panel[data-tilt-soft] { transitio
 /* ---- 21.6 Glints (a soft light that crosses a card on entrance and on hover) ---- */
 .glint { position: absolute; inset: 0; z-index: 3; border-radius: inherit; overflow: hidden; pointer-events: none; }
 .glint::before { content: ''; position: absolute; top: -20%; bottom: -20%; left: 0; width: 42%; opacity: 0; transform: translateX(-150%) skewX(-18deg); background: linear-gradient(100deg, transparent, rgba(255,243,210,.2), rgba(255,243,210,.34), rgba(255,243,210,.2), transparent); }
-.reveal.is-visible > .glint::before, [data-clip].is-in > .glint::before { animation: glintA 1.5s var(--ease-out) .5s both; }
 :hover > .glint::before { animation: glintB 1s var(--ease-out) both; }
 @keyframes glintA { 0% { transform: translateX(-150%) skewX(-18deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateX(420%) skewX(-18deg); opacity: 0; } }
 @keyframes glintB { 0% { transform: translateX(-150%) skewX(-18deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateX(420%) skewX(-18deg); opacity: 0; } }
@@ -881,3 +880,115 @@ html.js .evento-panel[data-tilt-soft], .evento-panel[data-tilt-soft] { transitio
 /* ---- 21.14 Battery: no endless repaints inside SVG (dial ticks, map contours); keep the HTML-layer motion ---- */
 .dial-ticks { animation: none !important; }
 .mx-contours g { animation: none !important; }
+
+/* =============================================================
+   22. Polish pass 3 — softer sparkles, instant cards, white marquees,
+       gallery cards with a call to action, arched photo frame
+   ============================================================= */
+
+/* ---- 22.1 Sparkles and glints: lighter on the GPU (no filters, no rotation, fewer, slower) ---- */
+.sp { width: 12px; height: 12px; margin: -6px 0 0 -6px; filter: none; background: radial-gradient(circle, rgba(255,243,210,.26), transparent 64%); }
+.sp::before, .sp::after { width: 1.5px; background: linear-gradient(transparent, rgba(255,243,210,.85) 50%, transparent); }
+.is-live > .sp { animation: softTwinkle var(--sp-d, 5.2s) ease-in-out var(--sp-w, 0s) infinite; }
+@keyframes softTwinkle { 0%, 100% { opacity: 0; transform: scale(.4); } 50% { opacity: .7; transform: scale(1); } }
+.glint::before { background: linear-gradient(100deg, transparent, rgba(255,243,210,.1), rgba(255,243,210,.18), rgba(255,243,210,.1), transparent); }
+:hover > .glint::before { animation: glintB 1.3s var(--ease-out) both; }
+
+/* ---- 22.2 Icon badges: static gold ring + transform-only gloss (no animated paint) ---- */
+.icon-badge, .card-icon, .amenidad-icon, .paso-icon, .ubicacion-ico { overflow: hidden; }
+.icon-badge::before, .card-icon::before, .amenidad-icon::before, .paso-icon::before, .ubicacion-ico::before { inset: 0; --ang: 35deg; }
+.icon-badge::after, .card-icon::after, .amenidad-icon::after, .paso-icon::after, .ubicacion-ico::after {
+  inset: 0; opacity: 0; transform: translateX(-130%); background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,.5) 50%, transparent 68%);
+}
+:is(.concepto-pillars li, .showcase-card, .amenidad, .paso, .jornada-card, .ubicacion-facts li):hover :is(.icon-badge, .card-icon, .amenidad-icon, .paso-icon, .ubicacion-ico)::before { opacity: 1; animation: none; }
+:is(.concepto-pillars li, .showcase-card, .amenidad, .paso, .jornada-card, .ubicacion-facts li):hover :is(.icon-badge, .card-icon, .amenidad-icon, .paso-icon, .ubicacion-ico)::after { animation: glossSlide .9s var(--ease-out) both; }
+@keyframes glossSlide { 0% { transform: translateX(-130%); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateX(130%); opacity: 0; } }
+@keyframes ringRot { to { transform: rotate(360deg); } }
+.splash-mark::before { animation: ringRot 2.4s linear infinite, splashFade .8s var(--ease-out) .5s forwards; }
+
+/* ---- 22.3 "Celebramos todo": cards appear almost at once (quick rise, no slow wipe) ---- */
+html.js .evento-panel[data-clip] {
+  clip-path: none; opacity: 0; translate: 0 24px; scale: .975;
+  transition: opacity .4s var(--ease-out), translate .55s var(--ease-out), scale .55s var(--ease-out), transform .5s var(--ease-out);
+  transition-delay: calc(var(--d, 0) * .25s);
+}
+html.js .evento-panel[data-clip].is-in { opacity: 1; translate: 0 0; scale: 1; }
+html.js .evento-panel[data-clip] img { scale: 1.07; transition: scale .9s var(--ease-out) calc(var(--d, 0) * .25s), transform .7s var(--ease-out); }
+html.js .evento-panel[data-clip].is-in img { scale: 1; }
+
+/* ---- 22.4 Marquees: one clean white, same style for every word ---- */
+.marquee-group span, .marquee-group span.is-outline { color: #FFFFFF; -webkit-text-stroke: 0; font-style: italic; font-weight: 400; text-shadow: 0 0 40px rgba(255,255,255,.12); }
+.marquee-group i { color: var(--gold); }
+
+/* ---- 22.5 Gallery: every photo is a card with its title always visible ---- */
+.galeria-item figcaption { transform: none !important; opacity: 1 !important; }
+.galeria-item figcaption { padding-top: 3.6rem; background: linear-gradient(0deg, rgba(10,8,6,.94) 6%, rgba(10,8,6,.55) 55%, rgba(10,8,6,0)); }
+.galeria-item:hover .gal-plus, .galeria-item:focus-visible .gal-plus { transform: rotate(90deg) scale(1.12); }
+.galeria-item:focus-visible { outline: 2px solid var(--gold-1); outline-offset: 3px; }
+
+/* ---- 22.6 Lightbox: photo plus a floating card with copy and a clear call to action ---- */
+.lightbox-content { display: flex; flex-direction: column; align-items: center; max-width: min(92vw, 940px); max-height: none; }
+.lightbox-img { max-height: 62vh; max-width: 100%; width: auto; object-fit: contain; }
+.lightbox-count { top: 1.1rem; bottom: auto; }
+.lightbox-card {
+  position: relative; z-index: 2; width: min(100%, 620px); margin-top: -2.8rem; padding: 1.4rem 1.6rem 1.5rem;
+  display: grid; gap: .4rem; justify-items: start; border-radius: 24px;
+  background: linear-gradient(150deg, rgba(255,255,255,.1), rgba(255,255,255,.03)), rgba(14,11,9,.9);
+  border: 1px solid var(--line-strong); box-shadow: 0 34px 70px -26px rgba(0,0,0,.95);
+  transition: opacity .35s var(--ease-out), translate .5s var(--ease-out);
+}
+.lightbox-card[hidden] { display: none; }
+.lightbox-card.is-swapping { opacity: 0; translate: 0 8px; }
+.lightbox.is-open .lightbox-card { animation: cardRise .6s var(--ease-out) .15s backwards; }
+@keyframes cardRise { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+.lightbox-eyebrow { margin: 0; font-weight: 500; font-size: .74rem; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+.lightbox-title { margin: 0; font-family: var(--serif); font-weight: 450; font-size: clamp(1.45rem, 3.6vw, 2rem); line-height: 1.08; letter-spacing: -.015em; color: var(--cream); }
+.lightbox-copy { margin: 0; max-width: 48ch; font-size: .98rem; line-height: 1.55; color: var(--cream-2); font-weight: 340; }
+.lightbox-cta { margin-top: .8rem; padding: .95rem 1.7rem; }
+.lightbox-cta .ico { width: 1.2em; height: 1.2em; transition: transform .4s var(--ease-bounce); }
+.lightbox-cta:hover .ico { transform: translateX(5px); }
+@media (max-height: 640px) { .lightbox-img { max-height: 44vh; } .lightbox-card { padding: 1rem 1.2rem 1.1rem; } .lightbox-copy { font-size: .9rem; } }
+@media (max-width: 600px) { .lightbox-card { margin-top: -1.6rem; padding: 1.15rem 1.15rem 1.25rem; } .lightbox-img { max-height: 54vh; } .lightbox-cta { width: 100%; justify-content: center; } }
+
+/* ---- 22.7 Experiencia photo frame: an arch (echoes the logo), quicker rhythm, kinder crops ---- */
+.concepto-media { --slide-ms: 3800ms; }
+.concepto-media::after { display: none; }
+.concepto-media::before {
+  width: auto; height: auto; left: 16px; right: -16px; top: -16px; bottom: calc(2.4rem + 16px);
+  border: 1px solid rgba(227,191,124,.5); border-radius: 50% 50% 30px 30px / 34% 34% 30px 30px;
+}
+.slider-frame { aspect-ratio: 4 / 5; border-radius: 50% 50% 30px 30px / 34% 34% 30px 30px; }
+.slider-frame::after { height: 38%; }
+.slide.is-active { transition-duration: .95s; }
+.slide img { transform: scale(1.14); }
+.slide.is-active img { transform: scale(1.02); transition: transform 4.4s cubic-bezier(.22, .61, .36, 1), translate .6s var(--ease-out); }
+.slide.is-prev img { transform: scale(1.02); }
+.slide:nth-child(1) img { object-position: 50% 64%; }
+.slide:nth-child(2) img { object-position: 50% 60%; }
+.slide:nth-child(3) img { object-position: 50% 55%; }
+.slide:nth-child(4) img { object-position: 50% 58%; }
+.slider-caption { justify-content: center; left: 1rem; right: 1rem; bottom: 1.3rem; }
+.concepto-chip { top: auto; bottom: calc(2.4rem + 5.2rem); right: -14px; }
+@media (max-width: 959px) {
+  .concepto-media::before { left: 10px; right: -10px; top: -10px; bottom: calc(2.4rem + 10px); }
+  .concepto-chip { top: auto; bottom: calc(2.4rem + 4.6rem); right: .5rem; }
+}
+
+/* ---- 22.8 Photo frame offsets measured from the frame itself (padding + dots row = --below) ---- */
+.concepto-media { --below: calc(2.4rem + 26px + 1.05rem); }
+.concepto-media::before { bottom: calc(var(--below) + 16px); }
+.concepto-chip { bottom: calc(var(--below) + 4.6rem); }
+@media (max-width: 959px) {
+  .concepto-media::before { bottom: calc(var(--below) + 10px); }
+  .concepto-chip { bottom: calc(var(--below) + 4.2rem); }
+}
+
+/* phones and tablets: the guest-capacity chip sits under the photo instead of covering it */
+@media (max-width: 959px) {
+  .concepto-media { padding-bottom: .4rem; --below: calc(.4rem + 26px + 1.05rem); }
+  .concepto-chip { position: relative; right: auto; bottom: auto; top: auto; margin: .6rem auto 0; width: max-content; max-width: 100%; z-index: 6; }
+}
+
+/* arch outline takes its height from the same 4:5 ratio as the frame (independent of what sits below it) */
+.concepto-media::before { bottom: auto; height: auto; aspect-ratio: 4 / 5; top: -16px; }
+@media (max-width: 959px) { .concepto-media::before { bottom: auto; top: -10px; } }

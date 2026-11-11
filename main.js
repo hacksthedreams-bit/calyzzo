@@ -1164,7 +1164,9 @@
       '<div class="lightbox-backdrop"></div>' +
       '<button type="button" class="lightbox-nav lightbox-prev" aria-label="Imagen anterior">&#8249;</button>' +
       '<button type="button" class="lightbox-nav lightbox-next" aria-label="Imagen siguiente">&#8250;</button>' +
-      '<div class="lightbox-content"><img class="lightbox-img" alt=""><button type="button" class="lightbox-close" aria-label="Cerrar">&times;</button></div>' +
+      '<div class="lightbox-content"><img class="lightbox-img" alt=""><button type="button" class="lightbox-close" aria-label="Cerrar">&times;</button>' +
+      '<div class="lightbox-card" hidden><p class="lightbox-eyebrow"></p><h3 class="lightbox-title"></h3><p class="lightbox-copy"></p>' +
+      '<a class="btn btn-primary lightbox-cta" href="#reservas"><span></span><svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></div>' +
       '<p class="lightbox-count" aria-live="polite"></p>';
     document.body.appendChild(lightbox);
 
@@ -1174,6 +1176,12 @@
     var lbPrev = $(".lightbox-prev", lightbox);
     var lbNext = $(".lightbox-next", lightbox);
     var lbCount = $(".lightbox-count", lightbox);
+    var lbCard = $(".lightbox-card", lightbox);
+    var lbEyebrow = $(".lightbox-eyebrow", lightbox);
+    var lbTitle = $(".lightbox-title", lightbox);
+    var lbCopy = $(".lightbox-copy", lightbox);
+    var lbCta = $(".lightbox-cta", lightbox);
+    var lbCtaText = $("span", lbCta);
     var current = 0;
     var opener = null;
 
@@ -1190,17 +1198,29 @@
       var img = imgOf(tile);
       var src = img.src;
       var cap = tile.getAttribute("data-caption");
-      lbCount.textContent = pad2(current + 1) + " / " + pad2(group.length) + (cap ? "  ·  " + cap : "");
+      lbCount.textContent = pad2(current + 1) + " / " + pad2(group.length);
+      var title = tile.getAttribute("data-title");
+      var fillCard = function () {
+        if (!title) { lbCard.hidden = true; return; }
+        lbEyebrow.textContent = cap || "";
+        lbTitle.textContent = title;
+        lbCopy.textContent = tile.getAttribute("data-copy") || "";
+        lbCtaText.textContent = tile.getAttribute("data-cta") || "Cotiza ya";
+        lbCard.hidden = false;
+      };
       // warm the neighbours so next/prev feel instant
       [current + 1, current - 1].forEach(function (k) {
         var n = imgOf(group[(k + group.length) % group.length]); if (n) { var p = new Image(); p.src = n.src; }
       });
-      if (instant) { lbImg.src = src; lbImg.alt = img.alt || ""; return; }
+      if (instant) { lbImg.src = src; lbImg.alt = img.alt || ""; fillCard(); return; }
       lbImg.classList.add("is-swapping");
+      lbCard.classList.add("is-swapping");
       setTimeout(function () {
         lbImg.src = src;
         lbImg.alt = img.alt || "";
+        fillCard();
         lbImg.classList.remove("is-swapping");
+        lbCard.classList.remove("is-swapping");
       }, 260);
     }
 
@@ -1240,6 +1260,18 @@
 
     lbClose.addEventListener("click", close);
     lbBackdrop.addEventListener("click", close);
+    // The call to action closes the gallery and glides to the quote form
+    lbCta.addEventListener("click", function (e) {
+      e.preventDefault();
+      var target = $("#reservas");
+      opener = null;
+      close();
+      if (!target) return;
+      setTimeout(function () {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: scrollBehavior() });
+        focusTarget(target);
+      }, 120);
+    });
     lbPrev.addEventListener("click", function () { show(current - 1); });
     lbNext.addEventListener("click", function () { show(current + 1); });
     document.addEventListener("keydown", function (e) {
@@ -1252,8 +1284,9 @@
     // Focus stays inside the dialog (prev -> next -> close -> prev ...)
     lightbox.addEventListener("keydown", function (e) {
       if (e.key !== "Tab") return;
-      if (e.shiftKey && document.activeElement === lbPrev) { e.preventDefault(); lbClose.focus(); }
-      else if (!e.shiftKey && document.activeElement === lbClose) { e.preventDefault(); lbPrev.focus(); }
+      var last = lbCard.hidden ? lbClose : lbCta;
+      if (e.shiftKey && document.activeElement === lbPrev) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); lbPrev.focus(); }
     });
 
     // Swipe on touch screens
