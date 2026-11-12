@@ -1182,3 +1182,29 @@ html.js:not(.is-ready) { overflow: hidden; }
   .btn-primary:hover, .btn-outline:hover, .btn-whatsapp:hover { transform: none; }
   .jornada-opt:hover .jornada-opt-card { transform: none; }
 }
+
+/* =============================================================
+   28. Finishing pass — seams, dividers, link craft
+   ============================================================= */
+
+/* ---- 28.1 CTA band melts into the next section instead of ending on a hard edge ---- */
+.cta-band { border-top-color: rgba(227,191,124,.14); }
+.cta-band::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(to bottom, transparent, var(--bg)); pointer-events: none; z-index: 0; }
+.cta-band-inner { position: relative; z-index: 1; }
+
+/* ---- 28.2 Stat strip: fine hairlines between the figures (desktop and tablet) ---- */
+@media (min-width: 720px) {
+  .stats-strip-inner .stat { position: relative; }
+  .stats-strip-inner .stat + .stat::before { content: ''; position: absolute; left: 0; top: 18%; bottom: 18%; width: 1px; background: linear-gradient(to bottom, transparent, rgba(227,191,124,.28), transparent); }
+}
+
+/* ---- 28.3 Footer links: a gold line draws under the link (transform only, hover devices only) ---- */
+.footer-link { position: relative; }
+.footer-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: .35rem; height: 1px; background: linear-gradient(90deg, var(--gold-1), transparent); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.22, 1, .36, 1); pointer-events: none; }
+@media (hover: hover) { .footer-link:hover::after { transform: scaleX(1); } }
+.footer-link:focus-visible::after { transform: scaleX(1); }
+
+/* ---- 28.4 Small craft: smoother text rendering and calmer focus ring ---- */
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+:focus-visible { outline-offset: 3px; }
+img { -webkit-user-drag: none; }
