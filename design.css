@@ -1079,3 +1079,77 @@ html.js:not(.is-ready) body { overflow: hidden; }
 }
 .splash-mark { width: clamp(150px, 22vw, 230px); }
 .splash-center::before { background: radial-gradient(closest-side, rgba(227,191,124,.3), rgba(227,191,124,0) 70%); }
+
+/* =============================================================
+   26. Refinement pass — a calm, monochrome loader and a more sophisticated finish
+   ============================================================= */
+
+/* ---- 26.1 Loader: graphite, ivory and one muted champagne line. No colour, no glow, no effects. ---- */
+.splash { animation-delay: 6s; }
+.splash-curtain, .splash-curtain--top, .splash-curtain--bottom { background: #0B0A09; background-image: none; }
+@media (orientation: portrait) { .splash-curtain--top, .splash-curtain--bottom { background: #0B0A09; background-image: none; } }
+.splash-curtain--top::after, .splash-curtain--bottom::after { background: linear-gradient(90deg, transparent, rgba(205,186,148,.55), transparent); opacity: .5; }
+.splash-center::before, .splash-mark::before, .splash-mark::after { content: none; display: none; animation: none; }
+.splash-center { gap: 1.6rem; }
+.splash-mark { width: clamp(110px, 15vw, 148px); }
+.splash-logo { clip-path: none; filter: none; opacity: 0; animation: splashIn 1.2s cubic-bezier(.22, 1, .36, 1) .1s forwards; }
+@keyframes splashIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+.splash-tag { gap: 1rem; font-size: .68rem; letter-spacing: .52em; font-weight: 400; color: #9D9585; opacity: 0; animation: splashFade .9s cubic-bezier(.22, 1, .36, 1) .55s forwards; }
+.splash-tag i { width: 28px; background: rgba(205,186,148,.45); }
+.splash-bar { width: min(168px, 44vw); background: rgba(255,255,255,.09); opacity: 0; animation: splashFade .8s cubic-bezier(.22, 1, .36, 1) .75s forwards; }
+.splash-bar span { background: #CDBA94; transform-origin: left; }
+.splash-count { font-size: clamp(2rem, 5.2vw, 3.2rem); font-weight: 200; letter-spacing: -.01em; color: #C9C2B3; opacity: 0; animation: splashFade .9s cubic-bezier(.22, 1, .36, 1) .85s forwards; }
+.splash-count em { font-size: .4em; color: #8C8576; margin-left: .2em; vertical-align: top; }
+.splash-place { color: #6F695E; font-size: .66rem; letter-spacing: .38em; opacity: 0; animation: splashFade .9s cubic-bezier(.22, 1, .36, 1) .95s forwards; }
+@media (prefers-reduced-motion: reduce) { .splash-logo, .splash-tag, .splash-bar, .splash-count, .splash-place { animation: none; opacity: 1; } }
+
+/* ---- 26.2 Hero without the logo: a quiet scroll cue ---- */
+.hero-cue { position: absolute; z-index: 3; left: 50%; bottom: max(1.6rem, env(safe-area-inset-bottom)); translate: -50% 0; display: grid; justify-items: center; gap: .8rem; color: rgba(248,241,227,.78); font-weight: 400; font-size: .68rem; letter-spacing: .5em; text-transform: uppercase; padding: .6rem 1rem; opacity: 0; transition: opacity 1s var(--ease-out) .4s, color .3s; }
+html.is-ready .hero-cue { opacity: 1; }
+.hero-cue:hover { color: var(--gold-1); }
+.hero-cue i { position: relative; width: 1px; height: 54px; background: rgba(248,241,227,.22); overflow: hidden; }
+.hero-cue i::after { content: ''; position: absolute; left: 0; top: 0; width: 1px; height: 100%; background: linear-gradient(transparent, var(--gold-1), transparent); transform: translateY(-100%); animation: cueDrop 2.6s cubic-bezier(.65, 0, .35, 1) infinite; }
+@keyframes cueDrop { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) { .hero-cue i::after { animation: none; transform: none; } }
+@media (max-width: 719px) { .hero-cue { bottom: max(4.4rem, env(safe-area-inset-bottom)); } .hero-cue i { height: 40px; } }
+
+/* ---- 26.3 Section ornaments: a hairline that draws itself under each title ---- */
+.section-title::after { content: ''; display: block; width: 64px; height: 1px; margin: 1.6rem auto 0; background: linear-gradient(90deg, transparent, var(--gold), transparent); transform: scaleX(0); transition: transform 1.1s var(--ease-out) .5s; }
+.section-title.is-in::after { transform: scaleX(1); }
+.concepto-text .section-title::after { margin-left: 0; background: linear-gradient(90deg, var(--gold), transparent); transform-origin: left; }
+html:not(.js) .section-title::after { transform: none; }
+
+/* ---- 26.4 Depth and finish: faint top light on every surface, calmer easing ---- */
+.showcase-card, .amenidad, .paso, .jornada-card, .faq-item, .calendar-wrapper, .reserva-form, .mx-panel { box-shadow: 0 34px 60px -34px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.06); }
+.amenidad:hover, .paso:hover, .showcase-card:hover, .jornada-card:hover { box-shadow: 0 44px 70px -30px rgba(0,0,0,.95), 0 0 0 1px rgba(227,191,124,.3), inset 0 1px 0 rgba(255,255,255,.08); }
+.reveal { transform: translateY(26px); transition: opacity .7s cubic-bezier(.22, 1, .36, 1), transform .95s cubic-bezier(.22, 1, .36, 1); }
+.reveal.is-visible { transform: none; }
+.body-text, .section-subtitle, .showcase-card-desc, .jornada-desc, .faq-a { text-wrap: pretty; }
+
+/* ---- 26.5 Numerals: lighter and wider, so they read as jewellery rather than as data ---- */
+.stat-num { font-weight: 200; }
+.jornada-time { font-weight: 200; }
+.dial-time { font-weight: 250; }
+.galeria-meta b, .concepto-chip b { font-weight: 200; }
+.calendar-day { font-weight: 350; }
+.stat-label { letter-spacing: .3em; }
+
+/* ---- 26.6 Buttons: finer tracking, a single soft highlight ---- */
+.btn { letter-spacing: .18em; }
+.btn-primary { box-shadow: 0 14px 34px -14px rgba(227,191,124,.6), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(139,100,41,.35); }
+
+/* ---- 26.7 Marquee: quieter size, softer gold separators ---- */
+.marquee-group span { font-size: clamp(2.6rem, 7.4vw, 6rem); }
+.marquee--alt .marquee-group span { font-size: clamp(2rem, 5.6vw, 4.4rem); }
+.marquee-group i { font-size: .5em; opacity: .85; }
+
+/* scroll lock must sit on the root: html has overflow-x:clip, so the body value does not propagate to the viewport */
+html.js:not(.is-ready) { overflow: hidden; }
+
+/* hero without the logo: no dark pool in the middle of the picture, only light top and bottom veils for the menu and the cue */
+.hero-video.is-playing ~ .hero-overlay { background: linear-gradient(180deg, rgba(14,11,9,.6) 0%, rgba(14,11,9,.06) 26%, rgba(14,11,9,.06) 58%, rgba(14,11,9,.78) 100%); }
+.hero-overlay { background: linear-gradient(180deg, rgba(14,11,9,.62) 0%, rgba(14,11,9,.2) 40%, rgba(14,11,9,.82) 100%); }
+
+/* the odometer clips overflow, so a text-shadow showed up as a pale box behind the digits */
+.stat-num, .odo { text-shadow: none; }
+.stat-num { color: #F3DFAE; }

@@ -56,7 +56,7 @@
     var bar = $("[data-splash-bar]", splash);
     var count = $("[data-splash-count]", splash);
     var started = performance.now();
-    var MIN_MS = 1500;
+    var MIN_MS = 2300;
     var loaded = false;
     var done = false;
     var shown = 0;
@@ -92,11 +92,17 @@
     }
     raf(tick);
 
-    if (document.readyState === "complete") loaded = true;
-    else window.addEventListener("load", function () { loaded = true; });
+    // "Ready" means more than the load event: window loaded, fonts settled, hero photo decoded.
+    var winLoad = new Promise(function (res) {
+      if (document.readyState === "complete") res(); else window.addEventListener("load", function () { res(); });
+    });
+    var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready.catch(function () {}) : Promise.resolve();
+    var heroImg = $(".hero-bg");
+    var heroReady = (heroImg && heroImg.decode) ? heroImg.decode().catch(function () {}) : Promise.resolve();
+    Promise.all([winLoad, fontsReady, heroReady]).then(function () { loaded = true; });
 
     // Safety nets: never trap the visitor behind the curtain.
-    setTimeout(leave, 4200);
+    setTimeout(leave, 5200);
   });
 
   /* ============================================================
