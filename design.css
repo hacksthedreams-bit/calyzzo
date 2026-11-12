@@ -1153,3 +1153,32 @@ html.js:not(.is-ready) { overflow: hidden; }
 /* the odometer clips overflow, so a text-shadow showed up as a pale box behind the digits */
 .stat-num, .odo { text-shadow: none; }
 .stat-num { color: #F3DFAE; }
+
+/* =============================================================
+   27. Mobile pass — legibility, touch behaviour, notch, WhatsApp clearance
+   ============================================================= */
+.marquee-group i { font-size: max(.5em, 14px); }
+.hero-cue span { font-size: max(.72rem, 11.5px); }
+.nav-mobile-foot { font-size: max(.74rem, 11.8px); }
+.nav-mobile-foot a { font-family: var(--num); font-size: 1rem; font-weight: 300; letter-spacing: .08em; }
+.slider-dot { height: 44px; }
+.slider-dot i { top: 20px; }
+
+/* notch / Dynamic Island when the site runs as an installed app or in landscape */
+.nav { padding-top: env(safe-area-inset-top, 0px); height: calc(var(--nav-h) + env(safe-area-inset-top, 0px)); }
+.hero { padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px)); }
+
+/* the floating WhatsApp button must not hide the last words of the swipe hint */
+@media (max-width: 719px) { .showcase-meta { padding-right: 4.2rem; } }
+
+/* touch screens have no hover: cards must not stay lifted or lit after a tap */
+@media (hover: none) {
+  .amenidad:hover, .paso:hover, .showcase-card:hover, .jornada-card:hover, .faq-item:hover, .evento-panel:hover { transform: none; }
+  .showcase-card:hover .showcase-card-img, .evento-panel:hover .evento-panel-img, .galeria-item:hover img { transform: none; scale: none; filter: none; }
+  :is(.concepto-pillars li, .showcase-card, .amenidad, .paso, .jornada-card, .ubicacion-facts li):hover :is(.icon-badge, .card-icon, .amenidad-icon, .paso-icon, .ubicacion-ico) { transform: none; }
+  :is(.concepto-pillars li, .showcase-card, .amenidad, .paso, .jornada-card, .ubicacion-facts li):hover :is(.icon-badge, .card-icon, .amenidad-icon, .paso-icon, .ubicacion-ico)::before,
+  :is(.concepto-pillars li, .showcase-card, .amenidad, .paso, .jornada-card, .ubicacion-facts li):hover :is(.icon-badge, .card-icon, .amenidad-icon, .paso-icon, .ubicacion-ico)::after { opacity: 0; animation: none; }
+  :is(.concepto-pillars li, .showcase-card, .amenidad, .paso, .jornada-card, .ubicacion-facts li):hover .ico { transform: none; }
+  .btn-primary:hover, .btn-outline:hover, .btn-whatsapp:hover { transform: none; }
+  .jornada-opt:hover .jornada-opt-card { transform: none; }
+}
