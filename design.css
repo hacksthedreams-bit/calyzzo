@@ -1208,3 +1208,29 @@ html.js:not(.is-ready) { overflow: hidden; }
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 :focus-visible { outline-offset: 3px; }
 img { -webkit-user-drag: none; }
+
+/* =============================================================
+   29. Restaurant banner (phones get a text-friendly crop)
+   ============================================================= */
+.restaurante-banner { margin: clamp(1.4rem, 3vw, 2.2rem) auto 0; max-width: 980px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(227,191,124,.22); box-shadow: 0 30px 60px -34px rgba(0,0,0,.85); background: #14100D; }
+.restaurante-banner picture { display: block; }
+.restaurante-banner img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+@media (max-width: 719px) { .restaurante-banner { border-radius: 14px; } .restaurante-banner img { aspect-ratio: 880 / 1024; } }
+
+/* =============================================================
+   30. Phone efficiency — fewer layers, no full-screen blur, calmer loops
+   ============================================================= */
+
+/* endless CSS animations stop while their section is off-screen (class set by design.js) */
+.is-off, .is-off *, .is-off *::before, .is-off *::after { animation-play-state: paused !important; }
+
+@media (max-width: 959px), (hover: none) {
+  /* gallery photos no longer drift on scroll here: keep a small overscan instead of the 18% desktop zoom */
+  [data-parallax] { scale: 1.04; translate: none; }
+
+  /* backdrop blur forces an extra full-resolution layer; the backgrounds below are nearly opaque already */
+  .nav-mobile, .lightbox-backdrop { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .lightbox-backdrop { background: rgba(6,5,4,.97); }
+  .to-top, .hero-video-toggle, .lightbox-nav, .section-nav .label { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .to-top, .hero-video-toggle, .lightbox-nav { background: rgba(14,11,9,.82); }
+}

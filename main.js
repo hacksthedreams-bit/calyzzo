@@ -376,13 +376,16 @@
     });
 
     /* --- 4b. Scroll-scrubbed image parallax (drives --py on [data-parallax]) --- */
+    // Only on big screens with a pointer: phones and tablets skip 12 scrubbed triggers (smoother scrolling, less battery).
     safe("parallax", function () {
       if (REDUCE) return;
-      $$("[data-parallax]").forEach(function (img) {
-        var wrap = img.closest("[data-parallax-wrap]") || img.parentElement;
-        gsap.fromTo(img, { "--py": "-7%" }, {
-          "--py": "7%", ease: "none",
-          scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: true }
+      gsap.matchMedia().add("(min-width: 960px) and (hover: hover)", function () {
+        $$("[data-parallax]").forEach(function (img) {
+          var wrap = img.closest("[data-parallax-wrap]") || img.parentElement;
+          gsap.fromTo(img, { "--py": "-7%" }, {
+            "--py": "7%", ease: "none",
+            scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: true }
+          });
         });
       });
     });
@@ -913,7 +916,10 @@
       if (p && p.catch) p.catch(function () {});
     }
     function load() {
-      var src = video.getAttribute(tall.matches ? "data-src-v" : (window.innerWidth < 1600 ? "data-src-m" : "data-src-h"));
+      // phones (portrait or sideways) get the light files; only big screens get the 5-10 MB ones
+      var small = Math.min(window.innerWidth, window.innerHeight) <= 520 || window.innerWidth < 900;
+      var key = tall.matches ? "data-src-v" : (small ? "data-src-sl" : (window.innerWidth < 1600 ? "data-src-m" : "data-src-h"));
+      var src = video.getAttribute(key) || video.getAttribute("data-src-m");
       if (!src || video.getAttribute("src") === src) return;
       video.classList.remove("is-playing");
       if (hero) hero.classList.remove("video-on");
@@ -957,7 +963,7 @@
     if (tall.addEventListener) tall.addEventListener("change", load);
     document.addEventListener("visibilitychange", function () { if (document.hidden) video.pause(); else play(); });
 
-    function start() { setTimeout(load, 300); }
+    function start() { if (window.requestIdleCallback) window.requestIdleCallback(load, { timeout: 1800 }); else setTimeout(load, 600); }
     if (document.readyState === "complete") start();
     else window.addEventListener("load", start);
   });

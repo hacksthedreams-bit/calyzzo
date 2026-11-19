@@ -362,8 +362,17 @@
     if (!hasIO) return;
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { e.target.loading = "eager"; io.unobserve(e.target); } });
-    }, { rootMargin: "1600px 0px" });
+    }, { rootMargin: (window.innerWidth < 720 ? "1100px 0px" : "1600px 0px") });
     $$('img[loading="lazy"]').forEach(function (i) { io.observe(i); });
+  });
+
+  /* ---------- 10. Pause endless CSS animations while their section is off-screen (battery and CPU on phones) ---------- */
+  safe("pause-offscreen", function () {
+    if (!hasIO) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle("is-off", !e.isIntersecting); });
+    }, { rootMargin: "120px 0px" });
+    $$("main > section, .marquee, .cta-band").forEach(function (s) { io.observe(s); });
   });
 
 })();
