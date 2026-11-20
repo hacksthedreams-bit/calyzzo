@@ -1308,3 +1308,17 @@ img { -webkit-user-drag: none; }
   .hero-video { display: block; opacity: 1; translate: none; transition: none; }
   .hero-side { transition: none; }
 }
+
+/* =============================================================
+   32. Event cards: food service tag
+   ============================================================= */
+.evento-panel-tag {
+  position: absolute; z-index: 2; top: 1rem; left: 1rem; max-width: calc(100% - 2rem);
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem .9rem; border-radius: 999px;
+  font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; line-height: 1.2;
+  color: #1B1309;
+  background: linear-gradient(135deg, #F0D298, #E3BF7C 55%, #C49A5B);
+  box-shadow: 0 10px 24px -12px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.evento-panel-tag i { font-style: normal; font-size: .8em; }
