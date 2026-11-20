@@ -1337,7 +1337,7 @@ img.showcase-card-img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-f
   .hero-cue { display: none; }
   .hero-overlay,
   .hero-video.is-playing ~ .hero-overlay {
-    background: linear-gradient(180deg, rgba(14,11,9,.64) 0%, rgba(14,11,9,.05) 22%, rgba(14,11,9,.12) 44%, rgba(14,11,9,.62) 66%, rgba(14,11,9,.94) 100%);
+    background: linear-gradient(180deg, rgba(14,11,9,.8) 0%, rgba(14,11,9,.06) 30%, rgba(14,11,9,.12) 46%, rgba(14,11,9,.62) 66%, rgba(14,11,9,.94) 100%);
   }
   .hero-video-toggle { top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + .7rem); bottom: auto; }
   .hero-copy {
@@ -1416,7 +1416,7 @@ img.showcase-card-img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-f
 }
 
 /* ---------- wide landscape: triptych, captions and the two buttons ---------- */
-@media (orientation: landscape) and (min-width: 1100px) and (min-height: 600px) {
+@media (orientation: landscape) and (min-width: 900px) and (min-height: 560px) {
   .hero-cue { display: none; }
   .hero-arches { display: block; }
   .hero-arch {
@@ -1491,3 +1491,58 @@ img.showcase-card-img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-f
 }
 .hero-actions .btn { white-space: nowrap; padding-inline: 1.1rem; letter-spacing: .12em; }
 @media (max-width: 340px) { .hero-actions .btn { white-space: normal; } }
+
+/* =============================================================
+   39. Hero, phone pass: eyebrow never wraps, brand reads on bright frames, sideways phones, narrow landscape tablets
+   ============================================================= */
+.hero-eyebrow { white-space: nowrap; }
+.show-xs { display: none; }
+@media (max-width: 430px) { .hero-eyebrow { letter-spacing: .24em; } }
+@media (max-width: 379px) { .hide-xs { display: none; } .show-xs { display: inline; } }
+@media (max-width: 340px) { .hero-actions .btn { min-height: 48px; } .hero-actions { gap: .55rem; } }
+
+/* brand and menu icon keep their contrast when the film shows bright sky */
+.nav:not(.is-scrolled) .nav-wordmark { filter: drop-shadow(0 1px 7px rgba(0,0,0,.8)); }
+.nav:not(.is-scrolled) .nav-logo { filter: drop-shadow(0 1px 7px rgba(0,0,0,.8)); }
+.nav:not(.is-scrolled) .nav-toggle span { box-shadow: 0 1px 6px rgba(0,0,0,.65); }
+
+/* narrower landscape tablets and small laptops: tighter triptych */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1199px) and (min-height: 560px) {
+  .hero { --side-w: calc(var(--arch-w) * .74); --arch-gap: 1.4rem; }
+  .hero-arch { outline-offset: 9px; }
+}
+
+/* phones held sideways: message on the left, the arch on the right (no empty sides) */
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero-video { inset: var(--arch-top) max(var(--gutter), env(safe-area-inset-right)) auto auto; margin-inline: 0; }
+  .hero-copy {
+    display: grid; position: absolute; z-index: 3; left: 0; top: var(--arch-top); bottom: .8rem;
+    align-content: center; justify-items: start; gap: .65rem;
+    width: calc(100% - var(--arch-w) - 3.4rem - max(var(--gutter), env(safe-area-inset-right)));
+    padding-left: max(var(--gutter), env(safe-area-inset-left));
+  }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .68rem; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-1); }
+  .hero-eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--gold-grad); }
+  .hero-lead { display: block; margin: 0; max-width: 15ch; text-wrap: balance; font-family: var(--serif); font-weight: 400; font-size: clamp(1.45rem, 8.2vh, 2.5rem); line-height: 1.04; letter-spacing: -.02em; color: var(--cream); text-shadow: 0 2px 20px rgba(0,0,0,.55); }
+  .hero-lead em { font-style: italic; color: var(--gold-1); }
+  .hero-sub { display: block; margin: 0; max-width: 36ch; font-size: .9rem; line-height: 1.45; color: var(--cream-2); }
+  .hero-actions { display: flex; gap: .6rem; }
+  .hero-actions .btn { flex: none; min-height: 44px; padding-inline: 1rem; font-size: .74rem; }
+}
+@media (orientation: landscape) and (max-height: 340px) { .hero-sub { display: none; } }
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero-copy { text-align: left; }
+  .hero-video-toggle { top: auto; bottom: .8rem; right: calc(max(var(--gutter), env(safe-area-inset-right)) + var(--arch-w) + 2.4rem); }
+}
+
+/* menu bar at mid widths (small laptops, tablets sideways): keep air between the brand and the links */
+@media (min-width: 960px) and (max-width: 1199px) {
+  .nav-inner { gap: 1.2rem; }
+  .nav-links { gap: 1.15rem; }
+  .nav-link { font-size: .72rem; letter-spacing: .12em; }
+  .nav-brand { gap: .65rem; }
+  .nav-logo { height: 46px; }
+  .nav-wordmark b { font-size: 1.15rem; letter-spacing: .26em; padding-right: .26em; }
+  .nav-wordmark small { font-size: .58rem; letter-spacing: .36em; }
+  .nav-cta { padding: .5rem 1rem; }
+}
