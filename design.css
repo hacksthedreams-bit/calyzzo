@@ -1236,20 +1236,6 @@ img { -webkit-user-drag: none; }
 }
 
 /* =============================================================
-   32. Event cards: food service tag
-   ============================================================= */
-.evento-panel-tag {
-  position: absolute; z-index: 2; top: 1rem; left: 1rem; max-width: calc(100% - 2rem);
-  display: inline-flex; align-items: center; gap: .5rem;
-  padding: .5rem .9rem; border-radius: 999px;
-  font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; line-height: 1.2;
-  color: #1B1309;
-  background: linear-gradient(135deg, #F0D298, #E3BF7C 55%, #C49A5B);
-  box-shadow: 0 10px 24px -12px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.5);
-}
-.evento-panel-tag i { font-style: normal; font-size: .8em; }
-
-/* =============================================================
    33. Brand in the menu bar: emblem plus a live-text wordmark (crisp at any size)
    ============================================================= */
 .nav-brand { display: inline-flex; align-items: center; gap: .85rem; min-height: 48px; text-decoration: none; }
@@ -1330,3 +1316,10 @@ img.showcase-card-img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-f
 
 /* the glow behind the slider fades out completely before the edge of its box (it showed a hard turquoise edge) */
 .slider-halo { -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 55%, transparent 100%); }
+
+/* =============================================================
+   36. Event cards: Food Service title, birthday photo framing
+   ============================================================= */
+.evento-panel-tipo em { display: block; font-style: italic; font-weight: inherit; color: var(--gold-1); }
+.evento-panel:nth-child(3) .evento-panel-img { object-position: 65% 50%; }
+@media (max-width: 1099px) { .evento-panel:nth-child(3) .evento-panel-img { object-position: 56% 50%; } }
