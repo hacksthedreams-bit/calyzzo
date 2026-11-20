@@ -916,10 +916,9 @@
       if (p && p.catch) p.catch(function () {});
     }
     function load() {
-      // phones (portrait or sideways) get the light files; only big screens get the 5-10 MB ones
-      var small = Math.min(window.innerWidth, window.innerHeight) <= 520 || window.innerWidth < 900;
-      var key = tall.matches ? "data-src-v" : (small ? "data-src-sl" : (window.innerWidth < 1600 ? "data-src-m" : "data-src-h"));
-      var src = video.getAttribute(key) || video.getAttribute("data-src-m");
+      // the tour is a vertical film: phones get the light 540x960 file, everything bigger the 720x1280 one
+      var small = Math.min(window.innerWidth, window.innerHeight) <= 560 || window.innerWidth <= 720;
+      var src = video.getAttribute(small ? "data-src-s" : "data-src-m") || video.getAttribute("data-src-m");
       if (!src || video.getAttribute("src") === src) return;
       video.classList.remove("is-playing");
       if (hero) hero.classList.remove("video-on");
