@@ -1323,3 +1323,171 @@ img.showcase-card-img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-f
 .evento-panel-tipo em { display: block; font-style: italic; font-weight: inherit; color: var(--gold-1); }
 .evento-panel:nth-child(3) .evento-panel-img { object-position: 65% 50%; }
 @media (max-width: 1099px) { .evento-panel:nth-child(3) .evento-panel-img { object-position: 56% 50%; } }
+
+/* =============================================================
+   37. Hero
+   Wide screens: the vertical film in an arch, flanked by two more arches of the venue
+   (photos that cross-fade), so the sides are never empty.
+   Portrait screens (phones, tablets upright): the film fills the hero, with a clear message and two buttons.
+   ============================================================= */
+.hero-arches, .hero-side, .hero-copy { display: none; margin: 0; }
+
+/* ---------- portrait: full-bleed film + message ---------- */
+@media (orientation: portrait) {
+  .hero-cue { display: none; }
+  .hero-overlay,
+  .hero-video.is-playing ~ .hero-overlay {
+    background: linear-gradient(180deg, rgba(14,11,9,.64) 0%, rgba(14,11,9,.05) 22%, rgba(14,11,9,.12) 44%, rgba(14,11,9,.62) 66%, rgba(14,11,9,.94) 100%);
+  }
+  .hero-video-toggle { top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + .7rem); bottom: auto; }
+  .hero-copy {
+    display: grid; justify-items: start; gap: 1rem;
+    position: absolute; z-index: 3; left: 0; right: 0; bottom: 0;
+    padding: 0 var(--gutter) max(1.7rem, calc(env(safe-area-inset-bottom) + 1.1rem));
+    text-align: left;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: .75rem;
+    font-size: .74rem; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-1);
+  }
+  .hero-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--gold-grad); }
+  .hero-lead {
+    margin: 0; max-width: 13ch; text-wrap: balance;
+    font-family: var(--serif); font-weight: 400; font-size: clamp(2.3rem, 10.4vw, 3.6rem); line-height: 1.02; letter-spacing: -.022em;
+    color: var(--cream); text-shadow: 0 2px 24px rgba(0,0,0,.55);
+  }
+  .hero-lead em { font-style: italic; color: var(--gold-1); }
+  .hero-sub { margin: 0; max-width: 34ch; font-size: 1rem; line-height: 1.55; color: var(--cream-2); text-shadow: 0 1px 14px rgba(0,0,0,.6); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; width: 100%; margin-top: .3rem; }
+  .hero-actions .btn { flex: 1 1 160px; justify-content: center; min-height: 52px; }
+  /* gentle entrance once the loader is gone */
+  html.js .hero-copy > * { opacity: 0; translate: 0 20px; transition: opacity .9s var(--ease-out), translate 1.2s var(--ease-out); }
+  html.js .hero-copy > :nth-child(1) { transition-delay: .35s; }
+  html.js .hero-copy > :nth-child(2) { transition-delay: .5s; }
+  html.js .hero-copy > :nth-child(3) { transition-delay: .65s; }
+  html.js .hero-copy > :nth-child(4) { transition-delay: .8s; }
+  html.is-ready .hero-copy > * { opacity: 1; translate: 0 0; }
+}
+@media (orientation: portrait) and (min-width: 700px) {
+  .hero-copy { padding-inline: 8vw; }
+  .hero-lead { font-size: clamp(3.4rem, 8vw, 4.8rem); max-width: 14ch; }
+  .hero-actions .btn { flex: 0 0 auto; min-width: 220px; }
+}
+
+/* ---------- landscape: arch window over an ambient field ---------- */
+@media (orientation: landscape) {
+  .hero {
+    --arch-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + .8rem);
+    --arch-h: calc(100vh - var(--arch-top) - 6.6rem);
+    --arch-h: calc(100svh - var(--arch-top) - 6.6rem);
+    --arch-w: calc(var(--arch-h) * .5625);
+    --side-w: calc(var(--arch-w) * .9);
+    --arch-gap: 2.6rem;
+  }
+  .hero-bg { opacity: 1; scale: 1; animation: none; will-change: auto; }
+  .hero.video-on .hero-bg { visibility: visible; }
+  .hero-overlay,
+  .hero-video.is-playing ~ .hero-overlay {
+    background: linear-gradient(180deg, rgba(14,11,9,.55) 0%, rgba(14,11,9,0) 22%, rgba(14,11,9,0) 70%, rgba(14,11,9,.92) 100%);
+  }
+  .hero-video {
+    inset: var(--arch-top) 0 auto 0; margin-inline: auto;
+    width: auto; height: var(--arch-h); aspect-ratio: 9 / 16;
+    z-index: 2; scale: 1; filter: none;
+    opacity: 0; translate: 0 22px;
+    border-radius: 999px 999px 28px 28px;
+    outline: 1px solid rgba(227,191,124,.38); outline-offset: 14px;
+    background: #0E0B09;
+    box-shadow: 0 50px 120px -34px rgba(0,0,0,.92), 0 0 120px -30px rgba(227,191,124,.2), 0 0 90px -24px rgba(95,216,210,.16);
+    transition: opacity 1.4s var(--ease-out) .5s, translate 1.7s var(--ease-out) .5s;
+  }
+  html.is-ready .hero-video, .hero-video.is-playing { opacity: 1; translate: 0 0; }
+  html:not(.js) .hero-video { opacity: 1; translate: none; }
+  @media (max-height: 820px) {
+    .hero { --arch-h: calc(100vh - var(--arch-top) - 5.8rem); --arch-h: calc(100svh - var(--arch-top) - 5.8rem); }
+    .hero-cue { bottom: .8rem; gap: .5rem; }
+    .hero-cue i { height: 26px; }
+  }
+  @media (max-height: 520px) {
+    .hero { --arch-h: calc(100vh - var(--arch-top) - 1.6rem); --arch-h: calc(100svh - var(--arch-top) - 1.6rem); }
+    .hero-cue { display: none; }
+    .hero-video { outline-offset: 8px; }
+  }
+}
+
+/* ---------- wide landscape: triptych, captions and the two buttons ---------- */
+@media (orientation: landscape) and (min-width: 1100px) and (min-height: 600px) {
+  .hero-cue { display: none; }
+  .hero-arches { display: block; }
+  .hero-arch {
+    position: absolute; z-index: 2; display: block;
+    width: var(--side-w); height: calc(var(--arch-h) * .82);
+    top: calc(var(--arch-top) + var(--arch-h) * .09);
+    border-radius: 999px 999px 24px 24px;
+    outline: 1px solid rgba(227,191,124,.26); outline-offset: 12px;
+    overflow: hidden; background: #0E0B09;
+    box-shadow: 0 40px 90px -34px rgba(0,0,0,.9), 0 0 80px -30px rgba(227,191,124,.14);
+    opacity: 0; translate: 0 34px;
+    transition: opacity 1.5s var(--ease-out) .9s, translate 1.9s var(--ease-out) .9s;
+  }
+  .hero-arch--l { right: calc(50% + var(--arch-w) / 2 + var(--arch-gap)); }
+  .hero-arch--r { left: calc(50% + var(--arch-w) / 2 + var(--arch-gap)); transition-delay: 1.15s; }
+  html.is-ready .hero-arch { opacity: 1; translate: 0 0; }
+  html:not(.js) .hero-arch { opacity: 1; translate: none; }
+  .hero-arch::before, .hero-arch::after {
+    content: ''; position: absolute; inset: 0; opacity: 0;
+    background-size: cover; background-position: 50% 50%;
+    animation: archFade 18s linear infinite;
+  }
+  .hero-arch::after { animation-delay: 9s; }
+  .hero-arch--l::before { background-image: linear-gradient(rgba(14,11,9,.14), rgba(14,11,9,.14)), url(assets/img/slider-aerial-640.webp); }
+  .hero-arch--l::after  { background-image: linear-gradient(rgba(14,11,9,.14), rgba(14,11,9,.14)), url(assets/img/slider-dusk-640.webp); }
+  .hero-arch--r::before { background-image: linear-gradient(rgba(14,11,9,.14), rgba(14,11,9,.14)), url(assets/img/servicio-piscina-640.webp); }
+  .hero-arch--r::after  { background-image: linear-gradient(rgba(14,11,9,.14), rgba(14,11,9,.14)), url(assets/img/frontal-recinto-640.webp); }
+  .hero-arch--r::before { animation-delay: -4.5s; }
+  .hero-arch--r::after { animation-delay: 4.5s; }
+
+  .hero-copy { display: flex; position: absolute; z-index: 3; left: 0; right: 0; bottom: 1.7rem; justify-content: center; }
+  .hero-eyebrow, .hero-lead, .hero-sub { display: none; }
+  .hero-actions { display: flex; gap: .8rem; }
+  .hero-actions .btn { min-height: 50px; padding-inline: 1.8rem; }
+  html.js .hero-copy { opacity: 0; translate: 0 16px; transition: opacity 1s var(--ease-out) 1.6s, translate 1.2s var(--ease-out) 1.6s; }
+  html.is-ready .hero-copy { opacity: 1; translate: 0 0; }
+}
+@keyframes archFade { 0% { opacity: 0; } 8% { opacity: 1; } 50% { opacity: 1; } 58% { opacity: 0; } 100% { opacity: 0; } }
+
+/* captions flank the outer arches on very wide screens */
+@media (orientation: landscape) and (min-width: 1360px) and (min-height: 600px) {
+  .hero-side {
+    display: flex; align-items: center; gap: 1.1rem; position: absolute; z-index: 3;
+    top: calc(var(--arch-top) + var(--arch-h) / 2); translate: 0 -50%; writing-mode: vertical-rl;
+    font-size: .72rem; font-weight: 400; letter-spacing: .5em; text-transform: uppercase; color: rgba(248,241,227,.62); white-space: nowrap;
+    opacity: 0; transition: opacity 1.6s var(--ease-out) 1.3s;
+  }
+  html.is-ready .hero-side { opacity: 1; }
+  html:not(.js) .hero-side { opacity: 1; }
+  .hero-side i { display: block; width: 1px; height: 2.4rem; background: linear-gradient(transparent, var(--gold-1), transparent); }
+  .hero-side--l { right: calc(50% + var(--arch-w) / 2 + var(--arch-gap) + var(--side-w) + 3.2rem); rotate: 180deg; }
+  .hero-side--r { left: calc(50% + var(--arch-w) / 2 + var(--arch-gap) + var(--side-w) + 3.2rem); }
+}
+
+/* reduced motion: keep the arches, still images only */
+@media (orientation: landscape) and (prefers-reduced-motion: reduce) {
+  .hero-video { display: block; opacity: 1; translate: none; transition: none; }
+  .hero-arch, .hero-side, .hero-copy { transition: none; }
+  .hero-arch::before { animation: none; opacity: 1; }
+  .hero-arch::after { display: none; }
+}
+
+/* =============================================================
+   38. Food Service card: text rides on top so the dishes stay visible
+   ============================================================= */
+.evento-panel:nth-child(4) { align-items: flex-start; }
+.evento-panel:nth-child(4) .evento-panel-overlay { background: linear-gradient(0deg, transparent 40%, rgba(14,11,9,.92) 100%); }
+.evento-panel:nth-child(4) .evento-panel-content { padding-top: 3.5rem; }
+@media (max-width: 1023px) {
+  .evento-panel:nth-child(4) { min-height: 420px; }
+  .evento-panel:nth-child(4) .evento-panel-img { object-position: 50% 0%; }
+}
+.hero-actions .btn { white-space: nowrap; padding-inline: 1.1rem; letter-spacing: .12em; }
+@media (max-width: 340px) { .hero-actions .btn { white-space: normal; } }

@@ -901,12 +901,9 @@
       if (p && p.catch) p.catch(function () {});
     }
     function load() {
-      // portrait screens get the vertical film, landscape ones the horizontal loop that scans the same footage top to bottom
-      var iw = window.innerWidth, ih = window.innerHeight;
-      var key;
-      if (tall.matches) key = (Math.min(iw, ih) <= 560 || iw <= 720) ? "data-src-s" : "data-src-m";
-      else key = (iw <= 900 || ih <= 520) ? "data-src-hs" : "data-src-h";
-      var src = video.getAttribute(key) || video.getAttribute("data-src-m");
+      // the tour is a vertical film: phones get the light 540x960 file, everything bigger the 720x1280 one
+      var small = Math.min(window.innerWidth, window.innerHeight) <= 560 || window.innerWidth <= 720;
+      var src = video.getAttribute(small ? "data-src-s" : "data-src-m") || video.getAttribute("data-src-m");
       if (!src || video.getAttribute("src") === src) return;
       video.classList.remove("is-playing");
       if (hero) hero.classList.remove("video-on");

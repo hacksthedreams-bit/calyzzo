@@ -35,8 +35,8 @@
   <meta property="og:locale" content="es_CL">
 
   <!-- Preloads -->
-  <link rel="preload" as="image" href="assets/img/hero-tour-h-poster.webp" media="(orientation: landscape)" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/img/hero-tour-poster.webp" media="(orientation: portrait)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/hero-tour-ambient.webp" media="(orientation: landscape)">
+  <link rel="preload" as="image" href="assets/img/hero-tour-poster.webp" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/logo-calyzzo.webp?v=20261015">
 
   <!-- Fonts: self-hosted (no request to Google), critical files preloaded -->
@@ -155,7 +155,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css?v=20261111b">
-  <link rel="stylesheet" href="design.css?v=20261124b">
+  <link rel="stylesheet" href="design.css?v=20261125b">
   <noscript><link rel="stylesheet" href="noscript.css?v=20261115b"></noscript>
 </head>
 <body>
@@ -284,12 +284,24 @@
   <section class="hero" id="hero">
     <picture class="hero-bg-pic">
       <source media="(orientation: portrait)" srcset="assets/img/hero-tour-poster.webp">
-      <img class="hero-bg" src="assets/img/hero-tour-h-poster.webp" alt="" width="1280" height="720" fetchpriority="high" loading="eager">
+      <img class="hero-bg" src="assets/img/hero-tour-ambient.webp" alt="" width="1280" height="720" fetchpriority="high" loading="eager">
     </picture>
-    <video class="hero-video" data-hero-video data-src-h="assets/video/hero-tour-h.mp4" data-src-hs="assets/video/hero-tour-hs.mp4" data-src-m="assets/video/hero-tour-m.mp4" data-src-s="assets/video/hero-tour-s.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video>
+    <div class="hero-arches" aria-hidden="true"><i class="hero-arch hero-arch--l"></i><i class="hero-arch hero-arch--r"></i></div>
+    <video class="hero-video" data-hero-video data-src-s="assets/video/hero-tour-s.mp4" data-src-m="assets/video/hero-tour-m.mp4" poster="assets/img/hero-tour-poster.webp" width="720" height="1280" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" aria-hidden="true"></video>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content">
       <h1 class="sr-only">Calyzzo Events &amp; Pool — Centro de eventos privado en Batuco, Región Metropolitana</h1>
+    </div>
+    <p class="hero-side hero-side--l" aria-hidden="true"><span>Piscina</span><i></i><span>Jacuzzi</span><i></i><span>Quincho</span></p>
+    <p class="hero-side hero-side--r" aria-hidden="true"><span>Batuco</span><i></i><span>Chile</span></p>
+    <div class="hero-copy">
+      <p class="hero-eyebrow">Batuco &middot; Región Metropolitana</p>
+      <p class="hero-lead">Tu evento, en un espacio <em>solo tuyo</em></p>
+      <p class="hero-sub">Piscina, jacuzzi, quincho y servicio completo para hasta 100 invitados.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#reservas">Cotizar evento</a>
+        <a class="btn btn-outline" href="#concepto">Ver el recinto</a>
+      </div>
     </div>
     <a class="hero-cue" href="#concepto" aria-label="Desplazarse hacia abajo"><span>Descubre</span><i aria-hidden="true"></i></a>
     <button class="hero-video-toggle" type="button" data-hero-video-toggle aria-pressed="false" aria-label="Pausar video de fondo" hidden>
@@ -489,7 +501,7 @@
           <div class="evento-panel-overlay" aria-hidden="true"></div>
           <div class="evento-panel-content">
             <h3 class="evento-panel-tipo">Food Service <em>Comida en vivo</em></h3>
-            <p class="evento-panel-desc">Parrilla, mechaditas, empanadas y ceviches preparados al instante por La Terraza de Lupita, directo a tu mesa.</p>
+            <p class="evento-panel-desc">Parrilla, empanadas y ceviches al instante por La Terraza de Lupita.</p>
           </div>
           <div class="evento-panel-border" aria-hidden="true"></div>
         </article>
