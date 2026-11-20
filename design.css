@@ -1283,3 +1283,50 @@ img { -webkit-user-drag: none; }
   .nav-cta { padding: .4rem .8rem; min-height: 36px; font-size: .7rem; }
   .nav-inner { gap: .4rem; }
 }
+
+/* =============================================================
+   34. Photo slider: one clean arch frame. The photo fills it edge to edge;
+   nothing covers it, nothing zooms it, the ring around it is concentric.
+   ============================================================= */
+.concepto-media { --ring: 12px; padding: 0; max-width: 520px; --slide-ms: 4200ms; }
+.concepto-media::before, .concepto-media::after { display: none; }       /* offset ghost outline and corner brackets */
+.slider-frame {
+  aspect-ratio: 3 / 4;
+  border-radius: 50% 50% 28px 28px / 37.5% 37.5% 28px 28px;               /* true semicircle on top */
+  outline: 1px solid rgba(227,191,124,.42); outline-offset: var(--ring);
+  box-shadow: 0 50px 90px -40px rgba(0,0,0,.92);
+}
+.slider-frame::after { display: none; }                                    /* the dark fade that hid the bottom of the photo */
+.concepto-media .slide img,
+.concepto-media .slide.is-active img,
+.concepto-media .slide.is-prev img { width: 100%; height: 100%; object-fit: cover; transform: none; translate: none; transition: none; }
+.concepto-media .slide:nth-child(n) img { object-position: 50% 50%; }
+
+/* caption now sits under the photo, together with the progress bars */
+.slider-caption {
+  position: static; inset: auto; margin: calc(var(--ring) + 1.05rem) 0 0; padding: 0;
+  display: flex; align-items: center; justify-content: flex-start; gap: .85rem;
+}
+.slider-dots { margin-top: .5rem; }
+
+/* the capacity chip is part of the flow on every screen (it used to cover the photo on desktop) */
+.concepto-chip { position: relative; inset: auto; right: auto; top: auto; bottom: auto; margin: .8rem 0 0; width: max-content; max-width: 100%; }
+@media (max-width: 959px) { .concepto-media { max-width: 420px; } .concepto-chip { margin-inline: auto; } }
+
+/* =============================================================
+   35. Services cards: every photo is shown whole, in the same 4:5 frame (no zoom, no drift)
+   ============================================================= */
+.showcase-card .showcase-card-img,
+img.showcase-card-img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-fit: cover; scale: none; translate: none; transform: none; }
+.showcase-card:hover .showcase-card-img { transform: none; scale: none; }
+/* the pinned scene must fit the screen: tighter spacing, and card width follows the screen height (photo stays 4:5) */
+@media (min-width: 960px) {
+  .showcase { padding-bottom: 1.5rem; }
+  .showcase .section-header { margin-bottom: 1rem; }
+  .showcase-track { padding-block: .5rem; }
+  .showcase-meta { padding-top: .25rem; }
+  .showcase-card { width: clamp(280px, calc((100vh - 480px) * .7), 400px); width: clamp(280px, calc((100svh - 480px) * .7), 400px); }
+}
+
+/* the glow behind the slider fades out completely before the edge of its box (it showed a hard turquoise edge) */
+.slider-halo { -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 55%, transparent 100%); }

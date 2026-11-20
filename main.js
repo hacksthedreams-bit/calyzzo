@@ -356,21 +356,6 @@
           }
         });
 
-        cards.forEach(function (card) {
-          var img = $("img.showcase-card-img", card);
-          if (!img) return;
-          gsap.fromTo(img, { "--px": "-9%" }, {
-            "--px": "9%", ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: hTween,
-              start: "left right",
-              end: "right left",
-              scrub: true
-            }
-          });
-        });
-
         return function () { setProgress(0); };
       });
     });
